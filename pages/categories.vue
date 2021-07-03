@@ -5,7 +5,7 @@
         <v-data-table
           :headers="headers"
           :items="categoriesList"
-          sort-by="sort_order"
+          sort-by="order"
           class="elevation-1"
           :search="search"
           hide-default-footer
@@ -142,12 +142,12 @@ export default {
     activeCategory: {
       name: '',
       description: '',
-      sort_order: 999,
+      order: 999,
     },
     defaultCategory: {
       name: '',
       description: '',
-      sort_order: 0,
+      order: 0,
     },
   }),
 
@@ -210,20 +210,20 @@ export default {
     increaseSortOrder(category) {
       // Fetch previous category
       const prevCat = this.sortedCategoriesList
-        .filter((c) => c.sort_order < category.sort_order)
+        .filter((c) => c.order < category.order)
         .pop()
 
-      // Swap sort_order
+      // Swap order
       this.swapSortOrder(prevCat, category)
     },
 
     decreaseSortOrder(category) {
       // Fetch previous category
       const nextCat = this.sortedCategoriesList.filter(
-        (c) => c.sort_order > category.sort_order
+        (c) => c.order > category.order
       )[0]
 
-      // Swap sort_order
+      // Swap order
       this.swapSortOrder(category, nextCat)
     },
 
@@ -232,8 +232,8 @@ export default {
       a = cloneDeep(a)
       b = cloneDeep(b)
 
-      // Swap sort_order
-      ;[a.sort_order, b.sort_order] = [b.sort_order, a.sort_order]
+      // Swap order
+      ;[a.order, b.order] = [b.order, a.order]
 
       // Save swap
       this.$store.dispatch('categories/update', a)
@@ -251,10 +251,10 @@ export default {
         // Add category
         if (this.lastCategory !== undefined) {
           // Other categories exist
-          this.activeCategory.sort_order = this.lastCategory.sort_order + 1
+          this.activeCategory.order = this.lastCategory.order + 1
         } else {
           // First category
-          this.activeCategory.sort_order = 0
+          this.activeCategory.order = 0
         }
         this.$store.dispatch('categories/add', this.activeCategory)
       } else {
