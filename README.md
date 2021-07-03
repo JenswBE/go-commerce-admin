@@ -1,6 +1,15 @@
+[![GitHub](https://img.shields.io/github/license/JenswBE/go-commerce)](https://github.com/JenswBE/go-commerce-admin)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jenswbe/go-commerce)](https://hub.docker.com/r/jenswbe/go-commerce-admin)
+
 # GoCommerce - Admin
 
-Admin site for go-commerce
+Admin site for [go-commerce](https://github.com/JenswBE/go-commerce)
+
+## Links
+
+- GitHub: https://github.com/JenswBE/go-commerce-admin
+- DockerHub: https://hub.docker.com/r/jenswbe/go-commerce-admin
+- Backend: https://github.com/JenswBE/go-commerce
 
 ## Build
 
@@ -17,4 +26,4 @@ $ yarn generate
 
 ## Thanks to
 
-- https://codepen.io/blachocolat/pen/BgMKRQ
+- Custom logic for upload button: https://codepen.io/blachocolat/pen/BgMKRQ
