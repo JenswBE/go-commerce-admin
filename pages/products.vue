@@ -227,18 +227,21 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
+import { Header } from '../interfaces/DataTable.interface'
+import { Product } from '../openapi/api'
 
-export default {
+export default Vue.extend({
   head() {
     return { title: this.$capitalize(this.$tc('product', 2)) }
   },
 
   data: () => ({
     search: '',
-    cacheKey: '',
+    cacheKey: 0,
     formOpen: false,
     editDescriptionsOpen: false,
     confirmDeleteOpen: false,
@@ -251,9 +254,9 @@ export default {
       price: 0,
       category_ids: [],
       manufacturer_id: '',
-      status: '',
+      status: 'AVAILABLE',
       stock_count: 0,
-    },
+    } as Product,
     defaultProduct: {
       name: '',
       slug: '',
@@ -262,9 +265,9 @@ export default {
       price: 0,
       category_ids: [],
       manufacturer_id: '',
-      status: '',
+      status: 'AVAILABLE',
       stock_count: 0,
-    },
+    } as Product,
   }),
 
   computed: {
@@ -276,54 +279,54 @@ export default {
 
     activePrice: {
       get: function () {
-        return this.activeProduct.price / 100.0
+        return (this.activeProduct.price as number) / 100.0
       },
-      set: function (newValue) {
+      set: function (newValue: number) {
         this.activeProduct.price = Math.round(newValue * 100)
       },
     },
 
-    backendURL() {
+    backendURL(): string {
       return this.$axios.defaults.baseURL + '/..'
     },
 
-    formTitle() {
+    formTitle(): string {
       const key = this.activeID === '' ? 'addItem' : 'editItem'
-      const title = this.$t(key, { item: this.$tc('product') })
+      const title = this.$t(key, { item: this.$tc('product') }).toString()
       return this.$capitalize(title)
     },
 
-    headers() {
+    headers(): Header[] {
       return [
         {
           text: this.$capitalize(this.$tc('name')),
-          sortable: true,
           value: 'name',
+          sortable: true,
         },
         {
           text: this.$capitalize(this.$tc('photo')),
-          sortable: false,
           value: 'photo',
+          sortable: false,
         },
         {
           text: this.$capitalize(this.$tc('price')),
-          sortable: false,
           value: 'price',
+          sortable: false,
         },
         {
           text: this.$capitalize(this.$tc('manufacturer')),
-          sortable: false,
           value: 'manufacturer_id',
+          sortable: false,
         },
         {
           text: this.$capitalize(this.$tc('stockCount')),
-          sortable: false,
           value: 'stock_count',
+          sortable: false,
         },
         {
           text: this.$capitalize(this.$tc('status')),
-          sortable: false,
           value: 'status',
+          sortable: false,
         },
         {
           text: this.$capitalize(this.$tc('action', 2)),
@@ -351,14 +354,14 @@ export default {
   },
 
   methods: {
-    editProduct(product) {
-      this.activeID = product.id
+    editProduct(product: Product) {
+      this.activeID = product.id as string
       this.activeProduct = cloneDeep(product)
       this.formOpen = true
     },
 
-    editDescriptions(product) {
-      this.activeID = product.id
+    editDescriptions(product: Product) {
+      this.activeID = product.id as string
       this.activeProduct = cloneDeep(product)
       this.editDescriptionsOpen = true
     },
@@ -389,12 +392,12 @@ export default {
       })
     },
 
-    selectImage(product) {
-      this.activeID = product.id
-      this.$refs.imageUploader.click()
+    selectImage(product: Product) {
+      this.activeID = product.id as string
+      ;(this.$refs.imageUploader as any).click()
     },
 
-    async uploadImage(e) {
+    async uploadImage(e: any) {
       const file = e.target.files[0]
       await this.$store.dispatch('images/upload', { id: this.activeID, file })
       setTimeout(this.bumpCacheKey, 2000)
@@ -404,7 +407,7 @@ export default {
       this.cacheKey = Date.now()
     },
 
-    deleteProduct(product_id) {
+    deleteProduct(product_id: string) {
       this.activeID = product_id
       this.confirmDeleteOpen = true
     },
@@ -421,5 +424,5 @@ export default {
       })
     },
   },
-}
+})
 </script>

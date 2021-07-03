@@ -127,61 +127,64 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
+import { Manufacturer } from '../openapi/api'
+import { Header } from '../interfaces/DataTable.interface'
 
-export default {
+export default Vue.extend({
   head() {
     return { title: this.$capitalize(this.$tc('manufacturer', 2)) }
   },
 
   data: () => ({
     search: '',
-    cacheKey: '',
+    cacheKey: 0,
     formOpen: false,
     confirmDeleteOpen: false,
     activeID: '',
     activeManufacturer: {
       name: '',
       website_url: '',
-    },
+    } as Manufacturer,
     defaultManufacturer: {
       name: '',
       website_url: '',
-    },
+    } as Manufacturer,
   }),
 
   computed: {
     ...mapState('manufacturers', ['manufacturers']),
     ...mapGetters('manufacturers', ['manufacturersList']),
 
-    backendURL() {
+    backendURL(): string {
       return this.$axios.defaults.baseURL + '/..'
     },
 
-    formTitle() {
+    formTitle(): string {
       const key = this.activeID === '' ? 'addItem' : 'editItem'
-      const title = this.$t(key, { item: this.$tc('manufacturer') })
+      const title = this.$t(key, { item: this.$tc('manufacturer') }).toString()
       return this.$capitalize(title)
     },
 
-    headers() {
+    headers(): Header[] {
       return [
         {
           text: this.$capitalize(this.$tc('name')),
-          sortable: true,
           value: 'name',
+          sortable: true,
         },
         {
           text: this.$capitalize(this.$tc('logo')),
-          sortable: false,
           value: 'logo',
+          sortable: false,
         },
         {
           text: this.$capitalize(this.$tc('website')),
-          sortable: false,
           value: 'website_url',
+          sortable: false,
         },
         {
           text: this.$capitalize(this.$tc('action', 2)),
@@ -207,15 +210,19 @@ export default {
   },
 
   methods: {
-    editManufacturer(manufacturer) {
-      this.activeID = manufacturer.id
+    editManufacturer(manufacturer: Manufacturer) {
+      this.activeID = manufacturer.id as string
       this.activeManufacturer = cloneDeep(manufacturer)
       this.formOpen = true
     },
 
     saveManufacturer() {
       const website_url = this.activeManufacturer.website_url
-      if (website_url.length > 0 && !website_url.startsWith('http')) {
+      if (
+        website_url !== undefined &&
+        website_url.length > 0 &&
+        !website_url.startsWith('http')
+      ) {
         this.activeManufacturer.website_url = 'https://' + website_url
       }
 
@@ -235,12 +242,12 @@ export default {
       })
     },
 
-    selectImage(manufacturer) {
-      this.activeID = manufacturer.id
-      this.$refs.imageUploader.click()
+    selectImage(manufacturer: Manufacturer) {
+      this.activeID = manufacturer.id as string
+      ;(this.$refs.imageUploader as any).click()
     },
 
-    async uploadImage(e) {
+    async uploadImage(e: any) {
       const file = e.target.files[0]
       await this.$store.dispatch('images/upload', { id: this.activeID, file })
       setTimeout(this.bumpCacheKey, 2000)
@@ -250,7 +257,7 @@ export default {
       this.cacheKey = Date.now()
     },
 
-    deleteManufacturer(manufacturer_id) {
+    deleteManufacturer(manufacturer_id: string) {
       this.activeID = manufacturer_id
       this.confirmDeleteOpen = true
     },
@@ -267,5 +274,5 @@ export default {
       })
     },
   },
-}
+})
 </script>
