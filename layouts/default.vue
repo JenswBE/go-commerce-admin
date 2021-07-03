@@ -5,7 +5,7 @@
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
-          :to="item.to"
+          :to="localePath(item.to)"
           router
           exact
         >
@@ -13,7 +13,9 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title>
+              {{ $tc(item.title.key, item.title.plural ? 2 : 1) | capitalize }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -22,7 +24,28 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer></v-spacer>
-      <v-btn icon to="/logout">
+      <v-menu offset-y bottom open-on-hover>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-translate</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            :to="switchLocalePath(locale.code)"
+            v-for="locale in availableLocales"
+            :key="locale.code"
+            nuxt
+            exact
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="locale.name" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-btn icon :to="localePath('/logout')">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
@@ -38,7 +61,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -47,41 +70,45 @@ export default {
       title: 'GoCommerce',
       items: [
         {
-          title: 'Overzicht',
+          title: { key: 'dashboard', plural: false },
           icon: 'mdi-view-dashboard',
           to: '/',
         },
         {
-          title: 'Producten',
+          title: { key: 'product', plural: true },
           icon: 'mdi-hand-wash',
           to: '/products',
         },
         {
-          title: 'Categorieën',
+          title: { key: 'category', plural: true },
           icon: 'mdi-tag',
           to: '/categories',
         },
         {
-          title: 'Merken',
+          title: { key: 'manufacturer', plural: true },
           icon: 'mdi-factory',
           to: '/manufacturers',
         },
       ],
-    };
+    }
   },
 
   computed: {
     ...mapState('auth', ['isLoggedIn']),
     ...mapState('general', ['alert']),
 
+    availableLocales() {
+      return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale)
+    },
+
     showAlert: {
       get() {
-        return Boolean(this.alert.message);
+        return Boolean(this.alert.message)
       },
       set() {
-        this.$store.commit('general/CLEAR_ALERT');
+        this.$store.commit('general/CLEAR_ALERT')
       },
     },
   },
-};
+}
 </script>

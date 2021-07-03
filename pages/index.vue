@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col class="text-center">
-        <h1>Overzicht</h1>
+        <h1>{{ $t('dashboard') }}</h1>
       </v-col>
     </v-row>
   </v-container>
@@ -10,6 +10,8 @@
 
 <script>
 export default {
-  head: { title: 'Overzicht' },
+  head() {
+    return { title: this.$t('dashboard') }
+  },
 }
 </script>

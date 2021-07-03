@@ -49,6 +49,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    // https://i18n.nuxtjs.org/setup
+    'nuxt-i18n',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
@@ -60,6 +62,28 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:8090/admin',
+  },
+
+  i18n: {
+    locales: [
+      {
+        name: 'English',
+        code: 'en',
+        file: 'en.ts',
+      },
+      {
+        name: 'Nederlands',
+        code: 'nl',
+        file: 'nl.ts',
+      },
+    ],
+    defaultLocale: 'en',
+    langDir: '~/locales/',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      onlyOnRoot: false,
+    },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
