@@ -67,9 +67,10 @@
     <v-row>
       <v-col cols="12">
         <v-treeview
-          :open-all="true"
           :items="sortedCategoriesList"
           item-key="name"
+          :open-all="true"
+          :search="search"
           open-on-click
         >
           <template v-slot:append="{ item }">
