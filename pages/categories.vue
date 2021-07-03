@@ -15,7 +15,7 @@
               <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
-                label="Zoeken"
+                :label="$tc('search') | capitalize"
                 single-line
                 hide-details
               ></v-text-field>
@@ -29,7 +29,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    Categorie toevoegen
+                    {{ $t('addItem', { item: $tc('category') }) }}
                   </v-btn>
                 </template>
                 <v-card>
@@ -43,8 +43,7 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model="activeCategory.name"
-                            label="Naam"
-                            placeholder="Bv. Gelaatsverzorging"
+                            :label="$tc('name') | capitalize"
                             append-icon="mdi-close"
                             @click:append="activeCategory.name = ''"
                             @keydown.enter.prevent="saveCategory"
@@ -53,7 +52,7 @@
                         <v-col cols="12">
                           <v-textarea
                             v-model="activeCategory.description"
-                            label="Beschrijving"
+                            :label="$tc('description') | capitalize"
                           ></v-textarea>
                         </v-col>
                       </v-row>
@@ -63,35 +62,19 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="closeForm">
-                      Annuleren
+                      {{ $tc('cancel') | capitalize }}
                     </v-btn>
                     <v-btn color="blue darken-1" text @click="saveCategory">
-                      Opslaan
+                      {{ $tc('save') | capitalize }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="confirmDeleteOpen" max-width="500px">
-                <v-card>
-                  <v-card-title class="headline">Ben je zeker?</v-card-title>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="closeConfirmDelete"
-                      >Annuleren</v-btn
-                    >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="confirmDeleteCategory"
-                      >OK</v-btn
-                    >
-                    <v-spacer></v-spacer>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <DialogConfirm
+                v-model="confirmDeleteOpen"
+                @confirm="confirmDeleteCategory"
+                @cancel="closeConfirmDelete"
+              />
             </v-toolbar>
           </template>
           <template v-slot:item.photo="{ item }">
@@ -139,30 +122,22 @@
 </template>
 
 <script>
-import cloneDeep from 'lodash.clonedeep';
-import { mapGetters, mapState } from 'vuex';
+import cloneDeep from 'lodash.clonedeep'
+import { mapGetters, mapState } from 'vuex'
+import DialogConfirm from '../components/DialogConfirm.vue'
 
 export default {
-  head: { title: 'Categorieën' },
+  components: { DialogConfirm },
+
+  head() {
+    return { title: this.$capitalize(this.$tc('category', 2)) }
+  },
 
   data: () => ({
     search: '',
     cacheKey: '',
     formOpen: false,
     confirmDeleteOpen: false,
-    headers: [
-      {
-        text: 'Naam',
-        sortable: true,
-        value: 'name',
-      },
-      {
-        text: 'Foto',
-        sortable: false,
-        value: 'photo',
-      },
-      { text: 'Acties', value: 'actions', sortable: false },
-    ],
     activeID: '',
     activeCategory: {
       name: '',
@@ -181,34 +156,54 @@ export default {
     ...mapGetters('categories', ['categoriesList', 'sortedCategoriesList']),
 
     backendURL() {
-      return this.$axios.defaults.baseURL + '/..';
+      return this.$axios.defaults.baseURL + '/..'
     },
 
     formTitle() {
-      return this.activeID === ''
-        ? 'Categorie toevoegen'
-        : 'Categorie bewerken';
+      const key = this.activeID === '' ? 'addItem' : 'editItem'
+      const title = this.$t(key, { item: this.$tc('category') })
+      return this.$capitalize(title)
+    },
+
+    headers() {
+      return [
+        {
+          text: this.$capitalize(this.$tc('name')),
+          sortable: true,
+          value: 'name',
+        },
+        {
+          text: this.$capitalize(this.$tc('photo')),
+          sortable: false,
+          value: 'photo',
+        },
+        {
+          text: this.$capitalize(this.$tc('action', 2)),
+          value: 'actions',
+          sortable: false,
+        },
+      ]
     },
 
     lastCategory() {
-      const index = this.sortedCategoriesList.length - 1;
-      return this.sortedCategoriesList[index];
+      const index = this.sortedCategoriesList.length - 1
+      return this.sortedCategoriesList[index]
     },
   },
 
   watch: {
     formOpen(val) {
-      val || this.closeForm();
+      val || this.closeForm()
     },
 
     confirmDeleteOpen(val) {
-      val || this.closeConfirmDelete();
+      val || this.closeConfirmDelete()
     },
   },
 
   mounted() {
-    this.bumpCacheKey;
-    this.$store.dispatch('categories/list');
+    this.bumpCacheKey
+    this.$store.dispatch('categories/list')
   },
 
   methods: {
@@ -216,39 +211,39 @@ export default {
       // Fetch previous category
       const prevCat = this.sortedCategoriesList
         .filter((c) => c.sort_order < category.sort_order)
-        .pop();
+        .pop()
 
       // Swap sort_order
-      this.swapSortOrder(prevCat, category);
+      this.swapSortOrder(prevCat, category)
     },
 
     decreaseSortOrder(category) {
       // Fetch previous category
       const nextCat = this.sortedCategoriesList.filter(
         (c) => c.sort_order > category.sort_order
-      )[0];
+      )[0]
 
       // Swap sort_order
-      this.swapSortOrder(category, nextCat);
+      this.swapSortOrder(category, nextCat)
     },
 
     swapSortOrder(a, b) {
       // Don't change original variables
-      a = cloneDeep(a);
-      b = cloneDeep(b);
+      a = cloneDeep(a)
+      b = cloneDeep(b)
 
       // Swap sort_order
-      [a.sort_order, b.sort_order] = [b.sort_order, a.sort_order];
+      ;[a.sort_order, b.sort_order] = [b.sort_order, a.sort_order]
 
       // Save swap
-      this.$store.dispatch('categories/update', a);
-      this.$store.dispatch('categories/update', b);
+      this.$store.dispatch('categories/update', a)
+      this.$store.dispatch('categories/update', b)
     },
 
     editCategory(category) {
-      this.activeID = category.id;
-      this.activeCategory = cloneDeep(category);
-      this.formOpen = true;
+      this.activeID = category.id
+      this.activeCategory = cloneDeep(category)
+      this.formOpen = true
     },
 
     saveCategory() {
@@ -256,58 +251,58 @@ export default {
         // Add category
         if (this.lastCategory !== undefined) {
           // Other categories exist
-          this.activeCategory.sort_order = this.lastCategory.sort_order + 1;
+          this.activeCategory.sort_order = this.lastCategory.sort_order + 1
         } else {
           // First category
-          this.activeCategory.sort_order = 0;
+          this.activeCategory.sort_order = 0
         }
-        this.$store.dispatch('categories/add', this.activeCategory);
+        this.$store.dispatch('categories/add', this.activeCategory)
       } else {
         // Update category
-        this.$store.dispatch('categories/update', this.activeCategory);
+        this.$store.dispatch('categories/update', this.activeCategory)
       }
-      this.closeForm();
+      this.closeForm()
     },
 
     closeForm() {
-      this.formOpen = false;
+      this.formOpen = false
       this.$nextTick(() => {
-        this.activeID = '';
-        this.activeCategory = cloneDeep(this.defaultCategory);
-      });
+        this.activeID = ''
+        this.activeCategory = cloneDeep(this.defaultCategory)
+      })
     },
 
     selectImage(manufacturer) {
-      this.activeID = manufacturer.id;
-      this.$refs.imageUploader.click();
+      this.activeID = manufacturer.id
+      this.$refs.imageUploader.click()
     },
 
     async uploadImage(e) {
-      const file = e.target.files[0];
-      await this.$store.dispatch('images/upload', { id: this.activeID, file });
-      setTimeout(this.bumpCacheKey, 2000);
+      const file = e.target.files[0]
+      await this.$store.dispatch('images/upload', { id: this.activeID, file })
+      setTimeout(this.bumpCacheKey, 2000)
     },
 
     bumpCacheKey() {
-      this.cacheKey = Date.now();
+      this.cacheKey = Date.now()
     },
 
     deleteCategory(category_id) {
-      this.activeID = category_id;
-      this.confirmDeleteOpen = true;
+      this.activeID = category_id
+      this.confirmDeleteOpen = true
     },
 
     confirmDeleteCategory() {
-      this.$store.dispatch('categories/delete', this.activeID);
-      this.closeConfirmDelete();
+      this.$store.dispatch('categories/delete', this.activeID)
+      this.closeConfirmDelete()
     },
 
     closeConfirmDelete() {
-      this.confirmDeleteOpen = false;
+      this.confirmDeleteOpen = false
       this.$nextTick(() => {
-        this.activeID = '';
-      });
+        this.activeID = ''
+      })
     },
   },
-};
+}
 </script>

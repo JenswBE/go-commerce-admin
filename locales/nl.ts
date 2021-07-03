@@ -1,10 +1,41 @@
 import { Locale } from './Locale.interface'
 
 const nl: Locale = {
+  action: 'actie | acties',
+  add: 'toevoegen',
+  addItem: '{item} @:add',
+  amount: 'bedrag',
   category: 'categorie | categorieën',
+  cancel: 'annuleren',
+  count: 'aantal',
   dashboard: 'overzicht',
+  description: 'beschrijving | beschrijvingen',
+  edit: 'bewerken',
+  editItem: '{item} @:edit',
+  exampleItem: 'bv. {item}',
+  login: 'login',
+  logo: 'logo',
+  longDescription: 'lange @:description',
+  itemIsMandatory: '{item} is verplicht',
   manufacturer: 'merk | merken',
+  name: 'naam | namen',
+  notValidItem: 'Geen geldig {item}',
+  number: 'getal',
+  ok: 'OK',
+  password: 'wachtwoord',
+  photo: "foto | foto's",
+  price: 'prijs | prijzen',
   product: 'producten | producten',
+  questions: {
+    confirm: 'Ben je zeker?',
+  },
+  save: 'opslaan',
+  search: 'zoeken',
+  shortDescription: 'korte @:description',
+  status: 'status',
+  stockCount: 'in voorraad',
+  username: 'gebruikersnaam',
+  website: 'website',
 }
 
 export default nl

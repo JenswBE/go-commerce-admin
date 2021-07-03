@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col class="text-center">
-        <h1>{{ $t('dashboard') }}</h1>
+        <h1>{{ $tc('dashboard') | capitalize }}</h1>
       </v-col>
     </v-row>
   </v-container>
@@ -11,7 +11,7 @@
 <script>
 export default {
   head() {
-    return { title: this.$t('dashboard') }
+    return { title: this.$capitalize(this.$tc('dashboard')) }
   },
 }
 </script>

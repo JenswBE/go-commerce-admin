@@ -4,7 +4,7 @@
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
           <v-toolbar color="general">
-            <v-toolbar-title>Beheerspaneel</v-toolbar-title>
+            <v-toolbar-title>GoCommerce</v-toolbar-title>
             <v-spacer />
           </v-toolbar>
           <v-card-text>
@@ -12,20 +12,32 @@
               <v-text-field
                 ref="username"
                 v-model="username"
-                :rules="[() => !!username || 'Gebruikersnaam is verplicht']"
+                :rules="[
+                  () =>
+                    !!username ||
+                    $capitalize(
+                      $t('itemIsMandatory', { item: $tc('username') })
+                    ),
+                ]"
                 prepend-icon="mdi-account"
-                label="Gebruikersnaam"
+                :label="$tc('username') | capitalize"
                 required
                 @keydown.enter="login"
               />
               <v-text-field
                 ref="password"
                 v-model="password"
-                :rules="[() => !!password || 'Wachtwoord is verplicht']"
+                :rules="[
+                  () =>
+                    !!password ||
+                    $capitalize(
+                      $t('itemIsMandatory', { item: $tc('password') })
+                    ),
+                ]"
                 :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 :type="showPassword ? 'text' : 'password'"
                 prepend-icon="mdi-lock"
-                label="Wachtwoord"
+                :label="$tc('password') | capitalize"
                 required
                 @keydown.enter="login"
                 @click:append="showPassword = !showPassword"
@@ -62,7 +74,7 @@ export default {
       const plainCreds = `${this.username}:${this.password}`
       this.$store
         .dispatch('auth/login', plainCreds)
-        .then(() => this.$router.push('/'))
+        .then(() => this.$router.push(this.localePath('/')))
         .catch((e) => {})
     },
   },

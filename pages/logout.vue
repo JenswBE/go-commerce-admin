@@ -5,7 +5,9 @@
 <script>
 export default {
   mounted() {
-    this.$store.dispatch('auth/logout').then(() => this.$router.push('/login'))
+    this.$store
+      .dispatch('auth/logout')
+      .then(() => this.$router.push(this.localePath('/login')))
   },
 }
 </script>

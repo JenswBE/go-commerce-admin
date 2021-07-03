@@ -26,8 +26,9 @@
       <v-spacer></v-spacer>
       <v-menu offset-y bottom open-on-hover>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+          <v-btn text v-bind="attrs" v-on="on">
             <v-icon>mdi-translate</v-icon>
+            <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
 
@@ -76,7 +77,7 @@ export default {
         },
         {
           title: { key: 'product', plural: true },
-          icon: 'mdi-hand-wash',
+          icon: 'mdi-package-variant-closed',
           to: '/products',
         },
         {

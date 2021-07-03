@@ -15,7 +15,7 @@
               <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
-                label="Zoeken"
+                :label="$tc('search') | capitalize"
                 single-line
                 hide-details
               ></v-text-field>
@@ -29,7 +29,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    Merk toevoegen
+                    {{ $t('addItem', { item: $tc('manufacturer') }) }}
                   </v-btn>
                 </template>
                 <v-card>
@@ -43,8 +43,11 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model="activeManufacturer.name"
-                            label="Naam"
-                            placeholder="Bv. Nivea"
+                            :label="$tc('name') | capitalize"
+                            :placeholder="
+                              $t('exampleItem', { item: 'JenswBE' })
+                                | capitalize
+                            "
                             append-icon="mdi-close"
                             @click:append="activeManufacturer.name = ''"
                             @keydown.enter.prevent="saveManufacturer"
@@ -53,8 +56,11 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model="activeManufacturer.website_url"
-                            label="Website"
-                            placeholder="Bv. https://nivea.be"
+                            :label="$tc('website') | capitalize"
+                            :placeholder="
+                              $t('exampleItem', { item: 'https://jensw.be' })
+                                | capitalize
+                            "
                             append-icon="mdi-close"
                             @click:append="activeManufacturer.website_url = ''"
                             @keydown.enter.prevent="saveManufacturer"
@@ -67,35 +73,19 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="closeForm">
-                      Annuleren
+                      {{ $tc('cancel') | capitalize }}
                     </v-btn>
                     <v-btn color="blue darken-1" text @click="saveManufacturer">
-                      Opslaan
+                      {{ $tc('save') | capitalize }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="confirmDeleteOpen" max-width="500px">
-                <v-card>
-                  <v-card-title class="headline">Ben je zeker?</v-card-title>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="closeConfirmDelete"
-                      >Annuleren</v-btn
-                    >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="confirmDeleteManufacturer"
-                      >OK</v-btn
-                    >
-                    <v-spacer></v-spacer>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <DialogConfirm
+                v-model="confirmDeleteOpen"
+                @confirm="confirmDeleteManufacturer"
+                @cancel="closeConfirmDelete"
+              />
             </v-toolbar>
           </template>
           <template v-slot:item.logo="{ item }">
@@ -138,35 +128,19 @@
 </template>
 
 <script>
-import cloneDeep from 'lodash.clonedeep';
-import { mapGetters, mapState } from 'vuex';
+import cloneDeep from 'lodash.clonedeep'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
-  head: { title: 'Merken' },
+  head() {
+    return { title: this.$capitalize(this.$tc('manufacturer', 2)) }
+  },
 
   data: () => ({
     search: '',
     cacheKey: '',
     formOpen: false,
     confirmDeleteOpen: false,
-    headers: [
-      {
-        text: 'Naam',
-        sortable: true,
-        value: 'name',
-      },
-      {
-        text: 'Logo',
-        sortable: false,
-        value: 'logo',
-      },
-      {
-        text: 'Website',
-        sortable: false,
-        value: 'website_url',
-      },
-      { text: 'Acties', value: 'actions', sortable: false },
-    ],
     activeID: '',
     activeManufacturer: {
       name: '',
@@ -183,88 +157,115 @@ export default {
     ...mapGetters('manufacturers', ['manufacturersList']),
 
     backendURL() {
-      return this.$axios.defaults.baseURL + '/..';
+      return this.$axios.defaults.baseURL + '/..'
     },
 
     formTitle() {
-      return this.activeID === '' ? 'Merk toevoegen' : 'Merk bewerken';
+      const key = this.activeID === '' ? 'addItem' : 'editItem'
+      const title = this.$t(key, { item: this.$tc('manufacturer') })
+      return this.$capitalize(title)
+    },
+
+    headers() {
+      return [
+        {
+          text: this.$capitalize(this.$tc('name')),
+          sortable: true,
+          value: 'name',
+        },
+        {
+          text: this.$capitalize(this.$tc('logo')),
+          sortable: false,
+          value: 'logo',
+        },
+        {
+          text: this.$capitalize(this.$tc('website')),
+          sortable: false,
+          value: 'website_url',
+        },
+        {
+          text: this.$capitalize(this.$tc('action', 2)),
+          value: 'actions',
+          sortable: false,
+        },
+      ]
     },
   },
 
   watch: {
     formOpen(val) {
-      val || this.closeForm();
+      val || this.closeForm()
     },
     confirmDeleteOpen(val) {
-      val || this.closeConfirmDelete();
+      val || this.closeConfirmDelete()
     },
   },
 
   mounted() {
-    this.bumpCacheKey();
-    this.$store.dispatch('manufacturers/list');
+    this.bumpCacheKey()
+    this.$store.dispatch('manufacturers/list')
   },
 
   methods: {
     editManufacturer(manufacturer) {
-      this.activeID = manufacturer.id;
-      this.activeManufacturer = cloneDeep(manufacturer);
-      this.formOpen = true;
+      this.activeID = manufacturer.id
+      this.activeManufacturer = cloneDeep(manufacturer)
+      this.formOpen = true
     },
 
     saveManufacturer() {
-      const website_url = this.activeManufacturer.website_url;
+      const website_url = this.activeManufacturer.website_url
       if (website_url.length > 0 && !website_url.startsWith('http')) {
-        this.activeManufacturer.website_url = 'https://' + website_url;
+        this.activeManufacturer.website_url = 'https://' + website_url
       }
 
       if (this.activeID === '') {
-        this.$store.dispatch('manufacturers/add', this.activeManufacturer);
+        this.$store.dispatch('manufacturers/add', this.activeManufacturer)
       } else {
-        this.$store.dispatch('manufacturers/update', this.activeManufacturer);
+        this.$store.dispatch('manufacturers/update', this.activeManufacturer)
       }
-      this.closeForm();
+      this.closeForm()
     },
 
     closeForm() {
-      this.formOpen = false;
+      this.formOpen = false
       this.$nextTick(() => {
-        this.activeID = '';
-        this.activeManufacturer = cloneDeep(this.defaultManufacturer);
-      });
+        this.activeID = ''
+        this.activeManufacturer = cloneDeep(this.defaultManufacturer)
+      })
     },
 
     selectImage(manufacturer) {
-      this.activeID = manufacturer.id;
-      this.$refs.imageUploader.click();
+      this.activeID = manufacturer.id
+      this.$refs.imageUploader.click()
     },
 
     async uploadImage(e) {
-      const file = e.target.files[0];
-      await this.$store.dispatch('images/upload', { id: this.activeID, file });
-      setTimeout(this.bumpCacheKey, 2000);
+      const file = e.target.files[0]
+      await this.$store.dispatch('images/upload', { id: this.activeID, file })
+      setTimeout(this.bumpCacheKey, 2000)
     },
 
     bumpCacheKey() {
-      this.cacheKey = Date.now();
+      this.cacheKey = Date.now()
     },
 
     deleteManufacturer(manufacturer_id) {
-      this.activeID = manufacturer_id;
-      this.confirmDeleteOpen = true;
+      this.activeID = manufacturer_id
+      this.confirmDeleteOpen = true
     },
 
     confirmDeleteManufacturer() {
-      this.$store.dispatch('manufacturers/delete', this.activeID);
-      this.closeConfirmDelete();
+      this.$store.dispatch('manufacturers/delete', this.activeID)
+      this.closeConfirmDelete()
     },
 
     closeConfirmDelete() {
-      this.confirmDeleteOpen = false;
+      this.confirmDeleteOpen = false
       this.$nextTick(() => {
-        this.activeID = '';
-      });
+        this.activeID = ''
+      })
     },
   },
-};
+}
 </script>

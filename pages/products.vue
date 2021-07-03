@@ -16,7 +16,7 @@
               <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
-                label="Zoeken"
+                :label="$tc('search') | capitalize"
                 single-line
                 hide-details
               ></v-text-field>
@@ -30,7 +30,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    Product toevoegen
+                    {{ $t('addItem', { item: $tc('product') }) }}
                   </v-btn>
                 </template>
                 <v-card>
@@ -44,8 +44,7 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model="activeProduct.name"
-                            label="Naam"
-                            placeholder="Bv. Deep care handcrème"
+                            :label="$tc('name') | capitalize"
                             append-icon="mdi-close"
                             @click:append="activeProduct.name = ''"
                             @keydown.enter.prevent="saveProduct"
@@ -54,8 +53,7 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model.number="activePrice"
-                            label="Prijs"
-                            placeholder="Bv. 15.00"
+                            :label="$tc('price') | capitalize"
                             prefix="€"
                             type="number"
                             step="0.01"
@@ -63,7 +61,10 @@
                             @keydown.enter.prevent="saveProduct"
                             :rules="[
                               () =>
-                                !!activeProduct.price || 'Geen geldig bedrag',
+                                !!activeProduct.price ||
+                                $capitalize(
+                                  $t('notValidItem', { item: $tc('amount') })
+                                ),
                             ]"
                           ></v-text-field>
                         </v-col>
@@ -73,7 +74,7 @@
                             :items="manufacturersList"
                             item-text="name"
                             item-value="id"
-                            label="Fabrikant"
+                            :label="$tc('manufacturer') | capitalize"
                             append-icon="mdi-close"
                             @click:append="activeProduct.manufacturer_id = ''"
                           ></v-select>
@@ -84,7 +85,7 @@
                             :items="categoriesList"
                             item-text="name"
                             item-value="id"
-                            label="Categorieën"
+                            :label="$tc('category', 2) | capitalize"
                             chips
                             deletable-chips
                             hide-selected
@@ -94,14 +95,16 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model.number="activeProduct.stock_count"
-                            label="In voorraad"
+                            :label="$tc('stockCount') | capitalize"
                             type="number"
                             min="0"
                             @keydown.enter.prevent="saveProduct"
                             :rules="[
                               () =>
                                 !!activeProduct.stock_count ||
-                                'Geen geldig getal',
+                                $capitalize(
+                                  $t('notValidItem', { item: $tc('number') })
+                                ),
                             ]"
                           ></v-text-field>
                         </v-col>
@@ -112,10 +115,10 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="closeForm">
-                      Annuleren
+                      {{ $tc('cancel') | capitalize }}
                     </v-btn>
                     <v-btn color="blue darken-1" text @click="saveProduct">
-                      Opslaan
+                      {{ $tc('save') | capitalize }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -123,7 +126,12 @@
               <v-dialog v-model="editDescriptionsOpen" max-width="500px">
                 <v-card>
                   <v-card-title>
-                    <span class="headline">Beschrijvingen bewerken</span>
+                    <span class="headline">
+                      {{
+                        $t('editItem', { item: $tc('description', 2) })
+                          | capitalize
+                      }}
+                    </span>
                   </v-card-title>
 
                   <v-card-text>
@@ -132,7 +140,7 @@
                         <v-col cols="12">
                           <v-textarea
                             v-model="activeProduct.description_short"
-                            label="Korte beschrijving"
+                            :label="$tc('shortDescription') | capitalize"
                             append-icon="mdi-close"
                             @click:append="activeProduct.description_short = ''"
                           />
@@ -140,7 +148,7 @@
                         <v-col cols="12">
                           <v-textarea
                             v-model="activeProduct.description_long"
-                            label="Lange beschrijving"
+                            :label="$tc('longDescription') | capitalize"
                             append-icon="mdi-close"
                             @click:append="activeProduct.description_long = ''"
                           />
@@ -156,35 +164,19 @@
                       text
                       @click="closeEditDescriptionsForm"
                     >
-                      Annuleren
+                      {{ $tc('cancel') | capitalize }}
                     </v-btn>
                     <v-btn color="blue darken-1" text @click="saveProduct">
-                      Opslaan
+                      {{ $tc('save') | capitalize }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="confirmDeleteOpen" max-width="500px">
-                <v-card>
-                  <v-card-title class="headline">Ben je zeker?</v-card-title>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="closeConfirmDelete"
-                      >Annuleren</v-btn
-                    >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="confirmDeleteProduct"
-                      >OK</v-btn
-                    >
-                    <v-spacer></v-spacer>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <DialogConfirm
+                v-model="confirmDeleteOpen"
+                @confirm="confirmDeleteProduct"
+                @cancel="closeConfirmDelete"
+              />
             </v-toolbar>
           </template>
           <template v-slot:item.photo="{ item }">
@@ -236,11 +228,13 @@
 </template>
 
 <script>
-import cloneDeep from 'lodash.clonedeep';
-import { mapGetters, mapState } from 'vuex';
+import cloneDeep from 'lodash.clonedeep'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
-  head: { title: 'Producten' },
+  head() {
+    return { title: this.$capitalize(this.$tc('product', 2)) }
+  },
 
   data: () => ({
     search: '',
@@ -248,39 +242,6 @@ export default {
     formOpen: false,
     editDescriptionsOpen: false,
     confirmDeleteOpen: false,
-    headers: [
-      {
-        text: 'Naam',
-        sortable: true,
-        value: 'name',
-      },
-      {
-        text: 'Foto',
-        sortable: false,
-        value: 'photo',
-      },
-      {
-        text: 'Prijs',
-        sortable: false,
-        value: 'price',
-      },
-      {
-        text: 'Fabrikant',
-        sortable: false,
-        value: 'manufacturer_id',
-      },
-      {
-        text: 'In voorraad',
-        sortable: false,
-        value: 'stock_count',
-      },
-      {
-        text: 'Status',
-        sortable: false,
-        value: 'status',
-      },
-      { text: 'Acties', value: 'actions', sortable: false },
-    ],
     activeID: '',
     activeProduct: {
       name: '',
@@ -313,110 +274,152 @@ export default {
     ...mapGetters('manufacturers', ['manufacturersList']),
     ...mapGetters('products', ['productsList']),
 
+    activePrice: {
+      get: function () {
+        return this.activeProduct.price / 100.0
+      },
+      set: function (newValue) {
+        this.activeProduct.price = Math.round(newValue * 100)
+      },
+    },
+
     backendURL() {
-      return this.$axios.defaults.baseURL + '/..';
+      return this.$axios.defaults.baseURL + '/..'
     },
 
     formTitle() {
-      return this.activeID === '' ? 'Product toevoegen' : 'Product bewerken';
+      const key = this.activeID === '' ? 'addItem' : 'editItem'
+      const title = this.$t(key, { item: this.$tc('product') })
+      return this.$capitalize(title)
     },
 
-    activePrice: {
-      get: function () {
-        return this.activeProduct.price / 100.0;
-      },
-      set: function (newValue) {
-        this.activeProduct.price = Math.round(newValue * 100);
-      },
+    headers() {
+      return [
+        {
+          text: this.$capitalize(this.$tc('name')),
+          sortable: true,
+          value: 'name',
+        },
+        {
+          text: this.$capitalize(this.$tc('photo')),
+          sortable: false,
+          value: 'photo',
+        },
+        {
+          text: this.$capitalize(this.$tc('price')),
+          sortable: false,
+          value: 'price',
+        },
+        {
+          text: this.$capitalize(this.$tc('manufacturer')),
+          sortable: false,
+          value: 'manufacturer_id',
+        },
+        {
+          text: this.$capitalize(this.$tc('stockCount')),
+          sortable: false,
+          value: 'stock_count',
+        },
+        {
+          text: this.$capitalize(this.$tc('status')),
+          sortable: false,
+          value: 'status',
+        },
+        {
+          text: this.$capitalize(this.$tc('action', 2)),
+          value: 'actions',
+          sortable: false,
+        },
+      ]
     },
   },
 
   watch: {
     formOpen(val) {
-      val || this.closeForm();
+      val || this.closeForm()
     },
     confirmDeleteOpen(val) {
-      val || this.closeConfirmDelete();
+      val || this.closeConfirmDelete()
     },
   },
 
   mounted() {
-    this.bumpCacheKey();
-    this.$store.dispatch('products/list');
-    this.$store.dispatch('categories/list');
-    this.$store.dispatch('manufacturers/list');
+    this.bumpCacheKey()
+    this.$store.dispatch('products/list')
+    this.$store.dispatch('categories/list')
+    this.$store.dispatch('manufacturers/list')
   },
 
   methods: {
     editProduct(product) {
-      this.activeID = product.id;
-      this.activeProduct = cloneDeep(product);
-      this.formOpen = true;
+      this.activeID = product.id
+      this.activeProduct = cloneDeep(product)
+      this.formOpen = true
     },
 
     editDescriptions(product) {
-      this.activeID = product.id;
-      this.activeProduct = cloneDeep(product);
-      this.editDescriptionsOpen = true;
+      this.activeID = product.id
+      this.activeProduct = cloneDeep(product)
+      this.editDescriptionsOpen = true
     },
 
     saveProduct() {
       if (this.activeID === '') {
-        this.$store.dispatch('products/add', this.activeProduct);
+        this.$store.dispatch('products/add', this.activeProduct)
       } else {
-        this.$store.dispatch('products/update', this.activeProduct);
+        this.$store.dispatch('products/update', this.activeProduct)
       }
-      this.closeForm();
-      this.closeEditDescriptionsForm();
+      this.closeForm()
+      this.closeEditDescriptionsForm()
     },
 
     closeForm() {
-      this.formOpen = false;
+      this.formOpen = false
       this.$nextTick(() => {
-        this.activeID = '';
-        this.activeProduct = cloneDeep(this.defaultProduct);
-      });
+        this.activeID = ''
+        this.activeProduct = cloneDeep(this.defaultProduct)
+      })
     },
 
     closeEditDescriptionsForm() {
-      this.editDescriptionsOpen = false;
+      this.editDescriptionsOpen = false
       this.$nextTick(() => {
-        this.activeID = '';
-        this.activeProduct = cloneDeep(this.defaultProduct);
-      });
+        this.activeID = ''
+        this.activeProduct = cloneDeep(this.defaultProduct)
+      })
     },
 
     selectImage(product) {
-      this.activeID = product.id;
-      this.$refs.imageUploader.click();
+      this.activeID = product.id
+      this.$refs.imageUploader.click()
     },
 
     async uploadImage(e) {
-      const file = e.target.files[0];
-      await this.$store.dispatch('images/upload', { id: this.activeID, file });
-      setTimeout(this.bumpCacheKey, 2000);
+      const file = e.target.files[0]
+      await this.$store.dispatch('images/upload', { id: this.activeID, file })
+      setTimeout(this.bumpCacheKey, 2000)
     },
 
     bumpCacheKey() {
-      this.cacheKey = Date.now();
+      this.cacheKey = Date.now()
     },
 
     deleteProduct(product_id) {
-      this.activeID = product_id;
-      this.confirmDeleteOpen = true;
+      this.activeID = product_id
+      this.confirmDeleteOpen = true
     },
 
     confirmDeleteProduct() {
-      this.$store.dispatch('products/delete', this.activeID);
-      this.closeConfirmDelete();
+      this.$store.dispatch('products/delete', this.activeID)
+      this.closeConfirmDelete()
     },
 
     closeConfirmDelete() {
-      this.confirmDeleteOpen = false;
+      this.confirmDeleteOpen = false
       this.$nextTick(() => {
-        this.activeID = '';
-      });
+        this.activeID = ''
+      })
     },
   },
-};
+}
 </script>
