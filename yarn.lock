@@ -3849,10 +3849,17 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.1.0, debug@^4.1.1:
+debug@4, debug@^4.1.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
+  dependencies:
+    ms "2.1.2"
+
+debug@^4.1.0:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
+  integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
   dependencies:
     ms "2.1.2"
 
@@ -6930,9 +6937,9 @@ num2fraction@^1.2.2:
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
 nuxt-i18n@^6.27.2:
-  version "6.27.2"
-  resolved "https://registry.yarnpkg.com/nuxt-i18n/-/nuxt-i18n-6.27.2.tgz#278d7fafa180c473471ca7ae9bdf105eb8bab796"
-  integrity sha512-9L2Wfokm2iLWJi5coh9xzGvy9ipX2Fb/5hyIY0pnim87MpL6M5bxIkuEo34NkU0IvxeMkfEqYjxQh0E9Do8S9A==
+  version "6.27.3"
+  resolved "https://registry.yarnpkg.com/nuxt-i18n/-/nuxt-i18n-6.27.3.tgz#3d79b73e50c8cb5f17dbc6451069a37bf5e4832b"
+  integrity sha512-7+UeMM5hHZ7TGsU+t9DFsRSEgAh9FGN2DG10d/uF+l6ziie6XrlA4lTXD6aeE9i07vjt7Ifoz36r0gSuapullg==
   dependencies:
     "@babel/parser" "^7.14.7"
     "@babel/traverse" "^7.14.7"
@@ -6944,7 +6951,7 @@ nuxt-i18n@^6.27.2:
     js-cookie "^2.2.1"
     klona "^2.0.4"
     lodash.merge "^4.6.2"
-    ufo "^0.7.5"
+    ufo "^0.7.7"
     vue-i18n "^8.24.5"
 
 nuxt@^2.15.7:
@@ -9538,7 +9545,7 @@ ua-parser-js@^0.7.28:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
   integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
-ufo@^0.7.4, ufo@^0.7.5:
+ufo@^0.7.4, ufo@^0.7.7:
   version "0.7.7"
   resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.7.7.tgz#0062f9e5e790819b0fb23ca24d7c63a4011c036a"
   integrity sha512-N25aY3HBkJBnahm+2l4JRBBrX5I+JPakF/tDHYDTjd3wUR7iFLdyiPhj8mBwBz21v728BKwM9L9tgBfCntgdlw==
