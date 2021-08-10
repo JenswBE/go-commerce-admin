@@ -5,6 +5,26 @@
         <h1>{{ $tc('dashboard') | capitalize }}</h1>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="4">
+        <v-btn :to="localePath('/products')" x-large block>
+          <v-icon>mdi-package-variant-closed</v-icon>
+          {{ $tc('product', 2) | capitalize }}
+        </v-btn>
+      </v-col>
+      <v-col cols="4">
+        <v-btn :to="localePath('/categories')" x-large block>
+          <v-icon>mdi-tag</v-icon>
+          {{ $tc('category', 2) | capitalize }}
+        </v-btn>
+      </v-col>
+      <v-col cols="4">
+        <v-btn :to="localePath('/manufacturers')" x-large block>
+          <v-icon>mdi-factory</v-icon>
+          {{ $tc('manufacturer', 2) | capitalize }}
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
