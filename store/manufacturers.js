@@ -32,10 +32,9 @@ export const mutations = {
 export const actions = {
   async list(context) {
     console.debug('Store manufacturers/list', 'Dispatched');
-    this.$axios
-      .get(`/manufacturers`)
+    this.$api.manufacturers.adminListManufacturers()
       .then(({ data }) => {
-        const manufacturers = data.reduce((result, item) => {
+        const manufacturers = data.manufacturers.reduce((result, item) => {
           result[item.id] = item;
           return result;
         }, {});
@@ -53,8 +52,7 @@ export const actions = {
 
   async add(context, manufacturer) {
     console.debug('Store manufacturers/add', 'Dispatched', manufacturer);
-    this.$axios
-      .post(`/manufacturers`, manufacturer)
+    this.$api.manufacturers.adminAddManufacturer(manufacturer)
       .then(({ data }) => {
         context.commit('ADD_MANUFACTURER', data);
       })
@@ -70,8 +68,7 @@ export const actions = {
 
   async update(context, manufacturer) {
     console.debug('Store manufacturers/update', 'Dispatched', manufacturer);
-    this.$axios
-      .put(`/manufacturers/${manufacturer.id}`, manufacturer)
+    this.$api.manufacturers.adminUpdateManufacturer(manufacturer.id, manufacturer)
       .then(({ data }) => {
         context.commit('UPDATE_MANUFACTURER', data);
       })
@@ -87,9 +84,8 @@ export const actions = {
 
   async delete(context, manufacturer_id) {
     console.debug('Store manufacturers/delete', 'Dispatched', manufacturer_id);
-    this.$axios
-      .delete(`/manufacturers/${manufacturer_id}`)
-      .then(({ data }) => {
+    this.$api.manufacturers.adminDeleteManufacturer(manufacturer_id)
+      .then(() => {
         context.commit('DELETE_MANUFACTURER', manufacturer_id);
       })
       .catch((e) => {

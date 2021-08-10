@@ -21,8 +21,7 @@ export const actions = {
     const authHeader = `Basic ${basicCreds}`;
 
     // Validate credentials
-    return this.$axios
-      .get(`/products`, { headers: { Authorization: authHeader } })
+    return this.$api.products.adminListProducts(undefined, undefined, undefined, { headers: { Authorization: authHeader } })
       .then(() => {
         context.commit('SET_LOGIN');
         localStorage.setItem('plainCreds', plainCreds);

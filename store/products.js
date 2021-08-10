@@ -32,10 +32,9 @@ export const mutations = {
 export const actions = {
   async list(context) {
     console.debug('Store products/list', 'Dispatched');
-    this.$axios
-      .get(`/products`)
+    this.$api.products.adminListProducts()
       .then(({ data }) => {
-        const products = data.reduce((result, item) => {
+        const products = data.products.reduce((result, item) => {
           result[item.id] = item;
           return result;
         }, {});
@@ -56,8 +55,7 @@ export const actions = {
     if (product.manufacturer_id === '') {
       delete product.manufacturer_id;
     }
-    this.$axios
-      .post(`/products`, product)
+    this.$api.products.adminAddProduct(product)
       .then(({ data }) => {
         context.commit('ADD_PRODUCT', data);
       })
@@ -76,8 +74,7 @@ export const actions = {
     if (product.manufacturer_id === '') {
       delete product.manufacturer_id;
     }
-    this.$axios
-      .put(`/products/${product.id}`, product)
+    this.$api.products.adminUpdateProduct(product.id, product)
       .then(({ data }) => {
         context.commit('UPDATE_PRODUCT', data);
       })
@@ -93,8 +90,7 @@ export const actions = {
 
   async delete(context, product_id) {
     console.debug('Store products/delete', 'Dispatched', product_id);
-    this.$axios
-      .delete(`/products/${product_id}`)
+    this.$api.products.adminDeleteProduct(product_id)
       .then(({ data }) => {
         context.commit('DELETE_PRODUCT', product_id);
       })

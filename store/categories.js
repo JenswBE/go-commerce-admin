@@ -36,10 +36,9 @@ export const mutations = {
 export const actions = {
   async list(context) {
     console.debug('Store categories/list', 'Dispatched')
-    this.$axios
-      .get(`/categories`)
+    this.$api.categories.adminListCategories()
       .then(({ data }) => {
-        const categories = data.reduce((result, item) => {
+        const categories = data.categories.reduce((result, item) => {
           result[item.id] = item
           return result
         }, {})
@@ -57,8 +56,7 @@ export const actions = {
 
   async add(context, category) {
     console.debug('Store categories/add', 'Dispatched', category)
-    this.$axios
-      .post(`/categories`, category)
+    this.$api.categories.adminAddCategory(category)
       .then(({ data }) => {
         context.commit('ADD_CATEGORY', data)
       })
@@ -74,8 +72,7 @@ export const actions = {
 
   async update(context, category) {
     console.debug('Store categories/update', 'Dispatched', category)
-    this.$axios
-      .put(`/categories/${category.id}`, category)
+    this.$api.categories.adminUpdateCategory(category.id, category)
       .then(({ data }) => {
         context.commit('UPDATE_CATEGORY', data)
       })
@@ -91,9 +88,8 @@ export const actions = {
 
   async delete(context, category_id) {
     console.debug('Store categories/delete', 'Dispatched', category_id)
-    this.$axios
-      .delete(`/categories/${category_id}`)
-      .then(({ data }) => {
+    this.$api.categories.adminDeleteCategory(category_id)
+      .then(() => {
         context.commit('DELETE_CATEGORY', category_id)
       })
       .catch((e) => {
