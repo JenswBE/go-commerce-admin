@@ -131,7 +131,7 @@
 import Vue from 'vue'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
-import { Manufacturer } from '../openapi/api'
+import { Manufacturer } from '../api/api'
 import { Header } from '../interfaces/DataTable.interface'
 
 export default Vue.extend({

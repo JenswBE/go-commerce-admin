@@ -232,7 +232,7 @@ import Vue from 'vue'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
 import { Header } from '../interfaces/DataTable.interface'
-import { Product } from '../openapi/api'
+import { Product } from '../api/api'
 
 export default Vue.extend({
   head() {

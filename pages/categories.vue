@@ -115,7 +115,7 @@ import Vue from 'vue'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
 import DialogConfirm from '../components/DialogConfirm.vue'
-import { Category } from '../openapi/api'
+import { Category } from '../api/api'
 
 export default Vue.extend({
   components: { DialogConfirm },
@@ -155,6 +155,7 @@ export default Vue.extend({
 
     formTitle(): string {
       const key = this.activeID === '' ? 'addItem' : 'editItem'
+      console.error('this', this)
       const title = this.$t(key, { item: this.$tc('category') }).toString()
       return this.$capitalize(title)
     },
