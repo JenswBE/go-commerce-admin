@@ -274,20 +274,10 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.14.6", "@babel/parser@^7.7.2":
-  version "7.14.7"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.14.7.tgz#6099720c8839ca865a2637e6c85852ead0bdb595"
-  integrity sha512-X67Z5y+VBJuHB/RjwECp8kSl5uYi0BvRbNeWqkaJCVh+LiTPl19WBUfG627psSgp9rSf6ojuXghQM3ha6qHHdA==
-
-"@babel/parser@^7.14.5", "@babel/parser@^7.14.7":
-  version "7.14.8"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.14.8.tgz#66fd41666b2d7b840bd5ace7f7416d5ac60208d4"
-  integrity sha512-syoCQFOoo/fzkWDeM0dLEZi5xqurb5vuyzwIMNZRNun+N/9A4cUZeQaE7dTrB8jGaKuJRBtEOajtnmw0I5hvvA==
-
-"@babel/parser@^7.14.9", "@babel/parser@^7.15.0", "@babel/parser@^7.9.6":
-  version "7.15.2"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.15.2.tgz#08d4ffcf90d211bf77e7cc7154c6f02d468d2b1d"
-  integrity sha512-bMJXql1Ss8lFnvr11TZDH4ArtwlAS5NG9qBmdiFW2UHHm6MVoR+GDc5XE2b9K938cyjc9O6/+vjjcffLDtfuDg==
+"@babel/parser@^7.1.0", "@babel/parser@^7.14.5", "@babel/parser@^7.14.6", "@babel/parser@^7.15.0", "@babel/parser@^7.15.3", "@babel/parser@^7.7.2", "@babel/parser@^7.9.6":
+  version "7.15.3"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.15.3.tgz#3416d9bea748052cfcb63dbcc27368105b1ed862"
+  integrity sha512-O0L6v/HvqbdJawj0iBEfVQMc3/6WP+AeOsovsIgBFyJaG+W2w7eqvZB7puddATmWuARlm1SX7DwxJ/JJUnDpEA==
 
 "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@^7.14.5":
   version "7.14.5"
@@ -934,22 +924,7 @@
     "@babel/parser" "^7.14.5"
     "@babel/types" "^7.14.5"
 
-"@babel/traverse@^7.1.0", "@babel/traverse@^7.13.0", "@babel/traverse@^7.14.5", "@babel/traverse@^7.7.2":
-  version "7.14.7"
-  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.14.7.tgz#64007c9774cfdc3abd23b0780bc18a3ce3631753"
-  integrity sha512-9vDr5NzHu27wgwejuKL7kIOm4bwEtaPQ4Z6cpCmjSuaRqpH/7xc4qcGEscwMqlkwgcXl6MvqoAjZkQ24uSdIZQ==
-  dependencies:
-    "@babel/code-frame" "^7.14.5"
-    "@babel/generator" "^7.14.5"
-    "@babel/helper-function-name" "^7.14.5"
-    "@babel/helper-hoist-variables" "^7.14.5"
-    "@babel/helper-split-export-declaration" "^7.14.5"
-    "@babel/parser" "^7.14.7"
-    "@babel/types" "^7.14.5"
-    debug "^4.1.0"
-    globals "^11.1.0"
-
-"@babel/traverse@^7.14.9":
+"@babel/traverse@^7.1.0", "@babel/traverse@^7.13.0", "@babel/traverse@^7.14.5", "@babel/traverse@^7.15.0", "@babel/traverse@^7.7.2":
   version "7.15.0"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.15.0.tgz#4cca838fd1b2a03283c1f38e141f639d60b3fc98"
   integrity sha512-392d8BN0C9eVxVWd8H6x9WfipgVH5IaIoLp23334Sc1vbKKWINnvwRpb4us0xtPaCumlwbTtIYNA0Dv/32sVFw==
@@ -1596,13 +1571,13 @@
     consola "^2.15.3"
     defu "^5.0.0"
 
-"@nuxtjs/i18n@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/i18n/-/i18n-7.0.1.tgz#eb776f5f210838024cb841e584f65994a25ea706"
-  integrity sha512-3BnUiKM94Cp5gjl3HVLyynsFIbo5fNaIm7f49AsfqJkQaAwEM40S+Jssu8doIIAnuctFNLuaqSuKV2fDUZFp1g==
+"@nuxtjs/i18n@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/i18n/-/i18n-7.0.2.tgz#55f0c500949a5fde33877207e7a4f5fe3be9b2f7"
+  integrity sha512-CapZG5sNsRCLp3FO2EL5uBG4ExdgYgVQwZ7Ej6nDJKI1RBD7izkH5zElXk7z1GNKe4aHFC5vyLIr5Zd+yBYDYA==
   dependencies:
-    "@babel/parser" "^7.14.9"
-    "@babel/traverse" "^7.14.9"
+    "@babel/parser" "^7.15.3"
+    "@babel/traverse" "^7.15.0"
     "@intlify/vue-i18n-extensions" "^1.0.2"
     "@intlify/vue-i18n-loader" "^1.1.0"
     cookie "^0.4.1"
