@@ -64,11 +64,11 @@ export interface Category {
      */
     product_ids?: Array<string>;
     /**
-     * Signed URL pointing to the image
-     * @type {string}
+     * 
+     * @type {{ [key: string]: string; }}
      * @memberof Category
      */
-    image_url?: string;
+    image_urls?: { [key: string]: string; };
 }
 /**
  * 
@@ -107,11 +107,11 @@ export interface CategoryAllOf {
      */
     product_ids?: Array<string>;
     /**
-     * Signed URL pointing to the image
-     * @type {string}
+     * 
+     * @type {{ [key: string]: string; }}
      * @memberof CategoryAllOf
      */
-    image_url?: string;
+    image_urls?: { [key: string]: string; };
 }
 /**
  * 
@@ -202,11 +202,11 @@ export interface Image {
      */
     ext: string;
     /**
-     * Signed URL pointing to the image
-     * @type {string}
+     * 
+     * @type {{ [key: string]: string; }}
      * @memberof Image
      */
-    url: string;
+    urls: { [key: string]: string; };
     /**
      * Should be sorted ascending by this column
      * @type {number}
@@ -252,11 +252,11 @@ export interface Manufacturer {
      */
     website_url?: string;
     /**
-     * Signed URL pointing to the image
-     * @type {string}
+     * 
+     * @type {{ [key: string]: string; }}
      * @memberof Manufacturer
      */
-    image_url?: string;
+    image_urls?: { [key: string]: string; };
 }
 /**
  * 
@@ -277,11 +277,11 @@ export interface ManufacturerAllOf {
      */
     website_url?: string;
     /**
-     * Signed URL pointing to the image
-     * @type {string}
+     * 
+     * @type {{ [key: string]: string; }}
      * @memberof ManufacturerAllOf
      */
-    image_url?: string;
+    image_urls?: { [key: string]: string; };
 }
 /**
  * 
@@ -370,10 +370,10 @@ export interface Product {
     stock_count?: number;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<{ [key: string]: string; }>}
      * @memberof Product
      */
-    image_urls?: Array<string>;
+    image_urls?: Array<{ [key: string]: string; }>;
 }
 /**
  * 
@@ -431,10 +431,10 @@ export interface ProductAllOf {
     stock_count?: number;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<{ [key: string]: string; }>}
      * @memberof ProductAllOf
      */
-    image_urls?: Array<string>;
+    image_urls?: Array<{ [key: string]: string; }>;
 }
 /**
  * 
@@ -454,7 +454,6 @@ export interface ProductList {
  * @export
  * @enum {string}
  */
-
 export enum ProductStatus {
     Available = 'AVAILABLE',
     Archived = 'ARCHIVED'
@@ -534,10 +533,10 @@ export interface ProductWithManufacturer {
     stock_count?: number;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<{ [key: string]: string; }>}
      * @memberof ProductWithManufacturer
      */
-    image_urls?: Array<string>;
+    image_urls?: Array<{ [key: string]: string; }>;
     /**
      * 
      * @type {Manufacturer}
@@ -650,7 +649,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
         adminDeleteCategoryImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminDeleteCategoryImage', 'id', id)
-            const localVarPath = `/admin/categories/{id}/image`
+            const localVarPath = `/admin/categories/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -681,13 +680,11 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Get category details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetCategory: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        adminGetCategory: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminGetCategory', 'id', id)
             const localVarPath = `/admin/categories/{id}/`
@@ -707,16 +704,8 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -732,13 +721,11 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * List categories
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListCategories: async (imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        adminListCategories: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/admin/categories/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -755,16 +742,8 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -824,17 +803,15 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Upsert image
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertCategoryImage: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options: any = {}): Promise<RequestArgs> => {
+        adminUpsertCategoryImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminUpsertCategoryImage', 'id', id)
-            const localVarPath = `/admin/categories/{id}/image`
+            const localVarPath = `/admin/categories/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -852,16 +829,8 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -885,13 +854,11 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Get category details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetCategory: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        publicGetCategory: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('publicGetCategory', 'id', id)
             const localVarPath = `/public/categories/{id}/`
@@ -907,16 +874,8 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -932,13 +891,11 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * List categories
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicListCategories: async (imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        publicListCategories: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/public/categories/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -951,16 +908,8 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -1017,26 +966,22 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
         /**
          * Get category details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminGetCategory(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetCategory(id, imgH, imgR, imgW, options);
+        async adminGetCategory(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetCategory(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * List categories
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListCategories(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListCategories(imgH, imgR, imgW, options);
+        async adminListCategories(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListCategories(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1053,40 +998,34 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
         /**
          * Upsert image
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpsertCategoryImage(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpsertCategoryImage(id, imgH, imgR, imgW, file, options);
+        async adminUpsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpsertCategoryImage(id, img, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get category details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async publicGetCategory(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetCategory(id, imgH, imgR, imgW, options);
+        async publicGetCategory(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetCategory(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * List categories
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async publicListCategories(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListCategories(imgH, imgR, imgW, options);
+        async publicListCategories(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListCategories(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1129,25 +1068,21 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
         /**
          * Get category details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetCategory(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<Category> {
-            return localVarFp.adminGetCategory(id, imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        adminGetCategory(id: string, img?: Array<string>, options?: any): AxiosPromise<Category> {
+            return localVarFp.adminGetCategory(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List categories
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListCategories(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<CategoryList> {
-            return localVarFp.adminListCategories(imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        adminListCategories(img?: Array<string>, options?: any): AxiosPromise<CategoryList> {
+            return localVarFp.adminListCategories(img, options).then((request) => request(axios, basePath));
         },
         /**
          * Update category
@@ -1162,38 +1097,32 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
         /**
          * Upsert image
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertCategoryImage(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options?: any): AxiosPromise<Image> {
-            return localVarFp.adminUpsertCategoryImage(id, imgH, imgR, imgW, file, options).then((request) => request(axios, basePath));
+        adminUpsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
+            return localVarFp.adminUpsertCategoryImage(id, img, file, options).then((request) => request(axios, basePath));
         },
         /**
          * Get category details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetCategory(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<Category> {
-            return localVarFp.publicGetCategory(id, imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        publicGetCategory(id: string, img?: Array<string>, options?: any): AxiosPromise<Category> {
+            return localVarFp.publicGetCategory(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List categories
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicListCategories(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<CategoryList> {
-            return localVarFp.publicListCategories(imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        publicListCategories(img?: Array<string>, options?: any): AxiosPromise<CategoryList> {
+            return localVarFp.publicListCategories(img, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1241,28 +1170,24 @@ export class CategoriesApi extends BaseAPI {
     /**
      * Get category details
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminGetCategory(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return CategoriesApiFp(this.configuration).adminGetCategory(id, imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public adminGetCategory(id: string, img?: Array<string>, options?: any) {
+        return CategoriesApiFp(this.configuration).adminGetCategory(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * List categories
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminListCategories(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return CategoriesApiFp(this.configuration).adminListCategories(imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public adminListCategories(img?: Array<string>, options?: any) {
+        return CategoriesApiFp(this.configuration).adminListCategories(img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1280,43 +1205,37 @@ export class CategoriesApi extends BaseAPI {
     /**
      * Upsert image
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {any} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminUpsertCategoryImage(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options?: any) {
-        return CategoriesApiFp(this.configuration).adminUpsertCategoryImage(id, imgH, imgR, imgW, file, options).then((request) => request(this.axios, this.basePath));
+    public adminUpsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any) {
+        return CategoriesApiFp(this.configuration).adminUpsertCategoryImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get category details
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public publicGetCategory(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return CategoriesApiFp(this.configuration).publicGetCategory(id, imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public publicGetCategory(id: string, img?: Array<string>, options?: any) {
+        return CategoriesApiFp(this.configuration).publicGetCategory(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * List categories
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public publicListCategories(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return CategoriesApiFp(this.configuration).publicListCategories(imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public publicListCategories(img?: Array<string>, options?: any) {
+        return CategoriesApiFp(this.configuration).publicListCategories(img, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1412,7 +1331,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
         adminDeleteManufacturerImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminDeleteManufacturerImage', 'id', id)
-            const localVarPath = `/admin/manufacturers/{id}/image`
+            const localVarPath = `/admin/manufacturers/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1443,13 +1362,11 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
         /**
          * Get manufacturer details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetManufacturer: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        adminGetManufacturer: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminGetManufacturer', 'id', id)
             const localVarPath = `/admin/manufacturers/{id}/`
@@ -1469,16 +1386,8 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -1494,13 +1403,11 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * List manufacturers
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListManufacturers: async (imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        adminListManufacturers: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/admin/manufacturers/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1517,16 +1424,8 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -1586,17 +1485,15 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
         /**
          * Upsert image
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertManufacturerImage: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options: any = {}): Promise<RequestArgs> => {
+        adminUpsertManufacturerImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminUpsertManufacturerImage', 'id', id)
-            const localVarPath = `/admin/manufacturers/{id}/image`
+            const localVarPath = `/admin/manufacturers/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1614,16 +1511,8 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -1647,13 +1536,11 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
         /**
          * Get manufacturer details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetManufacturer: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        publicGetManufacturer: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('publicGetManufacturer', 'id', id)
             const localVarPath = `/public/manufacturers/{id}/`
@@ -1669,16 +1556,8 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -1694,13 +1573,11 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * List manufacturers
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicListManufacturers: async (imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        publicListManufacturers: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/public/manufacturers/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1713,16 +1590,8 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -1779,26 +1648,22 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
         /**
          * Get manufacturer details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminGetManufacturer(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetManufacturer(id, imgH, imgR, imgW, options);
+        async adminGetManufacturer(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetManufacturer(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * List manufacturers
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListManufacturers(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListManufacturers(imgH, imgR, imgW, options);
+        async adminListManufacturers(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListManufacturers(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1815,40 +1680,34 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
         /**
          * Upsert image
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpsertManufacturerImage(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpsertManufacturerImage(id, imgH, imgR, imgW, file, options);
+        async adminUpsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpsertManufacturerImage(id, img, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get manufacturer details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async publicGetManufacturer(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetManufacturer(id, imgH, imgR, imgW, options);
+        async publicGetManufacturer(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetManufacturer(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * List manufacturers
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async publicListManufacturers(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListManufacturers(imgH, imgR, imgW, options);
+        async publicListManufacturers(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListManufacturers(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1891,25 +1750,21 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
         /**
          * Get manufacturer details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetManufacturer(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<Manufacturer> {
-            return localVarFp.adminGetManufacturer(id, imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        adminGetManufacturer(id: string, img?: Array<string>, options?: any): AxiosPromise<Manufacturer> {
+            return localVarFp.adminGetManufacturer(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List manufacturers
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListManufacturers(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<ManufacturerList> {
-            return localVarFp.adminListManufacturers(imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        adminListManufacturers(img?: Array<string>, options?: any): AxiosPromise<ManufacturerList> {
+            return localVarFp.adminListManufacturers(img, options).then((request) => request(axios, basePath));
         },
         /**
          * Update manufacturer
@@ -1924,38 +1779,32 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
         /**
          * Upsert image
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertManufacturerImage(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options?: any): AxiosPromise<Image> {
-            return localVarFp.adminUpsertManufacturerImage(id, imgH, imgR, imgW, file, options).then((request) => request(axios, basePath));
+        adminUpsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
+            return localVarFp.adminUpsertManufacturerImage(id, img, file, options).then((request) => request(axios, basePath));
         },
         /**
          * Get manufacturer details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetManufacturer(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<Manufacturer> {
-            return localVarFp.publicGetManufacturer(id, imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        publicGetManufacturer(id: string, img?: Array<string>, options?: any): AxiosPromise<Manufacturer> {
+            return localVarFp.publicGetManufacturer(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List manufacturers
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicListManufacturers(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<ManufacturerList> {
-            return localVarFp.publicListManufacturers(imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        publicListManufacturers(img?: Array<string>, options?: any): AxiosPromise<ManufacturerList> {
+            return localVarFp.publicListManufacturers(img, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2003,28 +1852,24 @@ export class ManufacturersApi extends BaseAPI {
     /**
      * Get manufacturer details
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminGetManufacturer(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminGetManufacturer(id, imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public adminGetManufacturer(id: string, img?: Array<string>, options?: any) {
+        return ManufacturersApiFp(this.configuration).adminGetManufacturer(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * List manufacturers
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminListManufacturers(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminListManufacturers(imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public adminListManufacturers(img?: Array<string>, options?: any) {
+        return ManufacturersApiFp(this.configuration).adminListManufacturers(img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2042,43 +1887,37 @@ export class ManufacturersApi extends BaseAPI {
     /**
      * Upsert image
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {any} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminUpsertManufacturerImage(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: any, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminUpsertManufacturerImage(id, imgH, imgR, imgW, file, options).then((request) => request(this.axios, this.basePath));
+    public adminUpsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any) {
+        return ManufacturersApiFp(this.configuration).adminUpsertManufacturerImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get manufacturer details
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public publicGetManufacturer(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ManufacturersApiFp(this.configuration).publicGetManufacturer(id, imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public publicGetManufacturer(id: string, img?: Array<string>, options?: any) {
+        return ManufacturersApiFp(this.configuration).publicGetManufacturer(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * List manufacturers
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public publicListManufacturers(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ManufacturersApiFp(this.configuration).publicListManufacturers(imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public publicListManufacturers(img?: Array<string>, options?: any) {
+        return ManufacturersApiFp(this.configuration).publicListManufacturers(img, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2131,17 +1970,15 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * Add product images
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {Array<any>} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddProductImages: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: Array<any>, options: any = {}): Promise<RequestArgs> => {
+        adminAddProductImages: async (id: string, img?: Array<string>, file?: Array<any>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminAddProductImages', 'id', id)
-            const localVarPath = `/admin/products/{id}/images`
+            const localVarPath = `/admin/products/{id}/images/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2159,16 +1996,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
             if (file) {
@@ -2240,7 +2069,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             assertParamExists('adminDeleteProductImage', 'id', id)
             // verify required parameter 'imageId' is not null or undefined
             assertParamExists('adminDeleteProductImage', 'imageId', imageId)
-            const localVarPath = `/admin/products/{id}/images/{image_id}`
+            const localVarPath = `/admin/products/{id}/images/{image_id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"image_id"}}`, encodeURIComponent(String(imageId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2272,13 +2101,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * Get product details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetProduct: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        adminGetProduct: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminGetProduct', 'id', id)
             const localVarPath = `/admin/products/{id}/`
@@ -2298,16 +2125,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -2324,16 +2143,14 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * Get product images
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProductImages: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        adminListProductImages: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminListProductImages', 'id', id)
-            const localVarPath = `/admin/products/{id}/images`
+            const localVarPath = `/admin/products/{id}/images/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2350,16 +2167,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -2375,13 +2184,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * List products
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProducts: async (imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        adminListProducts: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/admin/products/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2398,16 +2205,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -2479,7 +2278,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             assertParamExists('adminUpdateProductImage', 'imageId', imageId)
             // verify required parameter 'image' is not null or undefined
             assertParamExists('adminUpdateProductImage', 'image', image)
-            const localVarPath = `/admin/products/{id}/images/{image_id}`
+            const localVarPath = `/admin/products/{id}/images/{image_id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"image_id"}}`, encodeURIComponent(String(imageId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2514,13 +2313,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * Get product details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetProduct: async (id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        publicGetProduct: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('publicGetProduct', 'id', id)
             const localVarPath = `/public/products/{id}/`
@@ -2536,16 +2333,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -2561,13 +2350,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * List products
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicListProducts: async (imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options: any = {}): Promise<RequestArgs> => {
+        publicListProducts: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/public/products/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2580,16 +2367,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (imgH !== undefined) {
-                localVarQueryParameter['img_h'] = imgH;
-            }
-
-            if (imgR !== undefined) {
-                localVarQueryParameter['img_r'] = imgR;
-            }
-
-            if (imgW !== undefined) {
-                localVarQueryParameter['img_w'] = imgW;
+            if (img) {
+                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -2626,15 +2405,13 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         /**
          * Add product images
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {Array<any>} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminAddProductImages(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: Array<any>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminAddProductImages(id, imgH, imgR, imgW, file, options);
+        async adminAddProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminAddProductImages(id, img, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2661,39 +2438,33 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         /**
          * Get product details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminGetProduct(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductWithManufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetProduct(id, imgH, imgR, imgW, options);
+        async adminGetProduct(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductWithManufacturer>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetProduct(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Get product images
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListProductImages(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListProductImages(id, imgH, imgR, imgW, options);
+        async adminListProductImages(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListProductImages(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * List products
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListProducts(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListProducts(imgH, imgR, imgW, options);
+        async adminListProducts(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListProducts(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2722,26 +2493,22 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         /**
          * Get product details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async publicGetProduct(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductWithManufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetProduct(id, imgH, imgR, imgW, options);
+        async publicGetProduct(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductWithManufacturer>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetProduct(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * List products
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async publicListProducts(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListProducts(imgH, imgR, imgW, options);
+        async publicListProducts(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListProducts(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2766,15 +2533,13 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         /**
          * Add product images
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {Array<any>} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddProductImages(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: Array<any>, options?: any): AxiosPromise<ImageList> {
-            return localVarFp.adminAddProductImages(id, imgH, imgR, imgW, file, options).then((request) => request(axios, basePath));
+        adminAddProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): AxiosPromise<ImageList> {
+            return localVarFp.adminAddProductImages(id, img, file, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete product
@@ -2798,37 +2563,31 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         /**
          * Get product details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetProduct(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<ProductWithManufacturer> {
-            return localVarFp.adminGetProduct(id, imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        adminGetProduct(id: string, img?: Array<string>, options?: any): AxiosPromise<ProductWithManufacturer> {
+            return localVarFp.adminGetProduct(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * Get product images
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProductImages(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<ImageList> {
-            return localVarFp.adminListProductImages(id, imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        adminListProductImages(id: string, img?: Array<string>, options?: any): AxiosPromise<ImageList> {
+            return localVarFp.adminListProductImages(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List products
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProducts(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<ProductList> {
-            return localVarFp.adminListProducts(imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        adminListProducts(img?: Array<string>, options?: any): AxiosPromise<ProductList> {
+            return localVarFp.adminListProducts(img, options).then((request) => request(axios, basePath));
         },
         /**
          * Update product
@@ -2854,25 +2613,21 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         /**
          * Get product details
          * @param {string} id ID
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetProduct(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<ProductWithManufacturer> {
-            return localVarFp.publicGetProduct(id, imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        publicGetProduct(id: string, img?: Array<string>, options?: any): AxiosPromise<ProductWithManufacturer> {
+            return localVarFp.publicGetProduct(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List products
-         * @param {number} [imgH] Image height
-         * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-         * @param {number} [imgW] Image width
+         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicListProducts(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any): AxiosPromise<ProductList> {
-            return localVarFp.publicListProducts(imgH, imgR, imgW, options).then((request) => request(axios, basePath));
+        publicListProducts(img?: Array<string>, options?: any): AxiosPromise<ProductList> {
+            return localVarFp.publicListProducts(img, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2898,16 +2653,14 @@ export class ProductsApi extends BaseAPI {
     /**
      * Add product images
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {Array<any>} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminAddProductImages(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, file?: Array<any>, options?: any) {
-        return ProductsApiFp(this.configuration).adminAddProductImages(id, imgH, imgR, imgW, file, options).then((request) => request(this.axios, this.basePath));
+    public adminAddProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any) {
+        return ProductsApiFp(this.configuration).adminAddProductImages(id, img, file, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2936,42 +2689,36 @@ export class ProductsApi extends BaseAPI {
     /**
      * Get product details
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminGetProduct(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ProductsApiFp(this.configuration).adminGetProduct(id, imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public adminGetProduct(id: string, img?: Array<string>, options?: any) {
+        return ProductsApiFp(this.configuration).adminGetProduct(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get product images
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminListProductImages(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ProductsApiFp(this.configuration).adminListProductImages(id, imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public adminListProductImages(id: string, img?: Array<string>, options?: any) {
+        return ProductsApiFp(this.configuration).adminListProductImages(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * List products
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminListProducts(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ProductsApiFp(this.configuration).adminListProducts(imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public adminListProducts(img?: Array<string>, options?: any) {
+        return ProductsApiFp(this.configuration).adminListProducts(img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3002,28 +2749,24 @@ export class ProductsApi extends BaseAPI {
     /**
      * Get product details
      * @param {string} id ID
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public publicGetProduct(id: string, imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ProductsApiFp(this.configuration).publicGetProduct(id, imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public publicGetProduct(id: string, img?: Array<string>, options?: any) {
+        return ProductsApiFp(this.configuration).publicGetProduct(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * List products
-     * @param {number} [imgH] Image height
-     * @param {'FILL' | 'FIT'} [imgR] Image resize mode
-     * @param {number} [imgW] Image width
+     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public publicListProducts(imgH?: number, imgR?: 'FILL' | 'FIT', imgW?: number, options?: any) {
-        return ProductsApiFp(this.configuration).publicListProducts(imgH, imgR, imgW, options).then((request) => request(this.axios, this.basePath));
+    public publicListProducts(img?: Array<string>, options?: any) {
+        return ProductsApiFp(this.configuration).publicListProducts(img, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
