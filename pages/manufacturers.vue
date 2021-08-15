@@ -90,7 +90,7 @@
           </template>
           <template v-slot:item.logo="{ item }">
             <img
-              :src="`${backendURL}/images/${item.id}-100-100-fit.png?cache=${cacheKey}`"
+              :src="item.image_urls === undefined ? '' : item.image_urls['100']"
               class="ma-1"
               style="cursor: pointer"
               @click="selectImage(item)"
@@ -141,7 +141,6 @@ export default Vue.extend({
 
   data: () => ({
     search: '',
-    cacheKey: 0,
     formOpen: false,
     confirmDeleteOpen: false,
     activeID: '',
@@ -205,7 +204,6 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.bumpCacheKey()
     this.$store.dispatch('manufacturers/list')
   },
 
@@ -249,12 +247,10 @@ export default Vue.extend({
 
     async uploadImage(e: any) {
       const file = e.target.files[0]
-      await this.$store.dispatch('images/upload', { id: this.activeID, file })
-      setTimeout(this.bumpCacheKey, 2000)
-    },
-
-    bumpCacheKey() {
-      this.cacheKey = Date.now()
+      await this.$store.dispatch('manufacturers/upsertImage', {
+        manufacturer_id: this.activeID,
+        image: file,
+      })
     },
 
     deleteManufacturer(manufacturer_id: string) {

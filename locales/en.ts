@@ -34,6 +34,10 @@ const en: Locale = {
   shortDescription: 'short @:description',
   status: 'status',
   stockCount: 'stock count',
+  uploadImage: {
+    notAnImage: 'Chosen file is not an image',
+    uploadFailed: 'Failed to upload photo: {error}',
+  },
   username: 'username',
   website: 'website',
 }

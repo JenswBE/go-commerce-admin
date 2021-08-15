@@ -34,6 +34,10 @@ const nl: Locale = {
   shortDescription: 'korte @:description',
   status: 'status',
   stockCount: 'in voorraad',
+  uploadImage: {
+    notAnImage: 'Gekozen bestand is geen foto',
+    uploadFailed: 'Foto uploaden mislukt: {error}',
+  },
   username: 'gebruikersnaam',
   website: 'website',
 }

@@ -74,6 +74,12 @@
           open-on-click
         >
           <template v-slot:append="{ item }">
+            <img
+              :src="item.image_urls === undefined ? '' : item.image_urls['100']"
+              class="ma-1"
+              style="cursor: pointer"
+              @click="selectImage(item)"
+            />
             <v-icon small @click="addChild(item)"> mdi-plus </v-icon>
             <v-icon
               small
@@ -127,7 +133,6 @@ export default Vue.extend({
   data() {
     return {
       search: '',
-      cacheKey: 0,
       formOpen: false,
       confirmDeleteOpen: false,
       activeID: '',
@@ -155,7 +160,6 @@ export default Vue.extend({
 
     formTitle(): string {
       const key = this.activeID === '' ? 'addItem' : 'editItem'
-      console.error('this', this)
       const title = this.$t(key, { item: this.$tc('category') }).toString()
       return this.$capitalize(title)
     },
@@ -177,7 +181,6 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.bumpCacheKey
     this.$store.dispatch('categories/list')
   },
 
@@ -259,12 +262,10 @@ export default Vue.extend({
 
     async uploadImage(e: any) {
       const file = e.target.files[0]
-      await this.$store.dispatch('images/upload', { id: this.activeID, file })
-      setTimeout(this.bumpCacheKey, 2000)
-    },
-
-    bumpCacheKey() {
-      this.cacheKey = Date.now()
+      await this.$store.dispatch('categories/upsertImage', {
+        category_id: this.activeID,
+        image: file,
+      })
     },
 
     deleteCategory(category_id: string) {

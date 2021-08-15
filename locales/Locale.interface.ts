@@ -33,6 +33,10 @@ export interface Locale {
   shortDescription: string
   status: string
   stockCount: string
+  uploadImage: {
+    notAnImage: string
+    uploadFailed: string
+  }
   username: string
   website: string
 }
