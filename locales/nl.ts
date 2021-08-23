@@ -35,6 +35,7 @@ const nl: Locale = {
   status: 'status',
   stockCount: 'in voorraad',
   uploadImage: {
+    deleteFailed: 'Foto verwijderen mislukt: {error}',
     notAnImage: 'Gekozen bestand is geen foto',
     uploadFailed: 'Foto uploaden mislukt: {error}',
   },

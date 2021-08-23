@@ -35,6 +35,7 @@ const en: Locale = {
   status: 'status',
   stockCount: 'stock count',
   uploadImage: {
+    deleteFailed: 'Failed to delete photo: {error}',
     notAnImage: 'Chosen file is not an image',
     uploadFailed: 'Failed to upload photo: {error}',
   },

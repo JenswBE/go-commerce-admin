@@ -150,4 +150,27 @@ export const actions = {
         )
       })
   },
+
+  async deleteImage(context, manufacturer_id) {
+    console.debug('Store manufacturers/deleteImage', 'Dispatched')
+    this.$api.manufacturers
+      .adminDeleteManufacturerImage(manufacturer_id)
+      .then(() => {
+        context.commit('SET_MANUFACTURER_IMAGE_URLS', {
+          manufacturer_id: manufacturer_id,
+          urls: undefined,
+        })
+        return data
+      })
+      .catch((e) => {
+        const msg = context.$t('uploadImage.deleteFailed', {
+          error: e.response.data,
+        })
+        context.commit(
+          'general/SET_ALERT',
+          { type: 'error', message: msg },
+          { root: true }
+        )
+      })
+  },
 }

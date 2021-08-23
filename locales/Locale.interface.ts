@@ -34,6 +34,7 @@ export interface Locale {
   status: string
   stockCount: string
   uploadImage: {
+    deleteFailed: string
     notAnImage: string
     uploadFailed: string
   }

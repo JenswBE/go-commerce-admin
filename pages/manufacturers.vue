@@ -86,6 +86,11 @@
                 @confirm="confirmDeleteManufacturer"
                 @cancel="closeConfirmDelete"
               />
+              <DialogConfirm
+                v-model="confirmDeleteImageOpen"
+                @confirm="confirmDeleteImage"
+                @cancel="closeConfirmDeleteImage"
+              />
             </v-toolbar>
           </template>
           <template v-slot:item.logo="{ item }">
@@ -95,6 +100,27 @@
               style="cursor: pointer"
               @click="selectImage(item)"
             />
+            <v-btn
+              icon
+              @click="selectImage(item)"
+              v-show="item.image_urls === undefined"
+            >
+              <v-icon small> mdi-plus </v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              @click="selectImage(item)"
+              v-show="item.image_urls !== undefined"
+            >
+              <v-icon small> mdi-refresh </v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              @click="deleteImage(item.id)"
+              v-show="item.image_urls !== undefined"
+            >
+              <v-icon small> mdi-close </v-icon>
+            </v-btn>
           </template>
           <template v-slot:item.website_url="{ item }">
             <p>
@@ -104,15 +130,12 @@
             </p>
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editManufacturer(item)">
-              mdi-pencil
-            </v-icon>
-            <v-icon small class="mr-2" @click="selectImage(item)">
-              mdi-image-plus
-            </v-icon>
-            <v-icon small @click="deleteManufacturer(item.id)">
-              mdi-delete
-            </v-icon>
+            <v-btn icon @click="editManufacturer(item)">
+              <v-icon small> mdi-pencil </v-icon>
+            </v-btn>
+            <v-btn icon @click="deleteManufacturer(item.id)">
+              <v-icon small> mdi-delete </v-icon>
+            </v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -143,6 +166,7 @@ export default Vue.extend({
     search: '',
     formOpen: false,
     confirmDeleteOpen: false,
+    confirmDeleteImageOpen: false,
     activeID: '',
     activeManufacturer: {
       name: '',
@@ -200,6 +224,9 @@ export default Vue.extend({
     },
     confirmDeleteOpen(val) {
       val || this.closeConfirmDelete()
+    },
+    confirmDeleteImageOpen(val) {
+      val || this.closeConfirmDeleteImage()
     },
   },
 
@@ -265,6 +292,23 @@ export default Vue.extend({
 
     closeConfirmDelete() {
       this.confirmDeleteOpen = false
+      this.$nextTick(() => {
+        this.activeID = ''
+      })
+    },
+
+    deleteImage(manufacturer_id: string) {
+      this.activeID = manufacturer_id
+      this.confirmDeleteImageOpen = true
+    },
+
+    confirmDeleteImage() {
+      this.$store.dispatch('manufacturers/deleteImage', this.activeID)
+      this.closeConfirmDeleteImage()
+    },
+
+    closeConfirmDeleteImage() {
+      this.confirmDeleteImageOpen = false
       this.$nextTick(() => {
         this.activeID = ''
       })
