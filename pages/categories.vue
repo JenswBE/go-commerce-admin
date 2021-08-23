@@ -71,16 +71,21 @@
           item-key="name"
           :open-all="true"
           :search="search"
+          activatable
           open-on-click
         >
-          <template v-slot:append="{ item }">
-            <img
-              :src="item.image_urls === undefined ? '' : item.image_urls['100']"
-              class="ma-1"
-              style="cursor: pointer"
-              @click="selectImage(item)"
-            />
+          <template v-slot:prepend="{ item }">
             <v-icon small @click="addChild(item)"> mdi-plus </v-icon>
+            <v-icon
+              small
+              @click="increaseSortOrder(item)"
+              :disabled="item.children === undefined"
+            >
+              mdi-arrow-left
+            </v-icon>
+            <v-icon small @click="decreaseSortOrder(item)">
+              mdi-arrow-right
+            </v-icon>
             <v-icon
               small
               @click="increaseSortOrder(item)"
@@ -95,6 +100,29 @@
             >
               mdi-arrow-down
             </v-icon>
+          </template>
+          <template v-slot:label="{ item }">
+            <v-container fluid>
+              <v-row align="center" justify="center">
+                <v-col>
+                  <p v-text="item.name" />
+                </v-col>
+                <v-col>
+                  <img
+                    :src="
+                      item.image_urls === undefined
+                        ? ''
+                        : item.image_urls['100']
+                    "
+                    class="ma-1"
+                    style="cursor: pointer"
+                    @click="selectImage(item)"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </template>
+          <template v-slot:append="{ item }">
             <v-icon small class="mr-2" @click="editCategory(item)">
               mdi-pencil
             </v-icon>
