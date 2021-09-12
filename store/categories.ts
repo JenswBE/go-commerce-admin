@@ -1,13 +1,20 @@
+import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
 import Vue from 'vue'
+import { Alert, AlertType } from './general'
+import { Category } from '../api/api'
 
 const ImageConfigs = ['100']
 
+export type CategoriesMap = { [id: string]: Category }
+
 export const state = () => ({
-  categories: {},
+  categories: {} as CategoriesMap,
 })
 
-export const getters = {
+export type RootState = ReturnType<typeof state>
+
+export const getters: GetterTree<RootState, RootState> = {
   categoriesList(state) {
     return Object.values(state.categories)
   },
@@ -17,7 +24,7 @@ export const getters = {
   },
 }
 
-export const mutations = {
+export const mutations: MutationTree<RootState> = {
   SET_CATEGORIES(state, categories) {
     state.categories = categories
   },
@@ -41,25 +48,24 @@ export const mutations = {
   },
 }
 
-export const actions = {
+export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store categories/list', 'Dispatched')
     this.$api.categories
       .adminListCategories(ImageConfigs)
       .then(({ data }) => {
         const categories = data.categories.reduce((result, item) => {
-          result[item.id] = item
+          result[item.id as string] = item
           return result
-        }, {})
+        }, {} as CategoriesMap)
         context.commit('SET_CATEGORIES', categories)
       })
       .catch((e) => {
-        const msg = `Merken ophalen mislukt: ${e.message}`
-        context.commit(
-          'general/SET_ALERT',
-          { type: 'error', message: msg },
-          { root: true }
-        )
+        const alert: Alert = {
+          type: AlertType.Error,
+          message: `Categorien ophalen mislukt: ${e.message}`,
+        }
+        context.commit('general/SET_ALERT', alert, { root: true })
       })
   },
 
@@ -71,12 +77,11 @@ export const actions = {
         context.commit('ADD_CATEGORY', data)
       })
       .catch((e) => {
-        const msg = `Merk toevoegen mislukt: ${e.message}`
-        context.commit(
-          'general/SET_ALERT',
-          { type: 'error', message: msg },
-          { root: true }
-        )
+        const alert: Alert = {
+          type: AlertType.Error,
+          message: `Categorie toevoegen mislukt: ${e.message}`,
+        }
+        context.commit('general/SET_ALERT', alert, { root: true })
       })
   },
 
@@ -88,12 +93,11 @@ export const actions = {
         context.commit('UPDATE_CATEGORY', data)
       })
       .catch((e) => {
-        const msg = `Merk bijwerken mislukt: ${e.message}`
-        context.commit(
-          'general/SET_ALERT',
-          { type: 'error', message: msg },
-          { root: true }
-        )
+        const alert: Alert = {
+          type: AlertType.Error,
+          message: `Categorie bijwerken mislukt: ${e.message}`,
+        }
+        context.commit('general/SET_ALERT', alert, { root: true })
       })
   },
 
@@ -105,12 +109,11 @@ export const actions = {
         context.commit('DELETE_CATEGORY', category_id)
       })
       .catch((e) => {
-        const msg = `Merk verwijderen mislukt: ${e.message}`
-        context.commit(
-          'general/SET_ALERT',
-          { type: 'error', message: msg },
-          { root: true }
-        )
+        const alert: Alert = {
+          type: AlertType.Error,
+          message: `Categorie verwijderen mislukt: ${e.message}`,
+        }
+        context.commit('general/SET_ALERT', alert, { root: true })
       })
   },
 
@@ -119,14 +122,11 @@ export const actions = {
 
     // Check if valid image
     if (!req.image.type.includes('image/')) {
-      context.commit(
-        'general/SET_ALERT',
-        {
-          type: 'error',
-          message: context.$t('uploadImage.notAnImage'),
-        },
-        { root: true }
-      )
+      const alert: Alert = {
+        type: AlertType.Error,
+        message: this.$i18n.t('uploadImage.notAnImage').toString(),
+      }
+      context.commit('general/SET_ALERT', alert, { root: true })
       return
     }
 
@@ -140,14 +140,13 @@ export const actions = {
         return data
       })
       .catch((e) => {
-        const msg = context.$t('uploadImage.uploadFailed', {
-          error: e.response.data,
-        })
-        context.commit(
-          'general/SET_ALERT',
-          { type: 'error', message: msg },
-          { root: true }
-        )
+        const alert: Alert = {
+          type: AlertType.Error,
+          message: this.$i18n
+            .t('uploadImage.uploadFailed', { error: e.response.data })
+            .toString(),
+        }
+        context.commit('general/SET_ALERT', alert, { root: true })
       })
   },
 }

@@ -1,8 +1,12 @@
+import { GetterTree, ActionTree, MutationTree } from 'vuex'
+
 export const state = () => ({
   isLoggedIn: false,
 })
 
-export const mutations = {
+export type RootState = ReturnType<typeof state>
+
+export const mutations: MutationTree<RootState> = {
   SET_LOGIN(state) {
     state.isLoggedIn = true
   },
@@ -12,7 +16,7 @@ export const mutations = {
   },
 }
 
-export const actions = {
+export const actions: ActionTree<RootState, RootState> = {
   async login(context, plainCreds) {
     console.debug('Store auth/login', 'Dispatched')
 
