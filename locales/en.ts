@@ -7,6 +7,7 @@ const en: Locale = {
   amount: 'amount',
   category: 'category | categories',
   cancel: 'cancel',
+  close: 'close',
   count: 'count',
   dashboard: 'dashboard',
   description: 'description | descriptions',

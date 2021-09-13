@@ -7,6 +7,7 @@ const nl: Locale = {
   amount: 'bedrag',
   category: 'categorie | categorieën',
   cancel: 'annuleren',
+  close: 'sluiten',
   count: 'aantal',
   dashboard: 'overzicht',
   description: 'beschrijving | beschrijvingen',

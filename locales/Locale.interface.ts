@@ -7,6 +7,7 @@ export interface Locale {
   description: string
   cancel: string
   category: string
+  close: string
   count: string
   dashboard: string
   edit: string

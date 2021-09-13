@@ -177,38 +177,42 @@
                 @confirm="confirmDeleteProduct"
                 @cancel="closeConfirmDelete"
               />
+              <DialogImages
+                v-model="editImagesOpen"
+                :images="images"
+                @close="closeEditImages"
+                @addImage="addImage"
+                @deleteImage="deleteImage"
+              />
             </v-toolbar>
           </template>
-          <template v-slot:item.photo="{ item }">
-            <img
-              :src="`${backendURL}/images/${item.id}-100-100-fit.png?cache=${cacheKey}`"
-              class="ma-1"
-              style="cursor: pointer"
-              @click="selectImage(item)"
-            />
+          <template v-slot:[`item.photo`]="{ item }">
+            <v-btn text @click="editImages(item)">
+              {{ item.image_urls.length }}
+            </v-btn>
           </template>
-          <template v-slot:item.price="{ item }">
+          <template v-slot:[`item.price`]="{ item }">
             {{ item.price | formatPrice }}
           </template>
-          <template v-slot:item.manufacturer_id="{ item }">
+          <template v-slot:[`item.manufacturer_id`]="{ item }">
             {{
               manufacturers[item.manufacturer_id]
                 ? manufacturers[item.manufacturer_id].name
                 : ''
             }}
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <a :href="`${$config.frontendURL}/producten/p/${item.id}`">
               <v-icon small class="mx-1">mdi-link-variant</v-icon>
             </a>
             <v-icon small class="mx-1" @click="editProduct(item)">
               mdi-pencil
             </v-icon>
+            <v-icon small class="mx-1" @click="editImages(item)">
+              mdi-image
+            </v-icon>
             <v-icon small class="mx-1" @click="editDescriptions(item)">
               mdi-format-font
-            </v-icon>
-            <v-icon small class="mx-1" @click="selectImage(item)">
-              mdi-image-plus
             </v-icon>
             <v-icon small class="mx-1" @click="deleteProduct(item.id)">
               mdi-delete
@@ -217,13 +221,6 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <input
-      ref="imageUploader"
-      class="d-none"
-      type="file"
-      accept="image/*"
-      @change="uploadImage"
-    />
   </v-container>
 </template>
 
@@ -232,7 +229,8 @@ import Vue from 'vue'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
 import { Header } from '../interfaces/DataTable.interface'
-import { Product } from '../api/api'
+import { Image, ImageList, Product } from '../api/api'
+import { AddImageReq, DeleteImageReq } from '../store/products'
 
 export default Vue.extend({
   head() {
@@ -241,11 +239,12 @@ export default Vue.extend({
 
   data: () => ({
     search: '',
-    cacheKey: 0,
     formOpen: false,
     editDescriptionsOpen: false,
+    editImagesOpen: false,
     confirmDeleteOpen: false,
     activeID: '',
+    images: [] as Array<Image>,
     activeProduct: {
       name: '',
       slug: '',
@@ -304,7 +303,7 @@ export default Vue.extend({
           sortable: true,
         },
         {
-          text: this.$capitalize(this.$tc('photo')),
+          text: this.$capitalize(this.$tc('photo', 2)),
           value: 'photo',
           sortable: false,
         },
@@ -341,13 +340,15 @@ export default Vue.extend({
     formOpen(val) {
       val || this.closeForm()
     },
+    editImagesOpen(val) {
+      val || this.closeEditImages()
+    },
     confirmDeleteOpen(val) {
       val || this.closeConfirmDelete()
     },
   },
 
   mounted() {
-    this.bumpCacheKey()
     this.$store.dispatch('products/list')
     this.$store.dispatch('categories/list')
     this.$store.dispatch('manufacturers/list')
@@ -364,6 +365,17 @@ export default Vue.extend({
       this.activeID = product.id as string
       this.activeProduct = cloneDeep(product)
       this.editDescriptionsOpen = true
+    },
+
+    async editImages(product: Product) {
+      this.activeID = product.id as string
+      this.activeProduct = cloneDeep(product)
+      this.$api.products
+        .adminListProductImages(this.activeID, ['100'])
+        .then(({ data }) => {
+          this.images = (data as ImageList).images
+          this.editImagesOpen = true
+        })
     },
 
     saveProduct() {
@@ -392,19 +404,33 @@ export default Vue.extend({
       })
     },
 
-    selectImage(product: Product) {
-      this.activeID = product.id as string
-      ;(this.$refs.imageUploader as any).click()
+    closeEditImages() {
+      this.editImagesOpen = false
+      this.$nextTick(() => {
+        this.activeID = ''
+        this.activeProduct = cloneDeep(this.defaultProduct)
+      })
     },
 
-    async uploadImage(e: any) {
-      const file = e.target.files[0]
-      await this.$store.dispatch('images/upload', { id: this.activeID, file })
-      setTimeout(this.bumpCacheKey, 2000)
+    async addImage(e: any) {
+      const req: AddImageReq = {
+        product_id: this.activeID,
+        image: e,
+      }
+      this.$store
+        .dispatch('products/addImage', req)
+        .then((images: Array<Image>) => {
+          this.images = images
+        })
     },
 
-    bumpCacheKey() {
-      this.cacheKey = Date.now()
+    async deleteImage(e: any) {
+      const req: DeleteImageReq = {
+        product_id: this.activeID,
+        image_id: e,
+      }
+      await this.$store.dispatch('products/deleteImage', req)
+      this.images = this.images.filter((img: Image) => img.id !== e)
     },
 
     deleteProduct(product_id: string) {

@@ -48,6 +48,11 @@ export const mutations: MutationTree<RootState> = {
   },
 }
 
+export type UpsertImageReq = {
+  category_id: string
+  image: File
+}
+
 export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store categories/list', 'Dispatched')
@@ -69,7 +74,7 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async add(context, category) {
+  async add(context, category: Category) {
     console.debug('Store categories/add', 'Dispatched', category)
     this.$api.categories
       .adminAddCategory(category)
@@ -85,10 +90,10 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async update(context, category) {
+  async update(context, category: Category) {
     console.debug('Store categories/update', 'Dispatched', category)
     this.$api.categories
-      .adminUpdateCategory(category.id, category)
+      .adminUpdateCategory(category.id as string, category)
       .then(({ data }) => {
         context.commit('UPDATE_CATEGORY', data)
       })
@@ -101,7 +106,7 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async delete(context, category_id) {
+  async delete(context, category_id: string) {
     console.debug('Store categories/delete', 'Dispatched', category_id)
     this.$api.categories
       .adminDeleteCategory(category_id)
@@ -117,7 +122,7 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async upsertImage(context, req) {
+  async upsertImage(context, req: UpsertImageReq) {
     console.debug('Store categories/upsertImage', 'Dispatched')
 
     // Check if valid image
@@ -144,6 +149,27 @@ export const actions: ActionTree<RootState, RootState> = {
           type: AlertType.Error,
           message: this.$i18n
             .t('uploadImage.uploadFailed', { error: e.response.data })
+            .toString(),
+        }
+        context.commit('general/SET_ALERT', alert, { root: true })
+      })
+  },
+
+  async deleteImage(context, category_id: string) {
+    console.debug('Store categories/deleteImage', 'Dispatched')
+    this.$api.categories
+      .adminDeleteCategoryImage(category_id)
+      .then(() => {
+        context.commit('SET_CATEGORY_IMAGE_URLS', {
+          category_id: category_id,
+          urls: undefined,
+        })
+      })
+      .catch((e) => {
+        const alert: Alert = {
+          type: AlertType.Error,
+          message: this.$i18n
+            .t('uploadImage.deleteFailed', { error: e.response.data })
             .toString(),
         }
         context.commit('general/SET_ALERT', alert, { root: true })

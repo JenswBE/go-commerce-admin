@@ -44,6 +44,11 @@ export const mutations: MutationTree<RootState> = {
   },
 }
 
+export type UpsertImageReq = {
+  manufacturer_id: string
+  image: File
+}
+
 export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store manufacturers/list', 'Dispatched')
@@ -65,7 +70,7 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async add(context, manufacturer) {
+  async add(context, manufacturer: Manufacturer) {
     console.debug('Store manufacturers/add', 'Dispatched', manufacturer)
     this.$api.manufacturers
       .adminAddManufacturer(manufacturer)
@@ -81,10 +86,10 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async update(context, manufacturer) {
+  async update(context, manufacturer: Manufacturer) {
     console.debug('Store manufacturers/update', 'Dispatched', manufacturer)
     this.$api.manufacturers
-      .adminUpdateManufacturer(manufacturer.id, manufacturer)
+      .adminUpdateManufacturer(manufacturer.id as string, manufacturer)
       .then(({ data }) => {
         context.commit('UPDATE_MANUFACTURER', data)
       })
@@ -97,7 +102,7 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async delete(context, manufacturer_id) {
+  async delete(context, manufacturer_id: string) {
     console.debug('Store manufacturers/delete', 'Dispatched', manufacturer_id)
     this.$api.manufacturers
       .adminDeleteManufacturer(manufacturer_id)
@@ -113,7 +118,7 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async upsertImage(context, req) {
+  async upsertImage(context, req: UpsertImageReq) {
     console.debug('Store manufacturers/upsertImage', 'Dispatched')
 
     // Check if valid image
@@ -150,7 +155,7 @@ export const actions: ActionTree<RootState, RootState> = {
       })
   },
 
-  async deleteImage(context, manufacturer_id) {
+  async deleteImage(context, manufacturer_id: string) {
     console.debug('Store manufacturers/deleteImage', 'Dispatched')
     this.$api.manufacturers
       .adminDeleteManufacturerImage(manufacturer_id)

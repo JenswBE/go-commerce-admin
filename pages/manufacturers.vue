@@ -93,7 +93,7 @@
               />
             </v-toolbar>
           </template>
-          <template v-slot:item.logo="{ item }">
+          <template v-slot:[`item.logo`]="{ item }">
             <img
               :src="item.image_urls === undefined ? '' : item.image_urls['100']"
               class="ma-1"
@@ -122,14 +122,14 @@
               <v-icon small> mdi-close </v-icon>
             </v-btn>
           </template>
-          <template v-slot:item.website_url="{ item }">
+          <template v-slot:[`item.website_url`]="{ item }">
             <p>
               <a :href="item.website_url" target="_blank">{{
                 item.website_url
               }}</a>
             </p>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-btn icon @click="editManufacturer(item)">
               <v-icon small> mdi-pencil </v-icon>
             </v-btn>
