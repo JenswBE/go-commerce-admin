@@ -6,9 +6,9 @@ import {
 } from '../api/api'
 
 declare module 'vue/types/vue' {
-    // this.$myInjectedFunction inside Vue components
+    // this.$api inside Vue components
     interface Vue {
-        $myInjectedFunction(message: string): void
+        $api: Api
     }
 }
 
