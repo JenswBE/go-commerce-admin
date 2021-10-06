@@ -61,7 +61,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8090/admin',
+    baseURL: 'http://localhost:8090/api',
   },
 
   i18n: {

@@ -38,9 +38,9 @@ interface Api {
 
 const api: Plugin = (context, inject) => {
     const api: Api = {
-        categories: CategoriesApiFactory(undefined, undefined, context.$axios) as CategoriesApi,
-        manufacturers: ManufacturersApiFactory(undefined, undefined, context.$axios) as ManufacturersApi,
-        products: ProductsApiFactory(undefined, undefined, context.$axios) as ProductsApi,
+        categories: CategoriesApiFactory(undefined, context.$axios.defaults.baseURL, context.$axios) as CategoriesApi,
+        manufacturers: ManufacturersApiFactory(undefined, context.$axios.defaults.baseURL, context.$axios) as ManufacturersApi,
+        products: ProductsApiFactory(undefined, context.$axios.defaults.baseURL, context.$axios) as ProductsApi,
     }
 
     inject('api', api)
