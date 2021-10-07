@@ -62,14 +62,8 @@ export default {
   publicRuntimeConfig: {
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {
-      browserBaseURL: process.env.BACKEND_URL_EXTERAL,
-    },
-  },
-
-  privateRuntimeConfig: {
-    // Axios module configuration: https://go.nuxtjs.dev/config-axios
-    axios: {
-      baseURL: process.env.BACKEND_URL_INTERNAL,
+      baseURL: process.env.BACKEND_URL, // Just to be sure, target is static anyway
+      browserBaseURL: process.env.BACKEND_URL,
     },
   },
 

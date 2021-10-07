@@ -13,8 +13,7 @@ Admin site for [go-commerce](https://github.com/JenswBE/go-commerce)
 
 ## Configuration
 
-- `BACKEND_URL_INTERNAL`: URL for the backend when rendering with SSR. Usually uses name of docker container.
-- `BACKEND_URL_EXTERNAL`: URL for the backend for the browser. This is the domain name the backend is publicly reachable on.
+- `BACKEND_URL`: Public URL of the backend
 
 ## Build
 
