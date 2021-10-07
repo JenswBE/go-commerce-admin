@@ -59,6 +59,20 @@ export default {
     middleware: ['auth'],
   },
 
+  publicRuntimeConfig: {
+    // Axios module configuration: https://go.nuxtjs.dev/config-axios
+    axios: {
+      browserBaseURL: process.env.BACKEND_URL_EXTERAL,
+    },
+  },
+
+  privateRuntimeConfig: {
+    // Axios module configuration: https://go.nuxtjs.dev/config-axios
+    axios: {
+      baseURL: process.env.BACKEND_URL_INTERNAL,
+    },
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:8090/api',
