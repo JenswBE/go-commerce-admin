@@ -454,6 +454,7 @@ export interface ProductList {
  * @export
  * @enum {string}
  */
+
 export enum ProductStatus {
     Available = 'AVAILABLE',
     Archived = 'ARCHIVED'
@@ -462,100 +463,112 @@ export enum ProductStatus {
 /**
  * 
  * @export
- * @interface ProductWithManufacturer
+ * @interface ResolvedProduct
  */
-export interface ProductWithManufacturer {
+export interface ResolvedProduct {
     /**
      * Compressed representation of ID
      * @type {string}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     id?: string;
     /**
      * 
      * @type {string}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     created_at?: string;
     /**
      * 
      * @type {string}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     updated_at?: string;
     /**
      * 
      * @type {string}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     description_short?: string;
     /**
      * 
      * @type {string}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     description_long?: string;
     /**
      * Price in cents
      * @type {number}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     price: number;
     /**
      * 
      * @type {Array<string>}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     category_ids?: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     manufacturer_id?: string;
     /**
      * 
      * @type {ProductStatus}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     status?: ProductStatus;
     /**
      * 
      * @type {number}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     stock_count?: number;
     /**
      * 
      * @type {Array<{ [key: string]: string; }>}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     image_urls?: Array<{ [key: string]: string; }>;
     /**
      * 
      * @type {Manufacturer}
-     * @memberof ProductWithManufacturer
+     * @memberof ResolvedProduct
      */
     manufacturer?: Manufacturer;
+    /**
+     * 
+     * @type {Array<Category>}
+     * @memberof ResolvedProduct
+     */
+    categories?: Array<Category>;
 }
 /**
  * 
  * @export
- * @interface ProductWithManufacturerAllOf
+ * @interface ResolvedProductAllOf
  */
-export interface ProductWithManufacturerAllOf {
+export interface ResolvedProductAllOf {
     /**
      * 
      * @type {Manufacturer}
-     * @memberof ProductWithManufacturerAllOf
+     * @memberof ResolvedProductAllOf
      */
     manufacturer?: Manufacturer;
+    /**
+     * 
+     * @type {Array<Category>}
+     * @memberof ResolvedProductAllOf
+     */
+    categories?: Array<Category>;
 }
 
 /**
@@ -2102,10 +2115,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * Get product details
          * @param {string} id ID
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+         * @param {boolean} [resolve] The returned object should include related objects.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetProduct: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        adminGetProduct: async (id: string, img?: Array<string>, resolve?: boolean, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('adminGetProduct', 'id', id)
             const localVarPath = `/admin/products/{id}/`
@@ -2127,6 +2141,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (resolve !== undefined) {
+                localVarQueryParameter['resolve'] = resolve;
             }
 
 
@@ -2314,10 +2332,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * Get product details
          * @param {string} id ID
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+         * @param {boolean} [resolve] The returned object should include related objects.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetProduct: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        publicGetProduct: async (id: string, img?: Array<string>, resolve?: boolean, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('publicGetProduct', 'id', id)
             const localVarPath = `/public/products/{id}/`
@@ -2335,6 +2354,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (resolve !== undefined) {
+                localVarQueryParameter['resolve'] = resolve;
             }
 
 
@@ -2439,11 +2462,12 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * Get product details
          * @param {string} id ID
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+         * @param {boolean} [resolve] The returned object should include related objects.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminGetProduct(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductWithManufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetProduct(id, img, options);
+        async adminGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResolvedProduct>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetProduct(id, img, resolve, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2494,11 +2518,12 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * Get product details
          * @param {string} id ID
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+         * @param {boolean} [resolve] The returned object should include related objects.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async publicGetProduct(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductWithManufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetProduct(id, img, options);
+        async publicGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResolvedProduct>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetProduct(id, img, resolve, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2564,11 +2589,12 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * Get product details
          * @param {string} id ID
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+         * @param {boolean} [resolve] The returned object should include related objects.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetProduct(id: string, img?: Array<string>, options?: any): AxiosPromise<ProductWithManufacturer> {
-            return localVarFp.adminGetProduct(id, img, options).then((request) => request(axios, basePath));
+        adminGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): AxiosPromise<ResolvedProduct> {
+            return localVarFp.adminGetProduct(id, img, resolve, options).then((request) => request(axios, basePath));
         },
         /**
          * Get product images
@@ -2614,11 +2640,12 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * Get product details
          * @param {string} id ID
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+         * @param {boolean} [resolve] The returned object should include related objects.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        publicGetProduct(id: string, img?: Array<string>, options?: any): AxiosPromise<ProductWithManufacturer> {
-            return localVarFp.publicGetProduct(id, img, options).then((request) => request(axios, basePath));
+        publicGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): AxiosPromise<ResolvedProduct> {
+            return localVarFp.publicGetProduct(id, img, resolve, options).then((request) => request(axios, basePath));
         },
         /**
          * List products
@@ -2690,12 +2717,13 @@ export class ProductsApi extends BaseAPI {
      * Get product details
      * @param {string} id ID
      * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+     * @param {boolean} [resolve] The returned object should include related objects.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminGetProduct(id: string, img?: Array<string>, options?: any) {
-        return ProductsApiFp(this.configuration).adminGetProduct(id, img, options).then((request) => request(this.axios, this.basePath));
+    public adminGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any) {
+        return ProductsApiFp(this.configuration).adminGetProduct(id, img, resolve, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2750,12 +2778,13 @@ export class ProductsApi extends BaseAPI {
      * Get product details
      * @param {string} id ID
      * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
+     * @param {boolean} [resolve] The returned object should include related objects.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public publicGetProduct(id: string, img?: Array<string>, options?: any) {
-        return ProductsApiFp(this.configuration).publicGetProduct(id, img, options).then((request) => request(this.axios, this.basePath));
+    public publicGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any) {
+        return ProductsApiFp(this.configuration).publicGetProduct(id, img, resolve, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
