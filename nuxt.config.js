@@ -1,19 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  // Runtime config
-  publicRuntimeConfig: {
-    axios: {
-      baseURL: process.env.BASE_URL,
-    },
-  },
-
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
-
-  // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - GoCommerce',
@@ -53,7 +40,28 @@ export default {
     '@nuxtjs/i18n',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next',
   ],
+
+  auth: {
+    strategies: {
+      authentik: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'http://localhost:9001/application/o/authorize/',
+          token: 'http://localhost:9001/application/o/token/',
+          userInfo: 'http://localhost:9001/application/o/userinfo/',
+          logout: 'http://localhost:9001/if/session-end/go-commerce/',
+        },
+        responseType: 'code',
+        grantType: 'authorization_code',
+        clientId: '2b40261247db3348dc43b4ccc866775fa7ae8965',
+        scope: ['openid', 'profile', 'email'],
+        state: 'UNIQUE_AND_NON_GUESSABLE',
+      },
+    },
+  },
 
   router: {
     middleware: ['auth'],
@@ -70,6 +78,20 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:8090/api',
+  },
+
+  publicRuntimeConfig: {
+    // Axios module configuration: https://go.nuxtjs.dev/config-axios
+    axios: {
+      browserBaseURL: process.env.BACKEND_URL_EXTERNAL,
+    },
+  },
+
+  privateRuntimeConfig: {
+    // Axios module configuration: https://go.nuxtjs.dev/config-axios
+    axios: {
+      baseURL: process.env.BACKEND_URL_INTERNAL,
+    },
   },
 
   i18n: {

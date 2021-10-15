@@ -146,6 +146,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { MetaInfo } from 'vue-meta'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
 import DialogConfirm from '../components/DialogConfirm.vue'
@@ -154,7 +155,7 @@ import { Category } from '../api/api'
 export default Vue.extend({
   components: { DialogConfirm },
 
-  head() {
+  head(): MetaInfo {
     return { title: this.$capitalize(this.$tc('category', 2)) }
   },
 

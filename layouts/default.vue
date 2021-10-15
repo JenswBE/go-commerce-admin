@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer v-model="drawer" clipped fixed app v-if="isLoggedIn">
+    <v-navigation-drawer v-model="drawer" clipped fixed app v-if="loggedIn">
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -20,7 +20,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar clipped-left fixed app v-if="isLoggedIn">
+    <v-app-bar clipped-left fixed app v-if="loggedIn">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer></v-spacer>
@@ -95,7 +95,7 @@ export default {
   },
 
   computed: {
-    ...mapState('auth', ['isLoggedIn']),
+    ...mapState('auth', ['loggedIn']),
     ...mapState('general', ['alert']),
 
     availableLocales() {

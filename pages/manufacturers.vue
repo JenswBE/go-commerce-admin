@@ -152,13 +152,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { MetaInfo } from 'vue-meta'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
 import { Manufacturer } from '../api/api'
 import { Header } from '../interfaces/DataTable.interface'
 
 export default Vue.extend({
-  head() {
+  head(): MetaInfo {
     return { title: this.$capitalize(this.$tc('manufacturer', 2)) }
   },
 

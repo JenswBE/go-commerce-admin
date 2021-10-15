@@ -226,6 +226,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { MetaInfo } from 'vue-meta'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
 import { Header } from '../interfaces/DataTable.interface'
@@ -233,7 +234,7 @@ import { Image, ImageList, Product } from '../api/api'
 import { AddImageReq, DeleteImageReq } from '../store/products'
 
 export default Vue.extend({
-  head() {
+  head(): MetaInfo {
     return { title: this.$capitalize(this.$tc('product', 2)) }
   },
 

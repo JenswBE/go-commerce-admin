@@ -1746,7 +1746,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/axios@npm:^5.13.6":
+"@nuxtjs/auth-next@npm:^5.0.0-1624817847.21691f1":
+  version: 5.0.0-1624817847.21691f1
+  resolution: "@nuxtjs/auth-next@npm:5.0.0-1624817847.21691f1"
+  dependencies:
+    "@nuxtjs/axios": ^5.13.0
+    axios: ^0.21.1
+    body-parser: ^1.19.0
+    consola: ^2.15.3
+    cookie: ^0.4.1
+    defu: ^3.2.2
+    hasha: ^5.2.2
+    jwt-decode: ^3.1.2
+    requrl: ^3.0.2
+  peerDependencies:
+    vue: "*"
+  checksum: 36ac5e399ecc6a007685d5a8012a392e0934db3f0d66e65bcab380efb9eec3914cac92706f200383ad23bc601401434b5ca212da5c8489373c537eb9f2642750
+  languageName: node
+  linkType: hard
+
+"@nuxtjs/axios@npm:^5.13.0, @nuxtjs/axios@npm:^5.13.6":
   version: 5.13.6
   resolution: "@nuxtjs/axios@npm:5.13.6"
   dependencies:
@@ -3091,6 +3110,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"body-parser@npm:^1.19.0":
+  version: 1.19.0
+  resolution: "body-parser@npm:1.19.0"
+  dependencies:
+    bytes: 3.1.0
+    content-type: ~1.0.4
+    debug: 2.6.9
+    depd: ~1.1.2
+    http-errors: 1.7.2
+    iconv-lite: 0.4.24
+    on-finished: ~2.3.0
+    qs: 6.7.0
+    raw-body: 2.4.0
+    type-is: ~1.6.17
+  checksum: 490231b4c89bbd43112762f7ba8e5342c174a6c9f64284a3b0fcabf63277e332f8316765596f1e5b15e4f3a6cf0422e005f4bb3149ed3a224bb025b7a36b9ac1
+  languageName: node
+  linkType: hard
+
 "boolbase@npm:^1.0.0, boolbase@npm:~1.0.0":
   version: 1.0.0
   resolution: "boolbase@npm:1.0.0"
@@ -3299,6 +3336,13 @@ __metadata:
   version: 3.0.0
   resolution: "bytes@npm:3.0.0"
   checksum: a2b386dd8188849a5325f58eef69c3b73c51801c08ffc6963eddc9be244089ba32d19347caf6d145c86f315ae1b1fc7061a32b0c1aa6379e6a719090287ed101
+  languageName: node
+  linkType: hard
+
+"bytes@npm:3.1.0":
+  version: 3.1.0
+  resolution: "bytes@npm:3.1.0"
+  checksum: 7c3b21c5d9d44ed455460d5d36a31abc6fa2ce3807964ba60a4b03fd44454c8cf07bb0585af83bfde1c5cc2ea4bbe5897bc3d18cd15e0acf25a3615a35aba2df
   languageName: node
   linkType: hard
 
@@ -3872,6 +3916,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"content-type@npm:~1.0.4":
+  version: 1.0.4
+  resolution: "content-type@npm:1.0.4"
+  checksum: 3d93585fda985d1554eca5ebd251994327608d2e200978fdbfba21c0c679914d5faf266d17027de44b34a72c7b0745b18584ecccaa7e1fdfb6a68ac7114f12e0
+  languageName: node
+  linkType: hard
+
 "convert-source-map@npm:^1.7.0":
   version: 1.8.0
   resolution: "convert-source-map@npm:1.8.0"
@@ -4414,6 +4465,13 @@ __metadata:
   version: 2.0.4
   resolution: "defu@npm:2.0.4"
   checksum: 685e64d7350cbc48599269d0eb346c80ffa656f4dea7b68fe5cb58cdc2e6681abbcaa77880f6697fac0d8876bfd58bdd4bc4d1607bd1c027e9ecef500086575b
+  languageName: node
+  linkType: hard
+
+"defu@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "defu@npm:3.2.2"
+  checksum: 60e0a5b849bdd9ebf527d65ef721edc144a0570579115fcfd0c3c8d8b5df41304c8a7b9fe82e739f4baccf6fc637cae3e800d16132fc968369786555d4f33621
   languageName: node
   linkType: hard
 
@@ -5530,6 +5588,7 @@ fsevents@~2.3.2:
   dependencies:
     "@nuxt/types": ^2.15.8
     "@nuxt/typescript-build": ^2.1.0
+    "@nuxtjs/auth-next": ^5.0.0-1624817847.21691f1
     "@nuxtjs/axios": ^5.13.6
     "@nuxtjs/i18n": ^7.0.3
     "@nuxtjs/vuetify": ^1.12.1
@@ -5725,6 +5784,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"hasha@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "hasha@npm:5.2.2"
+  dependencies:
+    is-stream: ^2.0.0
+    type-fest: ^0.8.0
+  checksum: 06cc474bed246761ff61c19d629977eb5f53fa817be4313a255a64ae0f433e831a29e83acb6555e3f4592b348497596f1d1653751008dda4f21c9c21ca60ac5a
+  languageName: node
+  linkType: hard
+
 "he@npm:1.2.0, he@npm:^1.1.0, he@npm:^1.2.0":
   version: 1.2.0
   resolution: "he@npm:1.2.0"
@@ -5852,6 +5921,19 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"http-errors@npm:1.7.2":
+  version: 1.7.2
+  resolution: "http-errors@npm:1.7.2"
+  dependencies:
+    depd: ~1.1.2
+    inherits: 2.0.3
+    setprototypeof: 1.1.1
+    statuses: ">= 1.5.0 < 2"
+    toidentifier: 1.0.0
+  checksum: 5534b0ae08e77f5a45a2380f500e781f6580c4ff75b816cb1f09f99a290b57e78a518be6d866db1b48cca6b052c09da2c75fc91fb16a2fe3da3c44d9acbb9972
+  languageName: node
+  linkType: hard
+
 "http-errors@npm:~1.7.2":
   version: 1.7.3
   resolution: "http-errors@npm:1.7.3"
@@ -5933,7 +6015,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"iconv-lite@npm:^0.4.24":
+"iconv-lite@npm:0.4.24, iconv-lite@npm:^0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
   dependencies:
@@ -6676,6 +6758,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"jwt-decode@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "jwt-decode@npm:3.1.2"
+  checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
+  languageName: node
+  linkType: hard
+
 "kind-of@npm:^3.0.2, kind-of@npm:^3.0.3, kind-of@npm:^3.2.0":
   version: 3.2.2
   resolution: "kind-of@npm:3.2.2"
@@ -7023,6 +7112,13 @@ fsevents@~2.3.2:
   version: 2.0.4
   resolution: "mdn-data@npm:2.0.4"
   checksum: add3c95e6d03d301b8a8bcfee3de33f4d07e4c5eee5b79f18d6d737de717e22472deadf67c1a8563983c0b603e10d7df40aa8e5fddf18884dfe118ccec7ae329
+  languageName: node
+  linkType: hard
+
+"media-typer@npm:0.3.0":
+  version: 0.3.0
+  resolution: "media-typer@npm:0.3.0"
+  checksum: af1b38516c28ec95d6b0826f6c8f276c58aec391f76be42aa07646b4e39d317723e869700933ca6995b056db4b09a78c92d5440dc23657e6764be5d28874bba1
   languageName: node
   linkType: hard
 
@@ -9153,6 +9249,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"qs@npm:6.7.0":
+  version: 6.7.0
+  resolution: "qs@npm:6.7.0"
+  checksum: dfd5f6adef50e36e908cfa70a6233871b5afe66fbaca37ecc1da352ba29eb2151a3797991948f158bb37fccde51bd57845cb619a8035287bfc24e4591172c347
+  languageName: node
+  linkType: hard
+
 "qs@npm:^6.9.4":
   version: 6.10.1
   resolution: "qs@npm:6.10.1"
@@ -9235,6 +9338,18 @@ fsevents@~2.3.2:
   version: 1.2.1
   resolution: "range-parser@npm:1.2.1"
   checksum: 0a268d4fea508661cf5743dfe3d5f47ce214fd6b7dec1de0da4d669dd4ef3d2144468ebe4179049eff253d9d27e719c88dae55be64f954e80135a0cada804ec9
+  languageName: node
+  linkType: hard
+
+"raw-body@npm:2.4.0":
+  version: 2.4.0
+  resolution: "raw-body@npm:2.4.0"
+  dependencies:
+    bytes: 3.1.0
+    http-errors: 1.7.2
+    iconv-lite: 0.4.24
+    unpipe: 1.0.0
+  checksum: 6343906939e018c6e633a34a938a5d6d1e93ffcfa48646e00207d53b418e941953b521473950c079347220944dc75ba10e7b3c08bf97e3ac72c7624882db09bb
   languageName: node
   linkType: hard
 
@@ -9423,6 +9538,13 @@ fsevents@~2.3.2:
   version: 1.0.0
   resolution: "requires-port@npm:1.0.0"
   checksum: eee0e303adffb69be55d1a214e415cf42b7441ae858c76dfc5353148644f6fd6e698926fc4643f510d5c126d12a705e7c8ed7e38061113bdf37547ab356797ff
+  languageName: node
+  linkType: hard
+
+"requrl@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "requrl@npm:3.0.2"
+  checksum: 84fbaf4326050de145fdb6037b77416c649453fa1cce19df25776e13b5b89a119224213c2d786acda088b5724b9e085a41aa6d59bf9c3fa19345fc49c7902c7f
   languageName: node
   linkType: hard
 
@@ -10742,6 +10864,23 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"type-fest@npm:^0.8.0":
+  version: 0.8.1
+  resolution: "type-fest@npm:0.8.1"
+  checksum: d61c4b2eba24009033ae4500d7d818a94fd6d1b481a8111612ee141400d5f1db46f199c014766b9fa9b31a6a7374d96fc748c6d688a78a3ce5a33123839becb7
+  languageName: node
+  linkType: hard
+
+"type-is@npm:~1.6.17":
+  version: 1.6.18
+  resolution: "type-is@npm:1.6.18"
+  dependencies:
+    media-typer: 0.3.0
+    mime-types: ~2.1.24
+  checksum: 2c8e47675d55f8b4e404bcf529abdf5036c537a04c2b20177bcf78c9e3c1da69da3942b1346e6edb09e823228c0ee656ef0e033765ec39a70d496ef601a0c657
+  languageName: node
+  linkType: hard
+
 "typedarray@npm:^0.0.6":
   version: 0.0.6
   resolution: "typedarray@npm:0.0.6"
@@ -10900,7 +11039,7 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"unpipe@npm:~1.0.0":
+"unpipe@npm:1.0.0, unpipe@npm:~1.0.0":
   version: 1.0.0
   resolution: "unpipe@npm:1.0.0"
   checksum: 4fa18d8d8d977c55cb09715385c203197105e10a6d220087ec819f50cb68870f02942244f1017565484237f1f8c5d3cd413631b1ae104d3096f24fdfde1b4aa2

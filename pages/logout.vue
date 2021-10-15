@@ -6,10 +6,8 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  mounted() {
-    this.$store
-      .dispatch('auth/logout')
-      .then(() => this.$router.push(this.localePath('/login')))
+  async mounted() {
+    await this.$auth.logout()
   },
 })
 </script>
