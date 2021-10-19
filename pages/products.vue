@@ -338,14 +338,20 @@ export default Vue.extend({
   },
 
   watch: {
-    formOpen(val) {
-      val || this.closeForm()
+    formOpen(val: boolean) {
+      if (!val) {
+        this.closeForm()
+      }
     },
-    editImagesOpen(val) {
-      val || this.closeEditImages()
+    editImagesOpen(val: boolean) {
+      if (!val) {
+        this.closeEditImages()
+      }
     },
-    confirmDeleteOpen(val) {
-      val || this.closeConfirmDelete()
+    confirmDeleteOpen(val: boolean) {
+      if (!val) {
+        this.closeConfirmDelete()
+      }
     },
   },
 
@@ -413,7 +419,7 @@ export default Vue.extend({
       })
     },
 
-    async addImage(e: any) {
+    async addImage(e: File) {
       const req: AddImageReq = {
         product_id: this.activeID,
         image: e,
@@ -425,7 +431,7 @@ export default Vue.extend({
         })
     },
 
-    async deleteImage(e: any) {
+    async deleteImage(e: string) {
       const req: DeleteImageReq = {
         product_id: this.activeID,
         image_id: e,

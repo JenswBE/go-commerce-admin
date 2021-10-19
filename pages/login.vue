@@ -42,7 +42,7 @@ export default Vue.extend({
         await this.$auth.loginWith('authentik')
         this.$router.push('/')
       } catch (e) {
-        this.error = e.response.data.message
+        console.error('Failed to login', e)
       }
     },
   },

@@ -200,12 +200,16 @@ export default Vue.extend({
   },
 
   watch: {
-    formOpen(val) {
-      val || this.closeForm()
+    formOpen(val: boolean) {
+      if (!val) {
+        this.closeForm()
+      }
     },
 
-    confirmDeleteOpen(val) {
-      val || this.closeConfirmDelete()
+    confirmDeleteOpen(val: boolean) {
+      if (!val) {
+        this.closeConfirmDelete()
+      }
     },
   },
 
