@@ -65,7 +65,8 @@ export default {
     goCommerce: {
       // URL template pointing to the public page of a product.
       // Product is available as variable `p`. E.g. `/products/${p.id}`.
-      productURLTemplate: process.env.PRODUCT_URL_TEMPLATE,
+      productURLTemplate:
+        process.env.PRODUCT_URL_TEMPLATE || '/products/${p.id}',
     },
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -79,22 +80,28 @@ export default {
         token: {
           endpoints: {
             authorization:
-              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/auth',
+              process.env.AUTH_URL_AUTHORIZATION ||
+              'http://localhost:9001/auth/realms/bjoetiek/protocol/openid-connect/auth',
             token:
-              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/token',
+              process.env.AUTH_URL_TOKEN ||
+              'http://localhost:9001/auth/realms/bjoetiek/protocol/openid-connect/token',
             userInfo:
-              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/userinfo/',
+              process.env.AUTH_URL_USERINFO ||
+              'http://localhost:9001/auth/realms/bjoetiek/protocol/openid-connect/userinfo/',
             logout:
-              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/logout',
+              process.env.AUTH_URL_LOGOUT ||
+              'http://localhost:9001/auth/realms/bjoetiek/protocol/openid-connect/logout',
           },
           responseType: 'code',
           accessType: 'offline',
           grantType: 'authorization_code',
           codeChallengeMethod: 'S256',
-          clientId: 'go-commerce-admin',
+          clientId: process.env.AUTH_CLIENT_ID || 'go-commerce-admin',
           scope: ['openid', 'profile', 'email'],
-          state: 'UNIQUE_AND_NON_GUESSABLE',
-          logoutRedirectUri: 'http://localhost:3000/login',
+          state: process.env.AUTH_STATE || 'UNIQUE_AND_NON_GUESSABLE',
+          logoutRedirectUri:
+            process.env.AUTH_URL_LOGOUT_REDIRECT ||
+            'http://localhost:3000/login',
         },
       },
     },
