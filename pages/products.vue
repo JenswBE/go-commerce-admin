@@ -202,7 +202,7 @@
             }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <a :href="`${$config.frontendURL}/producten/p/${item.id}`">
+            <a :href="productLink(item)" v-if="productLink(item)">
               <v-icon small class="mx-1">mdi-link-variant</v-icon>
             </a>
             <v-icon small class="mx-1" @click="editProduct(item)">
@@ -286,8 +286,30 @@ export default Vue.extend({
       },
     },
 
-    backendURL(): string {
-      return this.$axios.defaults.baseURL + '/..'
+    productLink() {
+      return (product: Product): string => {
+        // Fallback if ENV variable not set
+        if (!this.$config.goCommerce.productURLTemplate) {
+          return ''
+        }
+
+        // Extract placeholders
+        const template = this.$config.goCommerce.productURLTemplate as string
+        const regex = /\$\{p\..+?\}/g
+        const placeholders = template.match(regex)
+        if (!placeholders) {
+          return template
+        }
+
+        // Replace placeholders
+        let output = template
+        for (const placeholder of placeholders) {
+          const attr = placeholder.slice(4, placeholder.length - 1)
+          const value = (product as any)[attr]
+          output = output.replace(placeholder, value)
+        }
+        return String(output)
+      }
     },
 
     formTitle(): string {

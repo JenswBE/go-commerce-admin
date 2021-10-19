@@ -75,6 +75,7 @@
           open-on-click
         >
           <template v-slot:prepend="{ item }">
+            <!--
             <v-icon small @click="addChild(item)"> mdi-plus </v-icon>
             <v-icon
               small
@@ -86,6 +87,7 @@
             <v-icon small @click="decreaseSortOrder(item)">
               mdi-arrow-right
             </v-icon>
+            -->
             <v-icon
               small
               @click="increaseSortOrder(item)"

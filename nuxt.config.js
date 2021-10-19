@@ -46,19 +46,8 @@ export default {
 
   auth: {
     strategies: {
-      authentik: {
-        scheme: 'oauth2',
-        endpoints: {
-          authorization: 'http://localhost:9001/application/o/authorize/',
-          token: 'http://localhost:9001/application/o/token/',
-          userInfo: 'http://localhost:9001/application/o/userinfo/',
-          logout: 'http://localhost:9001/if/session-end/go-commerce/',
-        },
-        responseType: 'code',
-        grantType: 'authorization_code',
-        clientId: '2b40261247db3348dc43b4ccc866775fa7ae8965',
-        scope: ['openid', 'profile', 'email'],
-        state: 'UNIQUE_AND_NON_GUESSABLE',
+      token: {
+        scheme: '~/plugins/keycloak.js',
       },
     },
   },
@@ -67,23 +56,47 @@ export default {
     middleware: ['auth'],
   },
 
-  publicRuntimeConfig: {
-    // Axios module configuration: https://go.nuxtjs.dev/config-axios
-    axios: {
-      baseURL: process.env.BACKEND_URL, // Just to be sure, target is static anyway
-      browserBaseURL: process.env.BACKEND_URL,
-    },
-  },
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://localhost:8090/api',
   },
 
   publicRuntimeConfig: {
+    goCommerce: {
+      // URL template pointing to the public page of a product.
+      // Product is available as variable `p`. E.g. `/products/${p.id}`.
+      productURLTemplate: process.env.PRODUCT_URL_TEMPLATE,
+    },
+
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
     axios: {
       browserBaseURL: process.env.BACKEND_URL_EXTERNAL,
+    },
+
+    auth: {
+      strategies: {
+        local: false,
+        token: {
+          endpoints: {
+            authorization:
+              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/auth',
+            token:
+              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/token',
+            userInfo:
+              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/userinfo/',
+            logout:
+              'http://localhost:9001/auth/realms/Bjoetiek/protocol/openid-connect/logout',
+          },
+          responseType: 'code',
+          accessType: 'offline',
+          grantType: 'authorization_code',
+          codeChallengeMethod: 'S256',
+          clientId: 'go-commerce-admin',
+          scope: ['openid', 'profile', 'email'],
+          state: 'UNIQUE_AND_NON_GUESSABLE',
+          logoutRedirectUri: 'http://localhost:3000/login',
+        },
+      },
     },
   },
 

@@ -39,7 +39,7 @@ export default Vue.extend({
   methods: {
     async login() {
       try {
-        await this.$auth.loginWith('authentik')
+        await this.$auth.loginWith('token')
         this.$router.push('/')
       } catch (e) {
         console.error('Failed to login', e)
