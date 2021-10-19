@@ -1,21 +1,20 @@
 <template>
-  <v-container>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
-        <v-card class="elevation-12">
-          <v-toolbar color="general">
-            <v-toolbar-title>GoCommerce</v-toolbar-title>
-            <v-spacer />
-          </v-toolbar>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn align-center justify-center color="general" @click="login">
-              Login
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-    </v-layout>
+  <v-container class="fill-height">
+    <v-row>
+      <v-col class="text-center">
+        <v-btn
+          x-large
+          fab
+          @click="login"
+          width="30vh"
+          height="30vh"
+          style="font-size: 5vh"
+          color="primary"
+        >
+          Login
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -26,14 +25,6 @@ import { MetaInfo } from 'vue-meta'
 export default Vue.extend({
   head(): MetaInfo {
     return { title: 'Login' }
-  },
-
-  data() {
-    return {
-      username: '',
-      password: '',
-      showPassword: false,
-    }
   },
 
   methods: {
