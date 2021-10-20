@@ -12,6 +12,7 @@ RUN yarn build
 # Only install Production dependencies
 RUN rm -rf node_modules
 RUN NODE_ENV=production yarn workspaces focus --all --production
+RUN yarn cache clean --all
 
 # Build final image
 FROM node:lts-alpine
