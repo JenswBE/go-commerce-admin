@@ -87,16 +87,16 @@ export default {
           endpoints: {
             authorization:
               process.env.AUTH_URL_AUTHORIZATION ||
-              'http://localhost:9001/auth/realms/go-commerce/protocol/openid-connect/auth',
+              'http://127.0.0.1:9001/auth/realms/go-commerce/protocol/openid-connect/auth',
             token:
               process.env.AUTH_URL_TOKEN ||
-              'http://localhost:9001/auth/realms/go-commerce/protocol/openid-connect/token',
+              'http://127.0.0.1:9001/auth/realms/go-commerce/protocol/openid-connect/token',
             userInfo:
               process.env.AUTH_URL_USERINFO ||
-              'http://localhost:9001/auth/realms/go-commerce/protocol/openid-connect/userinfo/',
+              'http://127.0.0.1:9001/auth/realms/go-commerce/protocol/openid-connect/userinfo/',
             logout:
               process.env.AUTH_URL_LOGOUT ||
-              'http://localhost:9001/auth/realms/go-commerce/protocol/openid-connect/logout',
+              'http://127.0.0.1:9001/auth/realms/go-commerce/protocol/openid-connect/logout',
           },
           responseType: 'code',
           accessType: 'offline',

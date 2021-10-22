@@ -202,7 +202,11 @@
             }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <a :href="productLink(item)" v-if="productLink(item)">
+            <a
+              target="_blank"
+              :href="productLink(item)"
+              v-if="productLink(item)"
+            >
               <v-icon small class="mx-1">mdi-link-variant</v-icon>
             </a>
             <v-icon small class="mx-1" @click="editProduct(item)">
