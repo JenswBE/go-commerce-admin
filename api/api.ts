@@ -129,6 +129,64 @@ export interface CategoryList {
 /**
  * 
  * @export
+ * @interface GocomError
+ */
+export interface GocomError {
+    /**
+     * HTTP status code
+     * @type {number}
+     * @memberof GocomError
+     */
+    status?: number;
+    /**
+     * 
+     * @type {GocomErrorCode}
+     * @memberof GocomError
+     */
+    code: GocomErrorCode;
+    /**
+     * Human-readable description of the error
+     * @type {string}
+     * @memberof GocomError
+     */
+    message: string;
+    /**
+     * Object to which this error is related
+     * @type {string}
+     * @memberof GocomError
+     */
+    instance?: string;
+}
+/**
+ * - CATEGORY_NAME_EMPTY: Category name is required and cannot be empty - CATEGORY_ORDER_NEGATIVE: Category order should be a positive integer - CATEGORY_PARENT_ID_INVALID: Parent ID of the category is invalid - IMAGE_ORDER_NEGATIVE: Image order should be a positive integer - INVALID_AUTH_TOKEN: Provided authentication token is invalid - INVALID_ID: Provided short ID or UUID is invalid - MISSING_ADMIN_ROLE: Required role \"admin\" is missing on provided authentication token - PARAMETER_MISSING: A required URL parameter is missing - PRODUCT_CATEGORY_IDS_INVALID: Category ID\'s of product are invalid - PRODUCT_MANUFACTURER_ID_INVALID: Manufacturer ID of the product is invalid - PRODUCT_NAME_EMPTY: Product name is required and cannot be empty - PRODUCT_PRICE_NEGATIVE: Product price should be a positive integer - SINGLE_IMAGE_IN_FORM: Exactly one image is expected in multipart form, but none or multiple are provided - UNKNOWN_CATEGORY: The category does not exist - UNKNOWN_ERROR: An unknown error occurred - UNKNOWN_IMAGE: The image does not exist - UNKNOWN_MANUFACTURER: The manufacturer does not exist - UNKNOWN_PRODUCT: The product does not exist 
+ * @export
+ * @enum {string}
+ */
+
+export enum GocomErrorCode {
+    CategoryNameEmpty = 'CATEGORY_NAME_EMPTY',
+    CategoryOrderNegative = 'CATEGORY_ORDER_NEGATIVE',
+    CategoryParentIdInvalid = 'CATEGORY_PARENT_ID_INVALID',
+    ImageOrderNegative = 'IMAGE_ORDER_NEGATIVE',
+    InvalidAuthToken = 'INVALID_AUTH_TOKEN',
+    InvalidId = 'INVALID_ID',
+    MissingAdminRole = 'MISSING_ADMIN_ROLE',
+    ParameterMissing = 'PARAMETER_MISSING',
+    ProductCategoryIdsInvalid = 'PRODUCT_CATEGORY_IDS_INVALID',
+    ProductManufacturerIdInvalid = 'PRODUCT_MANUFACTURER_ID_INVALID',
+    ProductNameEmpty = 'PRODUCT_NAME_EMPTY',
+    ProductPriceNegative = 'PRODUCT_PRICE_NEGATIVE',
+    SingleImageInForm = 'SINGLE_IMAGE_IN_FORM',
+    UnknownCategory = 'UNKNOWN_CATEGORY',
+    UnknownError = 'UNKNOWN_ERROR',
+    UnknownImage = 'UNKNOWN_IMAGE',
+    UnknownManufacturer = 'UNKNOWN_MANUFACTURER',
+    UnknownProduct = 'UNKNOWN_PRODUCT'
+}
+
+/**
+ * 
+ * @export
  * @interface Header
  */
 export interface Header {
@@ -583,10 +641,10 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddCategory: async (category: Category, options: any = {}): Promise<RequestArgs> => {
+        addCategory: async (category: Category, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'category' is not null or undefined
-            assertParamExists('adminAddCategory', 'category', category)
-            const localVarPath = `/admin/categories/`;
+            assertParamExists('addCategory', 'category', category)
+            const localVarPath = `/categories/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -597,10 +655,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -622,10 +676,10 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteCategory: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteCategory: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminDeleteCategory', 'id', id)
-            const localVarPath = `/admin/categories/{id}/`
+            assertParamExists('deleteCategory', 'id', id)
+            const localVarPath = `/categories/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -637,10 +691,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -659,10 +709,10 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteCategoryImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteCategoryImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminDeleteCategoryImage', 'id', id)
-            const localVarPath = `/admin/categories/{id}/image/`
+            assertParamExists('deleteCategoryImage', 'id', id)
+            const localVarPath = `/categories/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -674,10 +724,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -697,10 +743,10 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetCategory: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getCategory: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminGetCategory', 'id', id)
-            const localVarPath = `/admin/categories/{id}/`
+            assertParamExists('getCategory', 'id', id)
+            const localVarPath = `/categories/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -712,10 +758,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -738,8 +780,8 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListCategories: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/admin/categories/`;
+        listCategories: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/categories/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -750,10 +792,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -777,12 +815,12 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateCategory: async (id: string, category: Category, options: any = {}): Promise<RequestArgs> => {
+        updateCategory: async (id: string, category: Category, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminUpdateCategory', 'id', id)
+            assertParamExists('updateCategory', 'id', id)
             // verify required parameter 'category' is not null or undefined
-            assertParamExists('adminUpdateCategory', 'category', category)
-            const localVarPath = `/admin/categories/{id}/`
+            assertParamExists('updateCategory', 'category', category)
+            const localVarPath = `/categories/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -794,10 +832,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -821,10 +855,10 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertCategoryImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
+        upsertCategoryImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminUpsertCategoryImage', 'id', id)
-            const localVarPath = `/admin/categories/{id}/image/`
+            assertParamExists('upsertCategoryImage', 'id', id)
+            const localVarPath = `/categories/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -837,10 +871,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -858,78 +888,6 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get category details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicGetCategory: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('publicGetCategory', 'id', id)
-            const localVarPath = `/public/categories/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (img) {
-                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List categories
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicListCategories: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/public/categories/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (img) {
-                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -952,8 +910,8 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminAddCategory(category: Category, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminAddCategory(category, options);
+        async addCategory(category: Category, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addCategory(category, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -962,8 +920,8 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminDeleteCategory(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminDeleteCategory(id, options);
+        async deleteCategory(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCategory(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -972,8 +930,8 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminDeleteCategoryImage(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminDeleteCategoryImage(id, options);
+        async deleteCategoryImage(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCategoryImage(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -983,8 +941,8 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminGetCategory(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetCategory(id, img, options);
+        async getCategory(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCategory(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -993,8 +951,8 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListCategories(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListCategories(img, options);
+        async listCategories(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listCategories(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1004,8 +962,8 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpdateCategory(id: string, category: Category, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpdateCategory(id, category, options);
+        async updateCategory(id: string, category: Category, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateCategory(id, category, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1016,29 +974,8 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpsertCategoryImage(id, img, file, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * Get category details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async publicGetCategory(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetCategory(id, img, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * List categories
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async publicListCategories(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListCategories(img, options);
+        async upsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.upsertCategoryImage(id, img, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1057,8 +994,8 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddCategory(category: Category, options?: any): AxiosPromise<Category> {
-            return localVarFp.adminAddCategory(category, options).then((request) => request(axios, basePath));
+        addCategory(category: Category, options?: any): AxiosPromise<Category> {
+            return localVarFp.addCategory(category, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete category
@@ -1066,8 +1003,8 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteCategory(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.adminDeleteCategory(id, options).then((request) => request(axios, basePath));
+        deleteCategory(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteCategory(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete image
@@ -1075,8 +1012,8 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteCategoryImage(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.adminDeleteCategoryImage(id, options).then((request) => request(axios, basePath));
+        deleteCategoryImage(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteCategoryImage(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Get category details
@@ -1085,8 +1022,8 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetCategory(id: string, img?: Array<string>, options?: any): AxiosPromise<Category> {
-            return localVarFp.adminGetCategory(id, img, options).then((request) => request(axios, basePath));
+        getCategory(id: string, img?: Array<string>, options?: any): AxiosPromise<Category> {
+            return localVarFp.getCategory(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List categories
@@ -1094,8 +1031,8 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListCategories(img?: Array<string>, options?: any): AxiosPromise<CategoryList> {
-            return localVarFp.adminListCategories(img, options).then((request) => request(axios, basePath));
+        listCategories(img?: Array<string>, options?: any): AxiosPromise<CategoryList> {
+            return localVarFp.listCategories(img, options).then((request) => request(axios, basePath));
         },
         /**
          * Update category
@@ -1104,8 +1041,8 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateCategory(id: string, category: Category, options?: any): AxiosPromise<Category> {
-            return localVarFp.adminUpdateCategory(id, category, options).then((request) => request(axios, basePath));
+        updateCategory(id: string, category: Category, options?: any): AxiosPromise<Category> {
+            return localVarFp.updateCategory(id, category, options).then((request) => request(axios, basePath));
         },
         /**
          * Upsert image
@@ -1115,27 +1052,8 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
-            return localVarFp.adminUpsertCategoryImage(id, img, file, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get category details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicGetCategory(id: string, img?: Array<string>, options?: any): AxiosPromise<Category> {
-            return localVarFp.publicGetCategory(id, img, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * List categories
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicListCategories(img?: Array<string>, options?: any): AxiosPromise<CategoryList> {
-            return localVarFp.publicListCategories(img, options).then((request) => request(axios, basePath));
+        upsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
+            return localVarFp.upsertCategoryImage(id, img, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1154,8 +1072,8 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminAddCategory(category: Category, options?: any) {
-        return CategoriesApiFp(this.configuration).adminAddCategory(category, options).then((request) => request(this.axios, this.basePath));
+    public addCategory(category: Category, options?: any) {
+        return CategoriesApiFp(this.configuration).addCategory(category, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1165,8 +1083,8 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminDeleteCategory(id: string, options?: any) {
-        return CategoriesApiFp(this.configuration).adminDeleteCategory(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteCategory(id: string, options?: any) {
+        return CategoriesApiFp(this.configuration).deleteCategory(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1176,8 +1094,8 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminDeleteCategoryImage(id: string, options?: any) {
-        return CategoriesApiFp(this.configuration).adminDeleteCategoryImage(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteCategoryImage(id: string, options?: any) {
+        return CategoriesApiFp(this.configuration).deleteCategoryImage(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1188,8 +1106,8 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminGetCategory(id: string, img?: Array<string>, options?: any) {
-        return CategoriesApiFp(this.configuration).adminGetCategory(id, img, options).then((request) => request(this.axios, this.basePath));
+    public getCategory(id: string, img?: Array<string>, options?: any) {
+        return CategoriesApiFp(this.configuration).getCategory(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1199,8 +1117,8 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminListCategories(img?: Array<string>, options?: any) {
-        return CategoriesApiFp(this.configuration).adminListCategories(img, options).then((request) => request(this.axios, this.basePath));
+    public listCategories(img?: Array<string>, options?: any) {
+        return CategoriesApiFp(this.configuration).listCategories(img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1211,8 +1129,8 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminUpdateCategory(id: string, category: Category, options?: any) {
-        return CategoriesApiFp(this.configuration).adminUpdateCategory(id, category, options).then((request) => request(this.axios, this.basePath));
+    public updateCategory(id: string, category: Category, options?: any) {
+        return CategoriesApiFp(this.configuration).updateCategory(id, category, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1224,31 +1142,8 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public adminUpsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any) {
-        return CategoriesApiFp(this.configuration).adminUpsertCategoryImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get category details
-     * @param {string} id ID
-     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CategoriesApi
-     */
-    public publicGetCategory(id: string, img?: Array<string>, options?: any) {
-        return CategoriesApiFp(this.configuration).publicGetCategory(id, img, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List categories
-     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CategoriesApi
-     */
-    public publicListCategories(img?: Array<string>, options?: any) {
-        return CategoriesApiFp(this.configuration).publicListCategories(img, options).then((request) => request(this.axios, this.basePath));
+    public upsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any) {
+        return CategoriesApiFp(this.configuration).upsertCategoryImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1265,10 +1160,10 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddManufacturer: async (manufacturer: Manufacturer, options: any = {}): Promise<RequestArgs> => {
+        addManufacturer: async (manufacturer: Manufacturer, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'manufacturer' is not null or undefined
-            assertParamExists('adminAddManufacturer', 'manufacturer', manufacturer)
-            const localVarPath = `/admin/manufacturers/`;
+            assertParamExists('addManufacturer', 'manufacturer', manufacturer)
+            const localVarPath = `/manufacturers/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1279,10 +1174,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -1304,10 +1195,10 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteManufacturer: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteManufacturer: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminDeleteManufacturer', 'id', id)
-            const localVarPath = `/admin/manufacturers/{id}/`
+            assertParamExists('deleteManufacturer', 'id', id)
+            const localVarPath = `/manufacturers/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1319,10 +1210,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -1341,10 +1228,10 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteManufacturerImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteManufacturerImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminDeleteManufacturerImage', 'id', id)
-            const localVarPath = `/admin/manufacturers/{id}/image/`
+            assertParamExists('deleteManufacturerImage', 'id', id)
+            const localVarPath = `/manufacturers/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1356,10 +1243,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -1379,10 +1262,10 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetManufacturer: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getManufacturer: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminGetManufacturer', 'id', id)
-            const localVarPath = `/admin/manufacturers/{id}/`
+            assertParamExists('getManufacturer', 'id', id)
+            const localVarPath = `/manufacturers/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1394,10 +1277,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -1420,8 +1299,8 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListManufacturers: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/admin/manufacturers/`;
+        listManufacturers: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/manufacturers/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1432,10 +1311,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -1459,12 +1334,12 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateManufacturer: async (id: string, manufacturer: Manufacturer, options: any = {}): Promise<RequestArgs> => {
+        updateManufacturer: async (id: string, manufacturer: Manufacturer, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminUpdateManufacturer', 'id', id)
+            assertParamExists('updateManufacturer', 'id', id)
             // verify required parameter 'manufacturer' is not null or undefined
-            assertParamExists('adminUpdateManufacturer', 'manufacturer', manufacturer)
-            const localVarPath = `/admin/manufacturers/{id}/`
+            assertParamExists('updateManufacturer', 'manufacturer', manufacturer)
+            const localVarPath = `/manufacturers/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1476,10 +1351,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -1503,10 +1374,10 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertManufacturerImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
+        upsertManufacturerImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminUpsertManufacturerImage', 'id', id)
-            const localVarPath = `/admin/manufacturers/{id}/image/`
+            assertParamExists('upsertManufacturerImage', 'id', id)
+            const localVarPath = `/manufacturers/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1519,10 +1390,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -1546,78 +1413,6 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * Get manufacturer details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicGetManufacturer: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('publicGetManufacturer', 'id', id)
-            const localVarPath = `/public/manufacturers/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (img) {
-                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List manufacturers
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicListManufacturers: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/public/manufacturers/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (img) {
-                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -1634,8 +1429,8 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminAddManufacturer(manufacturer: Manufacturer, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminAddManufacturer(manufacturer, options);
+        async addManufacturer(manufacturer: Manufacturer, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addManufacturer(manufacturer, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1644,8 +1439,8 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminDeleteManufacturer(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminDeleteManufacturer(id, options);
+        async deleteManufacturer(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteManufacturer(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1654,8 +1449,8 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminDeleteManufacturerImage(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminDeleteManufacturerImage(id, options);
+        async deleteManufacturerImage(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteManufacturerImage(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1665,8 +1460,8 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminGetManufacturer(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetManufacturer(id, img, options);
+        async getManufacturer(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getManufacturer(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1675,8 +1470,8 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListManufacturers(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListManufacturers(img, options);
+        async listManufacturers(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listManufacturers(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1686,8 +1481,8 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpdateManufacturer(id: string, manufacturer: Manufacturer, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpdateManufacturer(id, manufacturer, options);
+        async updateManufacturer(id: string, manufacturer: Manufacturer, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateManufacturer(id, manufacturer, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1698,29 +1493,8 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpsertManufacturerImage(id, img, file, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * Get manufacturer details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async publicGetManufacturer(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetManufacturer(id, img, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * List manufacturers
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async publicListManufacturers(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListManufacturers(img, options);
+        async upsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.upsertManufacturerImage(id, img, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1739,8 +1513,8 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddManufacturer(manufacturer: Manufacturer, options?: any): AxiosPromise<Manufacturer> {
-            return localVarFp.adminAddManufacturer(manufacturer, options).then((request) => request(axios, basePath));
+        addManufacturer(manufacturer: Manufacturer, options?: any): AxiosPromise<Manufacturer> {
+            return localVarFp.addManufacturer(manufacturer, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete manufacturer
@@ -1748,8 +1522,8 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteManufacturer(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.adminDeleteManufacturer(id, options).then((request) => request(axios, basePath));
+        deleteManufacturer(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteManufacturer(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete image
@@ -1757,8 +1531,8 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteManufacturerImage(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.adminDeleteManufacturerImage(id, options).then((request) => request(axios, basePath));
+        deleteManufacturerImage(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteManufacturerImage(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Get manufacturer details
@@ -1767,8 +1541,8 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetManufacturer(id: string, img?: Array<string>, options?: any): AxiosPromise<Manufacturer> {
-            return localVarFp.adminGetManufacturer(id, img, options).then((request) => request(axios, basePath));
+        getManufacturer(id: string, img?: Array<string>, options?: any): AxiosPromise<Manufacturer> {
+            return localVarFp.getManufacturer(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List manufacturers
@@ -1776,8 +1550,8 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListManufacturers(img?: Array<string>, options?: any): AxiosPromise<ManufacturerList> {
-            return localVarFp.adminListManufacturers(img, options).then((request) => request(axios, basePath));
+        listManufacturers(img?: Array<string>, options?: any): AxiosPromise<ManufacturerList> {
+            return localVarFp.listManufacturers(img, options).then((request) => request(axios, basePath));
         },
         /**
          * Update manufacturer
@@ -1786,8 +1560,8 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateManufacturer(id: string, manufacturer: Manufacturer, options?: any): AxiosPromise<Manufacturer> {
-            return localVarFp.adminUpdateManufacturer(id, manufacturer, options).then((request) => request(axios, basePath));
+        updateManufacturer(id: string, manufacturer: Manufacturer, options?: any): AxiosPromise<Manufacturer> {
+            return localVarFp.updateManufacturer(id, manufacturer, options).then((request) => request(axios, basePath));
         },
         /**
          * Upsert image
@@ -1797,27 +1571,8 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
-            return localVarFp.adminUpsertManufacturerImage(id, img, file, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get manufacturer details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicGetManufacturer(id: string, img?: Array<string>, options?: any): AxiosPromise<Manufacturer> {
-            return localVarFp.publicGetManufacturer(id, img, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * List manufacturers
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicListManufacturers(img?: Array<string>, options?: any): AxiosPromise<ManufacturerList> {
-            return localVarFp.publicListManufacturers(img, options).then((request) => request(axios, basePath));
+        upsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
+            return localVarFp.upsertManufacturerImage(id, img, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1836,8 +1591,8 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminAddManufacturer(manufacturer: Manufacturer, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminAddManufacturer(manufacturer, options).then((request) => request(this.axios, this.basePath));
+    public addManufacturer(manufacturer: Manufacturer, options?: any) {
+        return ManufacturersApiFp(this.configuration).addManufacturer(manufacturer, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1847,8 +1602,8 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminDeleteManufacturer(id: string, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminDeleteManufacturer(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteManufacturer(id: string, options?: any) {
+        return ManufacturersApiFp(this.configuration).deleteManufacturer(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1858,8 +1613,8 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminDeleteManufacturerImage(id: string, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminDeleteManufacturerImage(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteManufacturerImage(id: string, options?: any) {
+        return ManufacturersApiFp(this.configuration).deleteManufacturerImage(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1870,8 +1625,8 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminGetManufacturer(id: string, img?: Array<string>, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminGetManufacturer(id, img, options).then((request) => request(this.axios, this.basePath));
+    public getManufacturer(id: string, img?: Array<string>, options?: any) {
+        return ManufacturersApiFp(this.configuration).getManufacturer(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1881,8 +1636,8 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminListManufacturers(img?: Array<string>, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminListManufacturers(img, options).then((request) => request(this.axios, this.basePath));
+    public listManufacturers(img?: Array<string>, options?: any) {
+        return ManufacturersApiFp(this.configuration).listManufacturers(img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1893,8 +1648,8 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminUpdateManufacturer(id: string, manufacturer: Manufacturer, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminUpdateManufacturer(id, manufacturer, options).then((request) => request(this.axios, this.basePath));
+    public updateManufacturer(id: string, manufacturer: Manufacturer, options?: any) {
+        return ManufacturersApiFp(this.configuration).updateManufacturer(id, manufacturer, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1906,31 +1661,8 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public adminUpsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any) {
-        return ManufacturersApiFp(this.configuration).adminUpsertManufacturerImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get manufacturer details
-     * @param {string} id ID
-     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ManufacturersApi
-     */
-    public publicGetManufacturer(id: string, img?: Array<string>, options?: any) {
-        return ManufacturersApiFp(this.configuration).publicGetManufacturer(id, img, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List manufacturers
-     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ManufacturersApi
-     */
-    public publicListManufacturers(img?: Array<string>, options?: any) {
-        return ManufacturersApiFp(this.configuration).publicListManufacturers(img, options).then((request) => request(this.axios, this.basePath));
+    public upsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any) {
+        return ManufacturersApiFp(this.configuration).upsertManufacturerImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1947,10 +1679,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddProduct: async (product: Product, options: any = {}): Promise<RequestArgs> => {
+        addProduct: async (product: Product, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'product' is not null or undefined
-            assertParamExists('adminAddProduct', 'product', product)
-            const localVarPath = `/admin/products/`;
+            assertParamExists('addProduct', 'product', product)
+            const localVarPath = `/products/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1961,10 +1693,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -1988,10 +1716,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddProductImages: async (id: string, img?: Array<string>, file?: Array<any>, options: any = {}): Promise<RequestArgs> => {
+        addProductImages: async (id: string, img?: Array<string>, file?: Array<any>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminAddProductImages', 'id', id)
-            const localVarPath = `/admin/products/{id}/images/`
+            assertParamExists('addProductImages', 'id', id)
+            const localVarPath = `/products/{id}/images/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2004,10 +1732,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -2039,10 +1763,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteProduct: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteProduct: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminDeleteProduct', 'id', id)
-            const localVarPath = `/admin/products/{id}/`
+            assertParamExists('deleteProduct', 'id', id)
+            const localVarPath = `/products/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2054,10 +1778,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -2077,12 +1797,12 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteProductImage: async (id: string, imageId: string, options: any = {}): Promise<RequestArgs> => {
+        deleteProductImage: async (id: string, imageId: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminDeleteProductImage', 'id', id)
+            assertParamExists('deleteProductImage', 'id', id)
             // verify required parameter 'imageId' is not null or undefined
-            assertParamExists('adminDeleteProductImage', 'imageId', imageId)
-            const localVarPath = `/admin/products/{id}/images/{image_id}/`
+            assertParamExists('deleteProductImage', 'imageId', imageId)
+            const localVarPath = `/products/{id}/images/{image_id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"image_id"}}`, encodeURIComponent(String(imageId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2095,10 +1815,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -2119,10 +1835,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetProduct: async (id: string, img?: Array<string>, resolve?: boolean, options: any = {}): Promise<RequestArgs> => {
+        getProduct: async (id: string, img?: Array<string>, resolve?: boolean, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminGetProduct', 'id', id)
-            const localVarPath = `/admin/products/{id}/`
+            assertParamExists('getProduct', 'id', id)
+            const localVarPath = `/products/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2134,10 +1850,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -2165,10 +1877,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProductImages: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        listProductImages: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminListProductImages', 'id', id)
-            const localVarPath = `/admin/products/{id}/images/`
+            assertParamExists('listProductImages', 'id', id)
+            const localVarPath = `/products/{id}/images/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2180,10 +1892,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -2206,8 +1914,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProducts: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/admin/products/`;
+        listProducts: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/products/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2218,10 +1926,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
             if (img) {
                 localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
@@ -2245,12 +1949,12 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateProduct: async (id: string, product: Product, options: any = {}): Promise<RequestArgs> => {
+        updateProduct: async (id: string, product: Product, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminUpdateProduct', 'id', id)
+            assertParamExists('updateProduct', 'id', id)
             // verify required parameter 'product' is not null or undefined
-            assertParamExists('adminUpdateProduct', 'product', product)
-            const localVarPath = `/admin/products/{id}/`
+            assertParamExists('updateProduct', 'product', product)
+            const localVarPath = `/products/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2262,10 +1966,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
 
 
     
@@ -2289,14 +1989,14 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateProductImage: async (id: string, imageId: string, image: Image, options: any = {}): Promise<RequestArgs> => {
+        updateProductImage: async (id: string, imageId: string, image: Image, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('adminUpdateProductImage', 'id', id)
+            assertParamExists('updateProductImage', 'id', id)
             // verify required parameter 'imageId' is not null or undefined
-            assertParamExists('adminUpdateProductImage', 'imageId', imageId)
+            assertParamExists('updateProductImage', 'imageId', imageId)
             // verify required parameter 'image' is not null or undefined
-            assertParamExists('adminUpdateProductImage', 'image', image)
-            const localVarPath = `/admin/products/{id}/images/{image_id}/`
+            assertParamExists('updateProductImage', 'image', image)
+            const localVarPath = `/products/{id}/images/{image_id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"image_id"}}`, encodeURIComponent(String(imageId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2310,10 +2010,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication basicAuth required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -2322,83 +2018,6 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(image, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get product details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {boolean} [resolve] The returned object should include related objects.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicGetProduct: async (id: string, img?: Array<string>, resolve?: boolean, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('publicGetProduct', 'id', id)
-            const localVarPath = `/public/products/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (img) {
-                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
-            }
-
-            if (resolve !== undefined) {
-                localVarQueryParameter['resolve'] = resolve;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List products
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicListProducts: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/public/products/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (img) {
-                localVarQueryParameter['img'] = img.join(COLLECTION_FORMATS.csv);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2421,8 +2040,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminAddProduct(product: Product, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminAddProduct(product, options);
+        async addProduct(product: Product, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addProduct(product, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2433,8 +2052,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminAddProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminAddProductImages(id, img, file, options);
+        async addProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addProductImages(id, img, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2443,8 +2062,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminDeleteProduct(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminDeleteProduct(id, options);
+        async deleteProduct(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProduct(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2454,8 +2073,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminDeleteProductImage(id: string, imageId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminDeleteProductImage(id, imageId, options);
+        async deleteProductImage(id: string, imageId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProductImage(id, imageId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2466,8 +2085,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResolvedProduct>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminGetProduct(id, img, resolve, options);
+        async getProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResolvedProduct>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProduct(id, img, resolve, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2477,8 +2096,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListProductImages(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListProductImages(id, img, options);
+        async listProductImages(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProductImages(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2487,8 +2106,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminListProducts(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminListProducts(img, options);
+        async listProducts(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProducts(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2498,8 +2117,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpdateProduct(id: string, product: Product, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpdateProduct(id, product, options);
+        async updateProduct(id: string, product: Product, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProduct(id, product, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2510,30 +2129,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async adminUpdateProductImage(id: string, imageId: string, image: Image, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.adminUpdateProductImage(id, imageId, image, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * Get product details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {boolean} [resolve] The returned object should include related objects.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async publicGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResolvedProduct>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicGetProduct(id, img, resolve, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * List products
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async publicListProducts(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.publicListProducts(img, options);
+        async updateProductImage(id: string, imageId: string, image: Image, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProductImage(id, imageId, image, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2552,8 +2149,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddProduct(product: Product, options?: any): AxiosPromise<Product> {
-            return localVarFp.adminAddProduct(product, options).then((request) => request(axios, basePath));
+        addProduct(product: Product, options?: any): AxiosPromise<Product> {
+            return localVarFp.addProduct(product, options).then((request) => request(axios, basePath));
         },
         /**
          * Add product images
@@ -2563,8 +2160,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminAddProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): AxiosPromise<ImageList> {
-            return localVarFp.adminAddProductImages(id, img, file, options).then((request) => request(axios, basePath));
+        addProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): AxiosPromise<ImageList> {
+            return localVarFp.addProductImages(id, img, file, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete product
@@ -2572,8 +2169,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteProduct(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.adminDeleteProduct(id, options).then((request) => request(axios, basePath));
+        deleteProduct(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteProduct(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete product image
@@ -2582,8 +2179,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteProductImage(id: string, imageId: string, options?: any): AxiosPromise<void> {
-            return localVarFp.adminDeleteProductImage(id, imageId, options).then((request) => request(axios, basePath));
+        deleteProductImage(id: string, imageId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteProductImage(id, imageId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get product details
@@ -2593,8 +2190,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): AxiosPromise<ResolvedProduct> {
-            return localVarFp.adminGetProduct(id, img, resolve, options).then((request) => request(axios, basePath));
+        getProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): AxiosPromise<ResolvedProduct> {
+            return localVarFp.getProduct(id, img, resolve, options).then((request) => request(axios, basePath));
         },
         /**
          * Get product images
@@ -2603,8 +2200,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProductImages(id: string, img?: Array<string>, options?: any): AxiosPromise<ImageList> {
-            return localVarFp.adminListProductImages(id, img, options).then((request) => request(axios, basePath));
+        listProductImages(id: string, img?: Array<string>, options?: any): AxiosPromise<ImageList> {
+            return localVarFp.listProductImages(id, img, options).then((request) => request(axios, basePath));
         },
         /**
          * List products
@@ -2612,8 +2209,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminListProducts(img?: Array<string>, options?: any): AxiosPromise<ProductList> {
-            return localVarFp.adminListProducts(img, options).then((request) => request(axios, basePath));
+        listProducts(img?: Array<string>, options?: any): AxiosPromise<ProductList> {
+            return localVarFp.listProducts(img, options).then((request) => request(axios, basePath));
         },
         /**
          * Update product
@@ -2622,8 +2219,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateProduct(id: string, product: Product, options?: any): AxiosPromise<Product> {
-            return localVarFp.adminUpdateProduct(id, product, options).then((request) => request(axios, basePath));
+        updateProduct(id: string, product: Product, options?: any): AxiosPromise<Product> {
+            return localVarFp.updateProduct(id, product, options).then((request) => request(axios, basePath));
         },
         /**
          * Update product image. In case the new order matches another image, the orders are swapped. Therefore, this call will return all impacted images (1 or 2). First the image on which the request was called and optionally second the swapped image.
@@ -2633,28 +2230,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateProductImage(id: string, imageId: string, image: Image, options?: any): AxiosPromise<ImageList> {
-            return localVarFp.adminUpdateProductImage(id, imageId, image, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get product details
-         * @param {string} id ID
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {boolean} [resolve] The returned object should include related objects.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): AxiosPromise<ResolvedProduct> {
-            return localVarFp.publicGetProduct(id, img, resolve, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * List products
-         * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        publicListProducts(img?: Array<string>, options?: any): AxiosPromise<ProductList> {
-            return localVarFp.publicListProducts(img, options).then((request) => request(axios, basePath));
+        updateProductImage(id: string, imageId: string, image: Image, options?: any): AxiosPromise<ImageList> {
+            return localVarFp.updateProductImage(id, imageId, image, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2673,8 +2250,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminAddProduct(product: Product, options?: any) {
-        return ProductsApiFp(this.configuration).adminAddProduct(product, options).then((request) => request(this.axios, this.basePath));
+    public addProduct(product: Product, options?: any) {
+        return ProductsApiFp(this.configuration).addProduct(product, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2686,8 +2263,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminAddProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any) {
-        return ProductsApiFp(this.configuration).adminAddProductImages(id, img, file, options).then((request) => request(this.axios, this.basePath));
+    public addProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any) {
+        return ProductsApiFp(this.configuration).addProductImages(id, img, file, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2697,8 +2274,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminDeleteProduct(id: string, options?: any) {
-        return ProductsApiFp(this.configuration).adminDeleteProduct(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteProduct(id: string, options?: any) {
+        return ProductsApiFp(this.configuration).deleteProduct(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2709,8 +2286,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminDeleteProductImage(id: string, imageId: string, options?: any) {
-        return ProductsApiFp(this.configuration).adminDeleteProductImage(id, imageId, options).then((request) => request(this.axios, this.basePath));
+    public deleteProductImage(id: string, imageId: string, options?: any) {
+        return ProductsApiFp(this.configuration).deleteProductImage(id, imageId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2722,8 +2299,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any) {
-        return ProductsApiFp(this.configuration).adminGetProduct(id, img, resolve, options).then((request) => request(this.axios, this.basePath));
+    public getProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any) {
+        return ProductsApiFp(this.configuration).getProduct(id, img, resolve, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2734,8 +2311,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminListProductImages(id: string, img?: Array<string>, options?: any) {
-        return ProductsApiFp(this.configuration).adminListProductImages(id, img, options).then((request) => request(this.axios, this.basePath));
+    public listProductImages(id: string, img?: Array<string>, options?: any) {
+        return ProductsApiFp(this.configuration).listProductImages(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2745,8 +2322,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminListProducts(img?: Array<string>, options?: any) {
-        return ProductsApiFp(this.configuration).adminListProducts(img, options).then((request) => request(this.axios, this.basePath));
+    public listProducts(img?: Array<string>, options?: any) {
+        return ProductsApiFp(this.configuration).listProducts(img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2757,8 +2334,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminUpdateProduct(id: string, product: Product, options?: any) {
-        return ProductsApiFp(this.configuration).adminUpdateProduct(id, product, options).then((request) => request(this.axios, this.basePath));
+    public updateProduct(id: string, product: Product, options?: any) {
+        return ProductsApiFp(this.configuration).updateProduct(id, product, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2770,32 +2347,8 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public adminUpdateProductImage(id: string, imageId: string, image: Image, options?: any) {
-        return ProductsApiFp(this.configuration).adminUpdateProductImage(id, imageId, image, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get product details
-     * @param {string} id ID
-     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {boolean} [resolve] The returned object should include related objects.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProductsApi
-     */
-    public publicGetProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any) {
-        return ProductsApiFp(this.configuration).publicGetProduct(id, img, resolve, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List products
-     * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProductsApi
-     */
-    public publicListProducts(img?: Array<string>, options?: any) {
-        return ProductsApiFp(this.configuration).publicListProducts(img, options).then((request) => request(this.axios, this.basePath));
+    public updateProductImage(id: string, imageId: string, image: Image, options?: any) {
+        return ProductsApiFp(this.configuration).updateProductImage(id, imageId, image, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -404,7 +404,7 @@ export default Vue.extend({
       this.activeID = product.id as string
       this.activeProduct = cloneDeep(product)
       this.$api.products
-        .adminListProductImages(this.activeID, ['100'])
+        .listProductImages(this.activeID, ['100'])
         .then(({ data }) => {
           this.images = (data as ImageList).images
           this.editImagesOpen = true

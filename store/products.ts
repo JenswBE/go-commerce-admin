@@ -58,7 +58,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store products/list', 'Dispatched')
     this.$api.products
-      .adminListProducts(ImageConfigs)
+      .listProducts(ImageConfigs)
       .then(({ data }) => {
         const products = data.products.reduce((result, item) => {
           result[item.id as string] = item
@@ -81,7 +81,7 @@ export const actions: ActionTree<RootState, RootState> = {
       delete product.manufacturer_id
     }
     this.$api.products
-      .adminAddProduct(product)
+      .addProduct(product)
       .then(({ data }) => {
         context.commit('ADD_PRODUCT', data)
       })
@@ -100,7 +100,7 @@ export const actions: ActionTree<RootState, RootState> = {
       delete product.manufacturer_id
     }
     this.$api.products
-      .adminUpdateProduct(product.id as string, product)
+      .updateProduct(product.id as string, product)
       .then(({ data }) => {
         context.commit('UPDATE_PRODUCT', data)
       })
@@ -116,7 +116,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async delete(context, product_id: string) {
     console.debug('Store products/delete', 'Dispatched', product_id)
     this.$api.products
-      .adminDeleteProduct(product_id)
+      .deleteProduct(product_id)
       .then(({ data }) => {
         context.commit('DELETE_PRODUCT', product_id)
       })
@@ -144,7 +144,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
     // Call API
     return this.$api.products
-      .adminAddProductImages(req.product_id, ImageConfigs, [req.image])
+      .addProductImages(req.product_id, ImageConfigs, [req.image])
       .then(({ data }) => {
         const urls = data.images.map((img) => img.urls)
         context.commit('SET_PRODUCT_IMAGE_URLS', {
@@ -169,11 +169,11 @@ export const actions: ActionTree<RootState, RootState> = {
 
     // Call API
     this.$api.products
-      .adminDeleteProductImage(req.product_id, req.image_id)
+      .deleteProductImage(req.product_id, req.image_id)
       .then(() => {
         // Refetch product
         this.$api.products
-          .adminGetProduct(req.product_id, ImageConfigs)
+          .getProduct(req.product_id, ImageConfigs)
           .then((product) => {
             context.commit('SET_PRODUCT_IMAGE_URLS', {
               product_id: req.product_id,

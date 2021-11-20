@@ -53,7 +53,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store manufacturers/list', 'Dispatched')
     this.$api.manufacturers
-      .adminListManufacturers(ImageConfigs)
+      .listManufacturers(ImageConfigs)
       .then(({ data }) => {
         const manufacturers = data.manufacturers.reduce((result, item) => {
           result[item.id as string] = item
@@ -73,7 +73,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async add(context, manufacturer: Manufacturer) {
     console.debug('Store manufacturers/add', 'Dispatched', manufacturer)
     this.$api.manufacturers
-      .adminAddManufacturer(manufacturer)
+      .addManufacturer(manufacturer)
       .then(({ data }) => {
         context.commit('ADD_MANUFACTURER', data)
       })
@@ -89,7 +89,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async update(context, manufacturer: Manufacturer) {
     console.debug('Store manufacturers/update', 'Dispatched', manufacturer)
     this.$api.manufacturers
-      .adminUpdateManufacturer(manufacturer.id as string, manufacturer)
+      .updateManufacturer(manufacturer.id as string, manufacturer)
       .then(({ data }) => {
         context.commit('UPDATE_MANUFACTURER', data)
       })
@@ -105,7 +105,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async delete(context, manufacturer_id: string) {
     console.debug('Store manufacturers/delete', 'Dispatched', manufacturer_id)
     this.$api.manufacturers
-      .adminDeleteManufacturer(manufacturer_id)
+      .deleteManufacturer(manufacturer_id)
       .then(() => {
         context.commit('DELETE_MANUFACTURER', manufacturer_id)
       })
@@ -132,11 +132,7 @@ export const actions: ActionTree<RootState, RootState> = {
     }
 
     this.$api.manufacturers
-      .adminUpsertManufacturerImage(
-        req.manufacturer_id,
-        ImageConfigs,
-        req.image
-      )
+      .upsertManufacturerImage(req.manufacturer_id, ImageConfigs, req.image)
       .then(({ data }) => {
         context.commit('SET_MANUFACTURER_IMAGE_URLS', {
           manufacturer_id: req.manufacturer_id,
@@ -158,7 +154,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async deleteImage(context, manufacturer_id: string) {
     console.debug('Store manufacturers/deleteImage', 'Dispatched')
     this.$api.manufacturers
-      .adminDeleteManufacturerImage(manufacturer_id)
+      .deleteManufacturerImage(manufacturer_id)
       .then(() => {
         context.commit('SET_MANUFACTURER_IMAGE_URLS', {
           manufacturer_id: manufacturer_id,

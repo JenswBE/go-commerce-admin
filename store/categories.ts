@@ -57,7 +57,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store categories/list', 'Dispatched')
     this.$api.categories
-      .adminListCategories(ImageConfigs)
+      .listCategories(ImageConfigs)
       .then(({ data }) => {
         const categories = data.categories.reduce((result, item) => {
           result[item.id as string] = item
@@ -77,7 +77,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async add(context, category: Category) {
     console.debug('Store categories/add', 'Dispatched', category)
     this.$api.categories
-      .adminAddCategory(category)
+      .addCategory(category)
       .then(({ data }) => {
         context.commit('ADD_CATEGORY', data)
       })
@@ -93,7 +93,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async update(context, category: Category) {
     console.debug('Store categories/update', 'Dispatched', category)
     this.$api.categories
-      .adminUpdateCategory(category.id as string, category)
+      .updateCategory(category.id as string, category)
       .then(({ data }) => {
         context.commit('UPDATE_CATEGORY', data)
       })
@@ -109,7 +109,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async delete(context, category_id: string) {
     console.debug('Store categories/delete', 'Dispatched', category_id)
     this.$api.categories
-      .adminDeleteCategory(category_id)
+      .deleteCategory(category_id)
       .then(() => {
         context.commit('DELETE_CATEGORY', category_id)
       })
@@ -136,7 +136,7 @@ export const actions: ActionTree<RootState, RootState> = {
     }
 
     this.$api.categories
-      .adminUpsertCategoryImage(req.category_id, ImageConfigs, req.image)
+      .upsertCategoryImage(req.category_id, ImageConfigs, req.image)
       .then(({ data }) => {
         context.commit('SET_CATEGORY_IMAGE_URLS', {
           category_id: req.category_id,
@@ -158,7 +158,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async deleteImage(context, category_id: string) {
     console.debug('Store categories/deleteImage', 'Dispatched')
     this.$api.categories
-      .adminDeleteCategoryImage(category_id)
+      .deleteCategoryImage(category_id)
       .then(() => {
         context.commit('SET_CATEGORY_IMAGE_URLS', {
           category_id: category_id,
