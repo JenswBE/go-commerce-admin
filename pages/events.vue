@@ -4,7 +4,7 @@
       <v-col>
         <v-data-table
           :headers="headers"
-          :items="manufacturersList"
+          :items="eventsList"
           sort-by="name"
           class="elevation-1"
           :search="search"
@@ -29,7 +29,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    {{ $t('addItem', { item: $tc('manufacturer') }) }}
+                    {{ $t('addItem', { item: $tc('event') }) }}
                   </v-btn>
                 </template>
                 <v-card>
@@ -42,29 +42,46 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
-                            v-model="activeManufacturer.name"
+                            v-model="activeEvent.name"
                             :label="$tc('name') | capitalize"
                             :placeholder="
-                              $t('exampleItem', { item: 'JenswBE' })
+                              $t('exampleItem', { item: 'Winter sale' })
                                 | capitalize
                             "
                             append-icon="mdi-close"
-                            @click:append="activeManufacturer.name = ''"
-                            @keydown.enter.prevent="saveManufacturer"
+                            @click:append="activeEvent.name = ''"
+                            @keydown.enter.prevent="saveEvent"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12">
-                          <v-text-field
-                            v-model="activeManufacturer.website_url"
-                            :label="$tc('website') | capitalize"
-                            :placeholder="
-                              $t('exampleItem', { item: 'https://jensw.be' })
-                                | capitalize
-                            "
-                            append-icon="mdi-close"
-                            @click:append="activeManufacturer.website_url = ''"
-                            @keydown.enter.prevent="saveManufacturer"
-                          ></v-text-field>
+                          <v-switch
+                            v-model="activeEvent.wholeDay"
+                            :label="$tc('wholeDays') | capitalize"
+                          />
+                        </v-col>
+                        <v-col :cols="activeEvent.wholeDay ? 12 : 6">
+                          <date-input-with-dialog
+                            v-model="activeEvent.activeStartDate"
+                            :label="$tc('start') | capitalize"
+                          />
+                        </v-col>
+                        <v-col :cols="6" v-show="!activeEvent.wholeDay">
+                          <time-input-with-dialog
+                            v-model="activeEvent.activeStartTime"
+                            :label="$tc('start') | capitalize"
+                          />
+                        </v-col>
+                        <v-col :cols="activeEvent.wholeDay ? 12 : 6">
+                          <date-input-with-dialog
+                            v-model="activeEvent.activeEndDate"
+                            :label="$tc('end') | capitalize"
+                          />
+                        </v-col>
+                        <v-col :cols="6" v-show="!activeEvent.wholeDay">
+                          <time-input-with-dialog
+                            v-model="activeEvent.activeEndTime"
+                            :label="$tc('end') | capitalize"
+                          />
                         </v-col>
                       </v-row>
                     </v-container>
@@ -75,7 +92,7 @@
                     <v-btn color="blue darken-1" text @click="closeForm">
                       {{ $tc('cancel') | capitalize }}
                     </v-btn>
-                    <v-btn color="blue darken-1" text @click="saveManufacturer">
+                    <v-btn color="blue darken-1" text @click="saveEvent">
                       {{ $tc('save') | capitalize }}
                     </v-btn>
                   </v-card-actions>
@@ -83,7 +100,7 @@
               </v-dialog>
               <DialogConfirm
                 v-model="confirmDeleteOpen"
-                @confirm="confirmDeleteManufacturer"
+                @confirm="confirmDeleteEvent"
                 @cancel="closeConfirmDelete"
               />
               <DialogConfirm
@@ -130,10 +147,10 @@
             </p>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-btn icon @click="editManufacturer(item)">
+            <v-btn icon @click="editEvent(item)">
               <v-icon small> mdi-pencil </v-icon>
             </v-btn>
-            <v-btn icon @click="deleteManufacturer(item.id)">
+            <v-btn icon @click="deleteEvent(item.id)">
               <v-icon small> mdi-delete </v-icon>
             </v-btn>
           </template>
@@ -155,12 +172,16 @@ import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
 import cloneDeep from 'lodash.clonedeep'
 import { mapGetters, mapState } from 'vuex'
-import { Manufacturer } from '../api/api'
+import { DateTime } from 'luxon'
+import { Event } from '../api/api'
 import { Header } from '../interfaces/DataTable.interface'
+import DateInputWithDialog from '~/components/DateInputWithDialog.vue'
 
 export default Vue.extend({
+  components: { DateInputWithDialog },
+
   head(): MetaInfo {
-    return { title: this.$capitalize(this.$tc('manufacturer', 2)) }
+    return { title: this.$capitalize(this.$tc('event', 2)) }
   },
 
   data: () => ({
@@ -169,42 +190,48 @@ export default Vue.extend({
     confirmDeleteOpen: false,
     confirmDeleteImageOpen: false,
     activeID: '',
-    activeManufacturer: {
+    activeEvent: {
       name: '',
-      website_url: '',
-    } as Manufacturer,
-    defaultManufacturer: {
+      event_type: '',
+      start: '',
+    } as Event,
+    activeStartDate: '',
+    activeStartTime: '',
+    activeEndDate: '',
+    activeEndTime: '',
+    defaultEvent: {
       name: '',
-      website_url: '',
-    } as Manufacturer,
+      event_type: '',
+      start: '',
+    } as Event,
   }),
 
   computed: {
-    ...mapState('manufacturers', ['manufacturers']),
-    ...mapGetters('manufacturers', ['manufacturersList']),
+    ...mapState('events', ['events']),
+    ...mapGetters('events', ['eventsList']),
 
     formTitle(): string {
       const key = this.activeID === '' ? 'addItem' : 'editItem'
-      const title = this.$t(key, { item: this.$tc('manufacturer') }).toString()
+      const title = this.$t(key, { item: this.$tc('event') }).toString()
       return this.$capitalize(title)
     },
 
     headers(): Header[] {
       return [
         {
-          text: this.$capitalize(this.$tc('name')),
-          value: 'name',
+          text: this.$capitalize(this.$tc('start')),
+          value: 'start',
           sortable: true,
         },
         {
-          text: this.$capitalize(this.$tc('logo')),
-          value: 'logo',
-          sortable: false,
+          text: this.$capitalize(this.$tc('end')),
+          value: 'end',
+          sortable: true,
         },
         {
-          text: this.$capitalize(this.$tc('website')),
-          value: 'website_url',
-          sortable: false,
+          text: this.$capitalize(this.$tc('name')),
+          value: 'name',
+          sortable: true,
         },
         {
           text: this.$capitalize(this.$tc('action', 2)),
@@ -228,30 +255,40 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.$store.dispatch('manufacturers/list')
+    this.$store.dispatch('events/list')
   },
 
   methods: {
-    editManufacturer(manufacturer: Manufacturer) {
-      this.activeID = manufacturer.id as string
-      this.activeManufacturer = cloneDeep(manufacturer)
+    parseAndSplitDateTime(input: string): string[] {
+      const parsed = DateTime.fromISO(input)
+      if (parsed == undefined) {
+        return ['', '']
+      }
+      return [
+        parsed.toISODate(),
+        parsed.toISOTime({
+          suppressSeconds: true,
+          includeOffset: false,
+        }),
+      ]
+    },
+
+    editEvent(event: Event) {
+      this.activeID = event.id as string
+      this.activeEvent = cloneDeep(event)
+      ;[this.activeStartDate, this.activeStartTime] =
+        this.parseAndSplitDateTime(event.start)
+      ;[this.activeEndDate, this.activeEndTime] = this.parseAndSplitDateTime(
+        event.end || ''
+      )
       this.formOpen = true
     },
 
-    saveManufacturer() {
-      const website_url = this.activeManufacturer.website_url
-      if (
-        website_url !== undefined &&
-        website_url.length > 0 &&
-        !website_url.startsWith('http')
-      ) {
-        this.activeManufacturer.website_url = 'https://' + website_url
-      }
-
+    saveEvent() {
       if (this.activeID === '') {
-        this.$store.dispatch('manufacturers/add', this.activeManufacturer)
+        this.$store.dispatch('events/add', this.activeEvent)
       } else {
-        this.$store.dispatch('manufacturers/update', this.activeManufacturer)
+        this.$store.dispatch('events/update', this.activeEvent)
       }
       this.closeForm()
     },
@@ -260,30 +297,34 @@ export default Vue.extend({
       this.formOpen = false
       this.$nextTick(() => {
         this.activeID = ''
-        this.activeManufacturer = cloneDeep(this.defaultManufacturer)
+        this.activeEvent = cloneDeep(this.defaultEvent)
+        this.activeStartDate = ''
+        this.activeStartTime = ''
+        this.activeEndDate = ''
+        this.activeEndTime = ''
       })
     },
 
-    selectImage(manufacturer: Manufacturer) {
-      this.activeID = manufacturer.id as string
+    selectImage(event: Event) {
+      this.activeID = event.id as string
       ;(this.$refs.imageUploader as any).click()
     },
 
     async uploadImage(e: any) {
       const file = e.target.files[0]
-      await this.$store.dispatch('manufacturers/upsertImage', {
-        manufacturer_id: this.activeID,
+      await this.$store.dispatch('events/upsertImage', {
+        event_id: this.activeID,
         image: file,
       })
     },
 
-    deleteManufacturer(manufacturer_id: string) {
-      this.activeID = manufacturer_id
+    deleteEvent(event_id: string) {
+      this.activeID = event_id
       this.confirmDeleteOpen = true
     },
 
-    confirmDeleteManufacturer() {
-      this.$store.dispatch('manufacturers/delete', this.activeID)
+    confirmDeleteEvent() {
+      this.$store.dispatch('events/delete', this.activeID)
       this.closeConfirmDelete()
     },
 
@@ -294,13 +335,13 @@ export default Vue.extend({
       })
     },
 
-    deleteImage(manufacturer_id: string) {
-      this.activeID = manufacturer_id
+    deleteImage(event_id: string) {
+      this.activeID = event_id
       this.confirmDeleteImageOpen = true
     },
 
     confirmDeleteImage() {
-      this.$store.dispatch('manufacturers/deleteImage', this.activeID)
+      this.$store.dispatch('events/deleteImage', this.activeID)
       this.closeConfirmDeleteImage()
     },
 

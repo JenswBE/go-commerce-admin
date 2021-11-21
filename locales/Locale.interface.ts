@@ -4,14 +4,18 @@ export interface Locale {
   add: string
   addItem: string
   amount: string
-  description: string
+  body: string
   cancel: string
   category: string
   close: string
+  content: string
   count: string
   dashboard: string
+  description: string
   edit: string
   editItem: string
+  end: string
+  event: string
   exampleItem: string
   itemIsMandatory: string
   login: string
@@ -32,6 +36,7 @@ export interface Locale {
   save: string
   search: string
   shortDescription: string
+  start: string
   status: string
   stockCount: string
   uploadImage: {
@@ -41,4 +46,5 @@ export interface Locale {
   }
   username: string
   website: string
+  wholeDays: string
 }

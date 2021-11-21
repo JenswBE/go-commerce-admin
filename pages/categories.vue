@@ -185,10 +185,6 @@ export default Vue.extend({
     ...mapState('categories', ['categories']),
     ...mapGetters('categories', ['categoriesList', 'sortedCategoriesList']),
 
-    backendURL(): string {
-      return this.$axios.defaults.baseURL + '/..'
-    },
-
     formTitle(): string {
       const key = this.activeID === '' ? 'addItem' : 'editItem'
       const title = this.$t(key, { item: this.$tc('category') }).toString()

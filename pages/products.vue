@@ -282,10 +282,10 @@ export default Vue.extend({
     ...mapGetters('products', ['productsList']),
 
     activePrice: {
-      get: function () {
+      get() {
         return (this.activeProduct.price as number) / 100.0
       },
-      set: function (newValue: number) {
+      set(newValue: number) {
         this.activeProduct.price = Math.round(newValue * 100)
       },
     },

@@ -132,7 +132,7 @@ export const actions: ActionTree<RootState, RootState> = {
     }
 
     this.$api.manufacturers
-      .upsertManufacturerImage(req.manufacturer_id, ImageConfigs, req.image)
+      .upsertManufacturerImage(req.manufacturer_id, req.image, ImageConfigs)
       .then(({ data }) => {
         context.commit('SET_MANUFACTURER_IMAGE_URLS', {
           manufacturer_id: req.manufacturer_id,

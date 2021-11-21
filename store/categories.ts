@@ -136,7 +136,7 @@ export const actions: ActionTree<RootState, RootState> = {
     }
 
     this.$api.categories
-      .upsertCategoryImage(req.category_id, ImageConfigs, req.image)
+      .upsertCategoryImage(req.category_id, req.image, ImageConfigs)
       .then(({ data }) => {
         context.commit('SET_CATEGORY_IMAGE_URLS', {
           category_id: req.category_id,

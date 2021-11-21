@@ -5,14 +5,18 @@ const nl: Locale = {
   add: 'toevoegen',
   addItem: '{item} @:add',
   amount: 'bedrag',
+  body: 'inhoud',
   category: 'categorie | categorieën',
   cancel: 'annuleren',
   close: 'sluiten',
+  content: 'inhoud',
   count: 'aantal',
   dashboard: 'overzicht',
   description: 'beschrijving | beschrijvingen',
   edit: 'bewerken',
   editItem: '{item} @:edit',
+  end: 'einde',
+  event: 'evenement | evenementen',
   exampleItem: 'bv. {item}',
   login: 'login',
   logo: 'logo',
@@ -33,6 +37,7 @@ const nl: Locale = {
   save: 'opslaan',
   search: 'zoeken',
   shortDescription: 'korte @:description',
+  start: 'start',
   status: 'status',
   stockCount: 'in voorraad',
   uploadImage: {
@@ -42,6 +47,7 @@ const nl: Locale = {
   },
   username: 'gebruikersnaam',
   website: 'website',
+  wholeDays: 'volledige dag(en)',
 }
 
 export default nl

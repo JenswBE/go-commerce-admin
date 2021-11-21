@@ -24,6 +24,18 @@
           {{ $tc('manufacturer', 2) | capitalize }}
         </v-btn>
       </v-col>
+      <v-col cols="4">
+        <v-btn :to="localePath('/events')" x-large block>
+          <v-icon>mdi-calendar</v-icon>
+          {{ $tc('event', 2) | capitalize }}
+        </v-btn>
+      </v-col>
+      <v-col cols="4">
+        <v-btn :to="localePath('/content')" x-large block>
+          <v-icon>mdi-format-font</v-icon>
+          {{ $t('content') | capitalize }}
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>

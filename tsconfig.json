@@ -30,6 +30,7 @@
       "@nuxtjs/auth-next",
       "@types/node",
       "@types/lodash.clonedeep",
+      "@types/luxon",
     ]
   },
   "exclude": [

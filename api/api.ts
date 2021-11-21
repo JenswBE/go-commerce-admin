@@ -14,7 +14,7 @@
 
 
 import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
@@ -32,43 +32,43 @@ export interface Category {
      * @type {string}
      * @memberof Category
      */
-    id?: string;
+    'id'?: string;
     /**
      * 
      * @type {string}
      * @memberof Category
      */
-    name: string;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof Category
      */
-    description?: string;
+    'description'?: string;
     /**
      * Compressed representation of ID
      * @type {string}
      * @memberof Category
      */
-    parent_id?: string;
+    'parent_id'?: string;
     /**
      * Should be sorted ascending by this column
      * @type {number}
      * @memberof Category
      */
-    order: number;
+    'order': number;
     /**
      * 
      * @type {Array<string>}
      * @memberof Category
      */
-    product_ids?: Array<string>;
+    'product_ids'?: Array<string>;
     /**
      * 
      * @type {{ [key: string]: string; }}
      * @memberof Category
      */
-    image_urls?: { [key: string]: string; };
+    'image_urls'?: { [key: string]: string; };
 }
 /**
  * 
@@ -81,37 +81,37 @@ export interface CategoryAllOf {
      * @type {string}
      * @memberof CategoryAllOf
      */
-    name: string;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof CategoryAllOf
      */
-    description?: string;
+    'description'?: string;
     /**
      * Compressed representation of ID
      * @type {string}
      * @memberof CategoryAllOf
      */
-    parent_id?: string;
+    'parent_id'?: string;
     /**
      * Should be sorted ascending by this column
      * @type {number}
      * @memberof CategoryAllOf
      */
-    order: number;
+    'order': number;
     /**
      * 
      * @type {Array<string>}
      * @memberof CategoryAllOf
      */
-    product_ids?: Array<string>;
+    'product_ids'?: Array<string>;
     /**
      * 
      * @type {{ [key: string]: string; }}
      * @memberof CategoryAllOf
      */
-    image_urls?: { [key: string]: string; };
+    'image_urls'?: { [key: string]: string; };
 }
 /**
  * 
@@ -124,7 +124,161 @@ export interface CategoryList {
      * @type {Array<Category>}
      * @memberof CategoryList
      */
-    categories: Array<Category>;
+    'categories': Array<Category>;
+}
+/**
+ * 
+ * @export
+ * @interface Content
+ */
+export interface Content {
+    /**
+     * 
+     * @type {string}
+     * @memberof Content
+     */
+    'name': string;
+    /**
+     * 
+     * @type {ContentType}
+     * @memberof Content
+     */
+    'content_type': ContentType;
+    /**
+     * 
+     * @type {string}
+     * @memberof Content
+     */
+    'body': string;
+}
+/**
+ * 
+ * @export
+ * @interface ContentList
+ */
+export interface ContentList {
+    /**
+     * 
+     * @type {Array<Content>}
+     * @memberof ContentList
+     */
+    'content': Array<Content>;
+}
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export enum ContentType {
+    Simple = 'SIMPLE',
+    Markdown = 'MARKDOWN'
+}
+
+/**
+ * 
+ * @export
+ * @interface Event
+ */
+export interface Event {
+    /**
+     * Compressed representation of ID
+     * @type {string}
+     * @memberof Event
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Event
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Event
+     */
+    'description'?: string;
+    /**
+     * Type of event. Types should be defined in GoCommerce config file.
+     * @type {string}
+     * @memberof Event
+     */
+    'event_type': string;
+    /**
+     * Start of the event. In case \"whole_day\" is true, only the date part is considered.
+     * @type {string}
+     * @memberof Event
+     */
+    'start': string;
+    /**
+     * Optional end of the event. In case \"whole_day\" is true, only the date part is considered.
+     * @type {string}
+     * @memberof Event
+     */
+    'end'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Event
+     */
+    'whole_day'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EventAllOf
+ */
+export interface EventAllOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof EventAllOf
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventAllOf
+     */
+    'description'?: string;
+    /**
+     * Type of event. Types should be defined in GoCommerce config file.
+     * @type {string}
+     * @memberof EventAllOf
+     */
+    'event_type'?: string;
+    /**
+     * Start of the event. In case \"whole_day\" is true, only the date part is considered.
+     * @type {string}
+     * @memberof EventAllOf
+     */
+    'start'?: string;
+    /**
+     * Optional end of the event. In case \"whole_day\" is true, only the date part is considered.
+     * @type {string}
+     * @memberof EventAllOf
+     */
+    'end'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EventAllOf
+     */
+    'whole_day'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface EventList
+ */
+export interface EventList {
+    /**
+     * 
+     * @type {Array<Event>}
+     * @memberof EventList
+     */
+    'events': Array<Event>;
 }
 /**
  * 
@@ -137,28 +291,28 @@ export interface GocomError {
      * @type {number}
      * @memberof GocomError
      */
-    status?: number;
+    'status'?: number;
     /**
      * 
      * @type {GocomErrorCode}
      * @memberof GocomError
      */
-    code: GocomErrorCode;
+    'code': GocomErrorCode;
     /**
      * Human-readable description of the error
      * @type {string}
      * @memberof GocomError
      */
-    message: string;
+    'message': string;
     /**
      * Object to which this error is related
      * @type {string}
      * @memberof GocomError
      */
-    instance?: string;
+    'instance'?: string;
 }
 /**
- * - CATEGORY_NAME_EMPTY: Category name is required and cannot be empty - CATEGORY_ORDER_NEGATIVE: Category order should be a positive integer - CATEGORY_PARENT_ID_INVALID: Parent ID of the category is invalid - IMAGE_ORDER_NEGATIVE: Image order should be a positive integer - INVALID_AUTH_TOKEN: Provided authentication token is invalid - INVALID_ID: Provided short ID or UUID is invalid - MISSING_ADMIN_ROLE: Required role \"admin\" is missing on provided authentication token - PARAMETER_MISSING: A required URL parameter is missing - PRODUCT_CATEGORY_IDS_INVALID: Category ID\'s of product are invalid - PRODUCT_MANUFACTURER_ID_INVALID: Manufacturer ID of the product is invalid - PRODUCT_NAME_EMPTY: Product name is required and cannot be empty - PRODUCT_PRICE_NEGATIVE: Product price should be a positive integer - SINGLE_IMAGE_IN_FORM: Exactly one image is expected in multipart form, but none or multiple are provided - UNKNOWN_CATEGORY: The category does not exist - UNKNOWN_ERROR: An unknown error occurred - UNKNOWN_IMAGE: The image does not exist - UNKNOWN_MANUFACTURER: The manufacturer does not exist - UNKNOWN_PRODUCT: The product does not exist 
+ * - CATEGORY_NAME_EMPTY: Category name is required and cannot be empty - CATEGORY_ORDER_NEGATIVE: Category order should be a positive integer - CATEGORY_PARENT_ID_INVALID: Parent ID of the category is invalid - CONTENT_NAME_EMPTY: Content name is required and cannot be empty - CONTENT_TYPE_INVALID: Content type is empty or has an invalid value - EVENT_END_BEFORE_START: The end date of the event should be equal to or after the start date - IMAGE_ORDER_NEGATIVE: Image order should be a positive integer - INVALID_AUTH_TOKEN: Provided authentication token is invalid - INVALID_ID: Provided short ID or UUID is invalid - MISSING_ADMIN_ROLE: Required role \"admin\" is missing on provided authentication token - PARAMETER_MISSING: A required URL parameter is missing - PRODUCT_CATEGORY_IDS_INVALID: Category ID\'s of product are invalid - PRODUCT_MANUFACTURER_ID_INVALID: Manufacturer ID of the product is invalid - PRODUCT_NAME_EMPTY: Product name is required and cannot be empty - PRODUCT_PRICE_NEGATIVE: Product price should be a positive integer - SINGLE_IMAGE_IN_FORM: Exactly one image is expected in multipart form, but none or multiple are provided - UNKNOWN_CATEGORY: The category does not exist - UNKNOWN_CONTENT: The content does not exist - UNKNOWN_ERROR: An unknown error occurred - UNKNOWN_EVENT: The event does not exist - UNKNOWN_IMAGE: The image does not exist - UNKNOWN_MANUFACTURER: The manufacturer does not exist - UNKNOWN_PRODUCT: The product does not exist 
  * @export
  * @enum {string}
  */
@@ -167,6 +321,9 @@ export enum GocomErrorCode {
     CategoryNameEmpty = 'CATEGORY_NAME_EMPTY',
     CategoryOrderNegative = 'CATEGORY_ORDER_NEGATIVE',
     CategoryParentIdInvalid = 'CATEGORY_PARENT_ID_INVALID',
+    ContentNameEmpty = 'CONTENT_NAME_EMPTY',
+    ContentTypeInvalid = 'CONTENT_TYPE_INVALID',
+    EventEndBeforeStart = 'EVENT_END_BEFORE_START',
     ImageOrderNegative = 'IMAGE_ORDER_NEGATIVE',
     InvalidAuthToken = 'INVALID_AUTH_TOKEN',
     InvalidId = 'INVALID_ID',
@@ -178,7 +335,9 @@ export enum GocomErrorCode {
     ProductPriceNegative = 'PRODUCT_PRICE_NEGATIVE',
     SingleImageInForm = 'SINGLE_IMAGE_IN_FORM',
     UnknownCategory = 'UNKNOWN_CATEGORY',
+    UnknownContent = 'UNKNOWN_CONTENT',
     UnknownError = 'UNKNOWN_ERROR',
+    UnknownEvent = 'UNKNOWN_EVENT',
     UnknownImage = 'UNKNOWN_IMAGE',
     UnknownManufacturer = 'UNKNOWN_MANUFACTURER',
     UnknownProduct = 'UNKNOWN_PRODUCT'
@@ -195,7 +354,7 @@ export interface Header {
      * @type {string}
      * @memberof Header
      */
-    id?: string;
+    'id'?: string;
 }
 /**
  * 
@@ -208,19 +367,19 @@ export interface HeaderTimestamped {
      * @type {string}
      * @memberof HeaderTimestamped
      */
-    id?: string;
+    'id'?: string;
     /**
      * 
      * @type {string}
      * @memberof HeaderTimestamped
      */
-    created_at?: string;
+    'created_at'?: string;
     /**
      * 
      * @type {string}
      * @memberof HeaderTimestamped
      */
-    updated_at?: string;
+    'updated_at'?: string;
 }
 /**
  * 
@@ -233,13 +392,13 @@ export interface HeaderTimestampedAllOf {
      * @type {string}
      * @memberof HeaderTimestampedAllOf
      */
-    created_at?: string;
+    'created_at'?: string;
     /**
      * 
      * @type {string}
      * @memberof HeaderTimestampedAllOf
      */
-    updated_at?: string;
+    'updated_at'?: string;
 }
 /**
  * 
@@ -252,25 +411,25 @@ export interface Image {
      * @type {string}
      * @memberof Image
      */
-    id: string;
+    'id': string;
     /**
      * Extension of the image
      * @type {string}
      * @memberof Image
      */
-    ext: string;
+    'ext': string;
     /**
      * 
      * @type {{ [key: string]: string; }}
      * @memberof Image
      */
-    urls: { [key: string]: string; };
+    'urls': { [key: string]: string; };
     /**
      * Should be sorted ascending by this column
      * @type {number}
      * @memberof Image
      */
-    order: number;
+    'order': number;
 }
 /**
  * 
@@ -283,7 +442,7 @@ export interface ImageList {
      * @type {Array<Image>}
      * @memberof ImageList
      */
-    images: Array<Image>;
+    'images': Array<Image>;
 }
 /**
  * 
@@ -296,25 +455,25 @@ export interface Manufacturer {
      * @type {string}
      * @memberof Manufacturer
      */
-    id?: string;
+    'id'?: string;
     /**
      * 
      * @type {string}
      * @memberof Manufacturer
      */
-    name: string;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof Manufacturer
      */
-    website_url?: string;
+    'website_url'?: string;
     /**
      * 
      * @type {{ [key: string]: string; }}
      * @memberof Manufacturer
      */
-    image_urls?: { [key: string]: string; };
+    'image_urls'?: { [key: string]: string; };
 }
 /**
  * 
@@ -327,19 +486,19 @@ export interface ManufacturerAllOf {
      * @type {string}
      * @memberof ManufacturerAllOf
      */
-    name?: string;
+    'name'?: string;
     /**
      * 
      * @type {string}
      * @memberof ManufacturerAllOf
      */
-    website_url?: string;
+    'website_url'?: string;
     /**
      * 
      * @type {{ [key: string]: string; }}
      * @memberof ManufacturerAllOf
      */
-    image_urls?: { [key: string]: string; };
+    'image_urls'?: { [key: string]: string; };
 }
 /**
  * 
@@ -352,7 +511,7 @@ export interface ManufacturerList {
      * @type {Array<Manufacturer>}
      * @memberof ManufacturerList
      */
-    manufacturers: Array<Manufacturer>;
+    'manufacturers': Array<Manufacturer>;
 }
 /**
  * 
@@ -365,73 +524,73 @@ export interface Product {
      * @type {string}
      * @memberof Product
      */
-    id?: string;
+    'id'?: string;
     /**
      * 
      * @type {string}
      * @memberof Product
      */
-    created_at?: string;
+    'created_at'?: string;
     /**
      * 
      * @type {string}
      * @memberof Product
      */
-    updated_at?: string;
+    'updated_at'?: string;
     /**
      * 
      * @type {string}
      * @memberof Product
      */
-    name: string;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof Product
      */
-    description_short?: string;
+    'description_short'?: string;
     /**
      * 
      * @type {string}
      * @memberof Product
      */
-    description_long?: string;
+    'description_long'?: string;
     /**
      * Price in cents
      * @type {number}
      * @memberof Product
      */
-    price: number;
+    'price': number;
     /**
      * 
      * @type {Array<string>}
      * @memberof Product
      */
-    category_ids?: Array<string>;
+    'category_ids'?: Array<string>;
     /**
      * 
      * @type {string}
      * @memberof Product
      */
-    manufacturer_id?: string;
+    'manufacturer_id'?: string;
     /**
      * 
      * @type {ProductStatus}
      * @memberof Product
      */
-    status?: ProductStatus;
+    'status'?: ProductStatus;
     /**
      * 
      * @type {number}
      * @memberof Product
      */
-    stock_count?: number;
+    'stock_count'?: number;
     /**
      * 
      * @type {Array<{ [key: string]: string; }>}
      * @memberof Product
      */
-    image_urls?: Array<{ [key: string]: string; }>;
+    'image_urls'?: Array<{ [key: string]: string; }>;
 }
 /**
  * 
@@ -444,55 +603,55 @@ export interface ProductAllOf {
      * @type {string}
      * @memberof ProductAllOf
      */
-    name: string;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof ProductAllOf
      */
-    description_short?: string;
+    'description_short'?: string;
     /**
      * 
      * @type {string}
      * @memberof ProductAllOf
      */
-    description_long?: string;
+    'description_long'?: string;
     /**
      * Price in cents
      * @type {number}
      * @memberof ProductAllOf
      */
-    price: number;
+    'price': number;
     /**
      * 
      * @type {Array<string>}
      * @memberof ProductAllOf
      */
-    category_ids?: Array<string>;
+    'category_ids'?: Array<string>;
     /**
      * 
      * @type {string}
      * @memberof ProductAllOf
      */
-    manufacturer_id?: string;
+    'manufacturer_id'?: string;
     /**
      * 
      * @type {ProductStatus}
      * @memberof ProductAllOf
      */
-    status?: ProductStatus;
+    'status'?: ProductStatus;
     /**
      * 
      * @type {number}
      * @memberof ProductAllOf
      */
-    stock_count?: number;
+    'stock_count'?: number;
     /**
      * 
      * @type {Array<{ [key: string]: string; }>}
      * @memberof ProductAllOf
      */
-    image_urls?: Array<{ [key: string]: string; }>;
+    'image_urls'?: Array<{ [key: string]: string; }>;
 }
 /**
  * 
@@ -505,7 +664,7 @@ export interface ProductList {
      * @type {Array<Product>}
      * @memberof ProductList
      */
-    products: Array<Product>;
+    'products': Array<Product>;
 }
 /**
  * 
@@ -529,85 +688,85 @@ export interface ResolvedProduct {
      * @type {string}
      * @memberof ResolvedProduct
      */
-    id?: string;
+    'id'?: string;
     /**
      * 
      * @type {string}
      * @memberof ResolvedProduct
      */
-    created_at?: string;
+    'created_at'?: string;
     /**
      * 
      * @type {string}
      * @memberof ResolvedProduct
      */
-    updated_at?: string;
+    'updated_at'?: string;
     /**
      * 
      * @type {string}
      * @memberof ResolvedProduct
      */
-    name: string;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof ResolvedProduct
      */
-    description_short?: string;
+    'description_short'?: string;
     /**
      * 
      * @type {string}
      * @memberof ResolvedProduct
      */
-    description_long?: string;
+    'description_long'?: string;
     /**
      * Price in cents
      * @type {number}
      * @memberof ResolvedProduct
      */
-    price: number;
+    'price': number;
     /**
      * 
      * @type {Array<string>}
      * @memberof ResolvedProduct
      */
-    category_ids?: Array<string>;
+    'category_ids'?: Array<string>;
     /**
      * 
      * @type {string}
      * @memberof ResolvedProduct
      */
-    manufacturer_id?: string;
+    'manufacturer_id'?: string;
     /**
      * 
      * @type {ProductStatus}
      * @memberof ResolvedProduct
      */
-    status?: ProductStatus;
+    'status'?: ProductStatus;
     /**
      * 
      * @type {number}
      * @memberof ResolvedProduct
      */
-    stock_count?: number;
+    'stock_count'?: number;
     /**
      * 
      * @type {Array<{ [key: string]: string; }>}
      * @memberof ResolvedProduct
      */
-    image_urls?: Array<{ [key: string]: string; }>;
+    'image_urls'?: Array<{ [key: string]: string; }>;
     /**
      * 
      * @type {Manufacturer}
      * @memberof ResolvedProduct
      */
-    manufacturer?: Manufacturer;
+    'manufacturer'?: Manufacturer;
     /**
      * 
      * @type {Array<Category>}
      * @memberof ResolvedProduct
      */
-    categories?: Array<Category>;
+    'categories'?: Array<Category>;
 }
 /**
  * 
@@ -620,13 +779,13 @@ export interface ResolvedProductAllOf {
      * @type {Manufacturer}
      * @memberof ResolvedProductAllOf
      */
-    manufacturer?: Manufacturer;
+    'manufacturer'?: Manufacturer;
     /**
      * 
      * @type {Array<Category>}
      * @memberof ResolvedProductAllOf
      */
-    categories?: Array<Category>;
+    'categories'?: Array<Category>;
 }
 
 /**
@@ -641,7 +800,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addCategory: async (category: Category, options: any = {}): Promise<RequestArgs> => {
+        addCategory: async (category: Category, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'category' is not null or undefined
             assertParamExists('addCategory', 'category', category)
             const localVarPath = `/categories/`;
@@ -660,7 +819,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(category, localVarRequestOptions, configuration)
@@ -676,7 +835,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCategory: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteCategory: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteCategory', 'id', id)
             const localVarPath = `/categories/{id}/`
@@ -694,7 +853,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -709,7 +868,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCategoryImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteCategoryImage: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteCategoryImage', 'id', id)
             const localVarPath = `/categories/{id}/image/`
@@ -727,7 +886,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -743,7 +902,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCategory: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getCategory: async (id: string, img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getCategory', 'id', id)
             const localVarPath = `/categories/{id}/`
@@ -765,7 +924,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -780,7 +939,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listCategories: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        listCategories: async (img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/categories/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -799,7 +958,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -815,7 +974,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCategory: async (id: string, category: Category, options: any = {}): Promise<RequestArgs> => {
+        updateCategory: async (id: string, category: Category, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateCategory', 'id', id)
             // verify required parameter 'category' is not null or undefined
@@ -837,7 +996,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(category, localVarRequestOptions, configuration)
@@ -850,14 +1009,16 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Upsert image
          * @param {string} id ID
+         * @param {any} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        upsertCategoryImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
+        upsertCategoryImage: async (id: string, file: any, img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('upsertCategoryImage', 'id', id)
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('upsertCategoryImage', 'file', file)
             const localVarPath = `/categories/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -884,7 +1045,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
@@ -910,7 +1071,7 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addCategory(category: Category, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+        async addCategory(category: Category, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.addCategory(category, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -920,7 +1081,7 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteCategory(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteCategory(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCategory(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -930,7 +1091,7 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteCategoryImage(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteCategoryImage(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCategoryImage(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -941,7 +1102,7 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCategory(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+        async getCategory(id: string, img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCategory(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -951,7 +1112,7 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listCategories(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
+        async listCategories(img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryList>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listCategories(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -962,20 +1123,20 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateCategory(id: string, category: Category, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
+        async updateCategory(id: string, category: Category, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateCategory(id, category, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Upsert image
          * @param {string} id ID
+         * @param {any} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async upsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.upsertCategoryImage(id, img, file, options);
+        async upsertCategoryImage(id: string, file: any, img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.upsertCategoryImage(id, file, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1047,13 +1208,13 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
         /**
          * Upsert image
          * @param {string} id ID
+         * @param {any} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        upsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
-            return localVarFp.upsertCategoryImage(id, img, file, options).then((request) => request(axios, basePath));
+        upsertCategoryImage(id: string, file: any, img?: Array<string>, options?: any): AxiosPromise<Image> {
+            return localVarFp.upsertCategoryImage(id, file, img, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1072,7 +1233,7 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public addCategory(category: Category, options?: any) {
+    public addCategory(category: Category, options?: AxiosRequestConfig) {
         return CategoriesApiFp(this.configuration).addCategory(category, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1083,7 +1244,7 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public deleteCategory(id: string, options?: any) {
+    public deleteCategory(id: string, options?: AxiosRequestConfig) {
         return CategoriesApiFp(this.configuration).deleteCategory(id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1094,7 +1255,7 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public deleteCategoryImage(id: string, options?: any) {
+    public deleteCategoryImage(id: string, options?: AxiosRequestConfig) {
         return CategoriesApiFp(this.configuration).deleteCategoryImage(id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1106,7 +1267,7 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public getCategory(id: string, img?: Array<string>, options?: any) {
+    public getCategory(id: string, img?: Array<string>, options?: AxiosRequestConfig) {
         return CategoriesApiFp(this.configuration).getCategory(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1117,7 +1278,7 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public listCategories(img?: Array<string>, options?: any) {
+    public listCategories(img?: Array<string>, options?: AxiosRequestConfig) {
         return CategoriesApiFp(this.configuration).listCategories(img, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1129,21 +1290,607 @@ export class CategoriesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public updateCategory(id: string, category: Category, options?: any) {
+    public updateCategory(id: string, category: Category, options?: AxiosRequestConfig) {
         return CategoriesApiFp(this.configuration).updateCategory(id, category, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Upsert image
      * @param {string} id ID
+     * @param {any} file 
      * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {any} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public upsertCategoryImage(id: string, img?: Array<string>, file?: any, options?: any) {
-        return CategoriesApiFp(this.configuration).upsertCategoryImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
+    public upsertCategoryImage(id: string, file: any, img?: Array<string>, options?: AxiosRequestConfig) {
+        return CategoriesApiFp(this.configuration).upsertCategoryImage(id, file, img, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * ContentApi - axios parameter creator
+ * @export
+ */
+export const ContentApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Get content
+         * @param {string} contentName Content name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getContent: async (contentName: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'contentName' is not null or undefined
+            assertParamExists('getContent', 'contentName', contentName)
+            const localVarPath = `/content/{content_name}/`
+                .replace(`{${"content_name"}}`, encodeURIComponent(String(contentName)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List content
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listContent: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/content/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Update content
+         * @param {string} contentName Content name
+         * @param {Content} content 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateContent: async (contentName: string, content: Content, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'contentName' is not null or undefined
+            assertParamExists('updateContent', 'contentName', contentName)
+            // verify required parameter 'content' is not null or undefined
+            assertParamExists('updateContent', 'content', content)
+            const localVarPath = `/content/{content_name}/`
+                .replace(`{${"content_name"}}`, encodeURIComponent(String(contentName)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(content, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ContentApi - functional programming interface
+ * @export
+ */
+export const ContentApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ContentApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Get content
+         * @param {string} contentName Content name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getContent(contentName: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Content>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getContent(contentName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List content
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listContent(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ContentList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listContent(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Update content
+         * @param {string} contentName Content name
+         * @param {Content} content 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateContent(contentName: string, content: Content, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Content>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateContent(contentName, content, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ContentApi - factory interface
+ * @export
+ */
+export const ContentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ContentApiFp(configuration)
+    return {
+        /**
+         * Get content
+         * @param {string} contentName Content name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getContent(contentName: string, options?: any): AxiosPromise<Content> {
+            return localVarFp.getContent(contentName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List content
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listContent(options?: any): AxiosPromise<ContentList> {
+            return localVarFp.listContent(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Update content
+         * @param {string} contentName Content name
+         * @param {Content} content 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateContent(contentName: string, content: Content, options?: any): AxiosPromise<Content> {
+            return localVarFp.updateContent(contentName, content, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ContentApi - object-oriented interface
+ * @export
+ * @class ContentApi
+ * @extends {BaseAPI}
+ */
+export class ContentApi extends BaseAPI {
+    /**
+     * Get content
+     * @param {string} contentName Content name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ContentApi
+     */
+    public getContent(contentName: string, options?: AxiosRequestConfig) {
+        return ContentApiFp(this.configuration).getContent(contentName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List content
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ContentApi
+     */
+    public listContent(options?: AxiosRequestConfig) {
+        return ContentApiFp(this.configuration).listContent(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Update content
+     * @param {string} contentName Content name
+     * @param {Content} content 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ContentApi
+     */
+    public updateContent(contentName: string, content: Content, options?: AxiosRequestConfig) {
+        return ContentApiFp(this.configuration).updateContent(contentName, content, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * EventsApi - axios parameter creator
+ * @export
+ */
+export const EventsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Add event
+         * @param {Event} event 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addEvent: async (event: Event, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'event' is not null or undefined
+            assertParamExists('addEvent', 'event', event)
+            const localVarPath = `/events/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(event, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Delete event
+         * @param {string} id ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteEvent: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteEvent', 'id', id)
+            const localVarPath = `/events/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get event details
+         * @param {string} id ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getEvent: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getEvent', 'id', id)
+            const localVarPath = `/events/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listEvents: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/events/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Update event
+         * @param {string} id ID
+         * @param {Event} event 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateEvent: async (id: string, event: Event, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateEvent', 'id', id)
+            // verify required parameter 'event' is not null or undefined
+            assertParamExists('updateEvent', 'event', event)
+            const localVarPath = `/events/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(event, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * EventsApi - functional programming interface
+ * @export
+ */
+export const EventsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = EventsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Add event
+         * @param {Event} event 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addEvent(event: Event, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addEvent(event, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Delete event
+         * @param {string} id ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteEvent(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteEvent(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Get event details
+         * @param {string} id ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getEvent(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getEvent(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listEvents(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listEvents(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Update event
+         * @param {string} id ID
+         * @param {Event} event 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateEvent(id: string, event: Event, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Event>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateEvent(id, event, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * EventsApi - factory interface
+ * @export
+ */
+export const EventsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = EventsApiFp(configuration)
+    return {
+        /**
+         * Add event
+         * @param {Event} event 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addEvent(event: Event, options?: any): AxiosPromise<Event> {
+            return localVarFp.addEvent(event, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Delete event
+         * @param {string} id ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteEvent(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteEvent(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get event details
+         * @param {string} id ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getEvent(id: string, options?: any): AxiosPromise<Event> {
+            return localVarFp.getEvent(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List events
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listEvents(options?: any): AxiosPromise<EventList> {
+            return localVarFp.listEvents(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Update event
+         * @param {string} id ID
+         * @param {Event} event 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateEvent(id: string, event: Event, options?: any): AxiosPromise<Event> {
+            return localVarFp.updateEvent(id, event, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * EventsApi - object-oriented interface
+ * @export
+ * @class EventsApi
+ * @extends {BaseAPI}
+ */
+export class EventsApi extends BaseAPI {
+    /**
+     * Add event
+     * @param {Event} event 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public addEvent(event: Event, options?: AxiosRequestConfig) {
+        return EventsApiFp(this.configuration).addEvent(event, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Delete event
+     * @param {string} id ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public deleteEvent(id: string, options?: AxiosRequestConfig) {
+        return EventsApiFp(this.configuration).deleteEvent(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get event details
+     * @param {string} id ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public getEvent(id: string, options?: AxiosRequestConfig) {
+        return EventsApiFp(this.configuration).getEvent(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List events
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public listEvents(options?: AxiosRequestConfig) {
+        return EventsApiFp(this.configuration).listEvents(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Update event
+     * @param {string} id ID
+     * @param {Event} event 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApi
+     */
+    public updateEvent(id: string, event: Event, options?: AxiosRequestConfig) {
+        return EventsApiFp(this.configuration).updateEvent(id, event, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1160,7 +1907,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addManufacturer: async (manufacturer: Manufacturer, options: any = {}): Promise<RequestArgs> => {
+        addManufacturer: async (manufacturer: Manufacturer, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'manufacturer' is not null or undefined
             assertParamExists('addManufacturer', 'manufacturer', manufacturer)
             const localVarPath = `/manufacturers/`;
@@ -1179,7 +1926,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(manufacturer, localVarRequestOptions, configuration)
@@ -1195,7 +1942,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteManufacturer: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteManufacturer: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteManufacturer', 'id', id)
             const localVarPath = `/manufacturers/{id}/`
@@ -1213,7 +1960,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1228,7 +1975,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteManufacturerImage: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteManufacturerImage: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteManufacturerImage', 'id', id)
             const localVarPath = `/manufacturers/{id}/image/`
@@ -1246,7 +1993,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1262,7 +2009,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getManufacturer: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        getManufacturer: async (id: string, img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getManufacturer', 'id', id)
             const localVarPath = `/manufacturers/{id}/`
@@ -1284,7 +2031,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1299,7 +2046,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listManufacturers: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        listManufacturers: async (img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/manufacturers/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1318,7 +2065,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1334,7 +2081,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateManufacturer: async (id: string, manufacturer: Manufacturer, options: any = {}): Promise<RequestArgs> => {
+        updateManufacturer: async (id: string, manufacturer: Manufacturer, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateManufacturer', 'id', id)
             // verify required parameter 'manufacturer' is not null or undefined
@@ -1356,7 +2103,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(manufacturer, localVarRequestOptions, configuration)
@@ -1369,14 +2116,16 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
         /**
          * Upsert image
          * @param {string} id ID
+         * @param {any} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        upsertManufacturerImage: async (id: string, img?: Array<string>, file?: any, options: any = {}): Promise<RequestArgs> => {
+        upsertManufacturerImage: async (id: string, file: any, img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('upsertManufacturerImage', 'id', id)
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('upsertManufacturerImage', 'file', file)
             const localVarPath = `/manufacturers/{id}/image/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1403,7 +2152,7 @@ export const ManufacturersApiAxiosParamCreator = function (configuration?: Confi
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
@@ -1429,7 +2178,7 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addManufacturer(manufacturer: Manufacturer, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+        async addManufacturer(manufacturer: Manufacturer, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.addManufacturer(manufacturer, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1439,7 +2188,7 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteManufacturer(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteManufacturer(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteManufacturer(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1449,7 +2198,7 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteManufacturerImage(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteManufacturerImage(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteManufacturerImage(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1460,7 +2209,7 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getManufacturer(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+        async getManufacturer(id: string, img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getManufacturer(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1470,7 +2219,7 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listManufacturers(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
+        async listManufacturers(img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManufacturerList>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listManufacturers(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1481,20 +2230,20 @@ export const ManufacturersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateManufacturer(id: string, manufacturer: Manufacturer, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
+        async updateManufacturer(id: string, manufacturer: Manufacturer, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manufacturer>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateManufacturer(id, manufacturer, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Upsert image
          * @param {string} id ID
+         * @param {any} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async upsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.upsertManufacturerImage(id, img, file, options);
+        async upsertManufacturerImage(id: string, file: any, img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Image>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.upsertManufacturerImage(id, file, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1566,13 +2315,13 @@ export const ManufacturersApiFactory = function (configuration?: Configuration, 
         /**
          * Upsert image
          * @param {string} id ID
+         * @param {any} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {any} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        upsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any): AxiosPromise<Image> {
-            return localVarFp.upsertManufacturerImage(id, img, file, options).then((request) => request(axios, basePath));
+        upsertManufacturerImage(id: string, file: any, img?: Array<string>, options?: any): AxiosPromise<Image> {
+            return localVarFp.upsertManufacturerImage(id, file, img, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1591,7 +2340,7 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public addManufacturer(manufacturer: Manufacturer, options?: any) {
+    public addManufacturer(manufacturer: Manufacturer, options?: AxiosRequestConfig) {
         return ManufacturersApiFp(this.configuration).addManufacturer(manufacturer, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1602,7 +2351,7 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public deleteManufacturer(id: string, options?: any) {
+    public deleteManufacturer(id: string, options?: AxiosRequestConfig) {
         return ManufacturersApiFp(this.configuration).deleteManufacturer(id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1613,7 +2362,7 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public deleteManufacturerImage(id: string, options?: any) {
+    public deleteManufacturerImage(id: string, options?: AxiosRequestConfig) {
         return ManufacturersApiFp(this.configuration).deleteManufacturerImage(id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1625,7 +2374,7 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public getManufacturer(id: string, img?: Array<string>, options?: any) {
+    public getManufacturer(id: string, img?: Array<string>, options?: AxiosRequestConfig) {
         return ManufacturersApiFp(this.configuration).getManufacturer(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1636,7 +2385,7 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public listManufacturers(img?: Array<string>, options?: any) {
+    public listManufacturers(img?: Array<string>, options?: AxiosRequestConfig) {
         return ManufacturersApiFp(this.configuration).listManufacturers(img, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1648,21 +2397,21 @@ export class ManufacturersApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public updateManufacturer(id: string, manufacturer: Manufacturer, options?: any) {
+    public updateManufacturer(id: string, manufacturer: Manufacturer, options?: AxiosRequestConfig) {
         return ManufacturersApiFp(this.configuration).updateManufacturer(id, manufacturer, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Upsert image
      * @param {string} id ID
+     * @param {any} file 
      * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {any} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ManufacturersApi
      */
-    public upsertManufacturerImage(id: string, img?: Array<string>, file?: any, options?: any) {
-        return ManufacturersApiFp(this.configuration).upsertManufacturerImage(id, img, file, options).then((request) => request(this.axios, this.basePath));
+    public upsertManufacturerImage(id: string, file: any, img?: Array<string>, options?: AxiosRequestConfig) {
+        return ManufacturersApiFp(this.configuration).upsertManufacturerImage(id, file, img, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1679,7 +2428,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addProduct: async (product: Product, options: any = {}): Promise<RequestArgs> => {
+        addProduct: async (product: Product, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'product' is not null or undefined
             assertParamExists('addProduct', 'product', product)
             const localVarPath = `/products/`;
@@ -1698,7 +2447,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(product, localVarRequestOptions, configuration)
@@ -1711,14 +2460,16 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * Add product images
          * @param {string} id ID
+         * @param {Array<any>} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {Array<any>} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addProductImages: async (id: string, img?: Array<string>, file?: Array<any>, options: any = {}): Promise<RequestArgs> => {
+        addProductImages: async (id: string, file: Array<any>, img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('addProductImages', 'id', id)
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('addProductImages', 'file', file)
             const localVarPath = `/products/{id}/images/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1747,7 +2498,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
@@ -1763,7 +2514,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteProduct: async (id: string, options: any = {}): Promise<RequestArgs> => {
+        deleteProduct: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteProduct', 'id', id)
             const localVarPath = `/products/{id}/`
@@ -1781,7 +2532,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1797,7 +2548,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteProductImage: async (id: string, imageId: string, options: any = {}): Promise<RequestArgs> => {
+        deleteProductImage: async (id: string, imageId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteProductImage', 'id', id)
             // verify required parameter 'imageId' is not null or undefined
@@ -1818,7 +2569,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1835,7 +2586,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProduct: async (id: string, img?: Array<string>, resolve?: boolean, options: any = {}): Promise<RequestArgs> => {
+        getProduct: async (id: string, img?: Array<string>, resolve?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getProduct', 'id', id)
             const localVarPath = `/products/{id}/`
@@ -1861,7 +2612,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1877,7 +2628,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listProductImages: async (id: string, img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        listProductImages: async (id: string, img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('listProductImages', 'id', id)
             const localVarPath = `/products/{id}/images/`
@@ -1899,7 +2650,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1914,7 +2665,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listProducts: async (img?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+        listProducts: async (img?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/products/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1933,7 +2684,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -1949,7 +2700,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProduct: async (id: string, product: Product, options: any = {}): Promise<RequestArgs> => {
+        updateProduct: async (id: string, product: Product, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateProduct', 'id', id)
             // verify required parameter 'product' is not null or undefined
@@ -1971,7 +2722,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(product, localVarRequestOptions, configuration)
@@ -1989,7 +2740,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProductImage: async (id: string, imageId: string, image: Image, options: any = {}): Promise<RequestArgs> => {
+        updateProductImage: async (id: string, imageId: string, image: Image, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateProductImage', 'id', id)
             // verify required parameter 'imageId' is not null or undefined
@@ -2014,7 +2765,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(image, localVarRequestOptions, configuration)
@@ -2040,20 +2791,20 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addProduct(product: Product, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
+        async addProduct(product: Product, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.addProduct(product, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Add product images
          * @param {string} id ID
+         * @param {Array<any>} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {Array<any>} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addProductImages(id, img, file, options);
+        async addProductImages(id: string, file: Array<any>, img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addProductImages(id, file, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2062,7 +2813,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteProduct(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteProduct(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProduct(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2073,7 +2824,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteProductImage(id: string, imageId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteProductImage(id: string, imageId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteProductImage(id, imageId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2085,7 +2836,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResolvedProduct>> {
+        async getProduct(id: string, img?: Array<string>, resolve?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResolvedProduct>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getProduct(id, img, resolve, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2096,7 +2847,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listProductImages(id: string, img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+        async listProductImages(id: string, img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listProductImages(id, img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2106,7 +2857,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listProducts(img?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
+        async listProducts(img?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductList>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listProducts(img, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2117,7 +2868,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProduct(id: string, product: Product, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
+        async updateProduct(id: string, product: Product, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Product>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProduct(id, product, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2129,7 +2880,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateProductImage(id: string, imageId: string, image: Image, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
+        async updateProductImage(id: string, imageId: string, image: Image, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageList>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateProductImage(id, imageId, image, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2155,13 +2906,13 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         /**
          * Add product images
          * @param {string} id ID
+         * @param {Array<any>} file 
          * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-         * @param {Array<any>} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any): AxiosPromise<ImageList> {
-            return localVarFp.addProductImages(id, img, file, options).then((request) => request(axios, basePath));
+        addProductImages(id: string, file: Array<any>, img?: Array<string>, options?: any): AxiosPromise<ImageList> {
+            return localVarFp.addProductImages(id, file, img, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete product
@@ -2250,21 +3001,21 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public addProduct(product: Product, options?: any) {
+    public addProduct(product: Product, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).addProduct(product, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Add product images
      * @param {string} id ID
+     * @param {Array<any>} file 
      * @param {Array<string>} [img] Comma separated list of ImageConfig. Check ImageConfig for exact format.
-     * @param {Array<any>} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public addProductImages(id: string, img?: Array<string>, file?: Array<any>, options?: any) {
-        return ProductsApiFp(this.configuration).addProductImages(id, img, file, options).then((request) => request(this.axios, this.basePath));
+    public addProductImages(id: string, file: Array<any>, img?: Array<string>, options?: AxiosRequestConfig) {
+        return ProductsApiFp(this.configuration).addProductImages(id, file, img, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2274,7 +3025,7 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public deleteProduct(id: string, options?: any) {
+    public deleteProduct(id: string, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).deleteProduct(id, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2286,7 +3037,7 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public deleteProductImage(id: string, imageId: string, options?: any) {
+    public deleteProductImage(id: string, imageId: string, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).deleteProductImage(id, imageId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2299,7 +3050,7 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public getProduct(id: string, img?: Array<string>, resolve?: boolean, options?: any) {
+    public getProduct(id: string, img?: Array<string>, resolve?: boolean, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).getProduct(id, img, resolve, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2311,7 +3062,7 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public listProductImages(id: string, img?: Array<string>, options?: any) {
+    public listProductImages(id: string, img?: Array<string>, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).listProductImages(id, img, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2322,7 +3073,7 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public listProducts(img?: Array<string>, options?: any) {
+    public listProducts(img?: Array<string>, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).listProducts(img, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2334,7 +3085,7 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public updateProduct(id: string, product: Product, options?: any) {
+    public updateProduct(id: string, product: Product, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).updateProduct(id, product, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2347,7 +3098,7 @@ export class ProductsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ProductsApi
      */
-    public updateProductImage(id: string, imageId: string, image: Image, options?: any) {
+    public updateProductImage(id: string, imageId: string, image: Image, options?: AxiosRequestConfig) {
         return ProductsApiFp(this.configuration).updateProductImage(id, imageId, image, options).then((request) => request(this.axios, this.basePath));
     }
 }

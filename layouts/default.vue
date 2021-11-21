@@ -90,6 +90,16 @@ export default {
           icon: 'mdi-factory',
           to: '/manufacturers',
         },
+        {
+          title: { key: 'event', plural: true },
+          icon: 'mdi-calendar',
+          to: '/events',
+        },
+        {
+          title: { key: 'content', plural: false },
+          icon: 'mdi-format-font',
+          to: '/content',
+        },
       ],
     }
   },

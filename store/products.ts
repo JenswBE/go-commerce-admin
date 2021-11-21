@@ -144,7 +144,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
     // Call API
     return this.$api.products
-      .addProductImages(req.product_id, ImageConfigs, [req.image])
+      .addProductImages(req.product_id, [req.image], ImageConfigs)
       .then(({ data }) => {
         const urls = data.images.map((img) => img.urls)
         context.commit('SET_PRODUCT_IMAGE_URLS', {

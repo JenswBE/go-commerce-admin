@@ -5,14 +5,18 @@ const en: Locale = {
   add: 'add',
   addItem: '@:add {item}',
   amount: 'amount',
+  body: 'body',
   category: 'category | categories',
   cancel: 'cancel',
   close: 'close',
+  content: 'content',
   count: 'count',
   dashboard: 'dashboard',
   description: 'description | descriptions',
   edit: 'edit',
   editItem: '@:edit {item}',
+  end: 'end',
+  event: 'event | events',
   exampleItem: 'e.g. {item}',
   login: 'login',
   logo: 'logo',
@@ -33,6 +37,7 @@ const en: Locale = {
   save: 'save',
   search: 'search',
   shortDescription: 'short @:description',
+  start: 'start',
   status: 'status',
   stockCount: 'stock count',
   uploadImage: {
@@ -42,6 +47,7 @@ const en: Locale = {
   },
   username: 'username',
   website: 'website',
+  wholeDays: 'whole day(s)',
 }
 
 export default en
