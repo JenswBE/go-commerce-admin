@@ -50,7 +50,10 @@ export const actions: ActionTree<RootState, RootState> = {
       .catch((e) => {
         const alert: Alert = {
           type: AlertType.Error,
-          message: `Content ophalen mislukt: ${e.message}`,
+          message:
+            this.$i18n
+              .t('fetchItemFailed', { item: this.$i18n.tc('content', 1) })
+              .toString() + `: ${e.message}`,
         }
         context.commit('general/SET_ALERT', alert, { root: true })
       })
@@ -66,7 +69,10 @@ export const actions: ActionTree<RootState, RootState> = {
       .catch((e) => {
         const alert: Alert = {
           type: AlertType.Error,
-          message: `Content bijwerken mislukt: ${e.message}`,
+          message:
+            this.$i18n
+              .t('updateItemFailed', { item: this.$i18n.tc('content', 1) })
+              .toString() + `: ${e.message}`,
         }
         context.commit('general/SET_ALERT', alert, { root: true })
       })

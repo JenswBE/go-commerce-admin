@@ -68,7 +68,10 @@ export const actions: ActionTree<RootState, RootState> = {
       .catch((e) => {
         const alert: Alert = {
           type: AlertType.Error,
-          message: `Categorien ophalen mislukt: ${e.message}`,
+          message:
+            this.$i18n
+              .t('fetchItemFailed', { item: this.$i18n.tc('category', 2) })
+              .toString() + `: ${e.message}`,
         }
         context.commit('general/SET_ALERT', alert, { root: true })
       })
@@ -84,7 +87,10 @@ export const actions: ActionTree<RootState, RootState> = {
       .catch((e) => {
         const alert: Alert = {
           type: AlertType.Error,
-          message: `Categorie toevoegen mislukt: ${e.message}`,
+          message:
+            this.$i18n
+              .t('addItemFailed', { item: this.$i18n.tc('category', 1) })
+              .toString() + `: ${e.message}`,
         }
         context.commit('general/SET_ALERT', alert, { root: true })
       })
@@ -100,7 +106,10 @@ export const actions: ActionTree<RootState, RootState> = {
       .catch((e) => {
         const alert: Alert = {
           type: AlertType.Error,
-          message: `Categorie bijwerken mislukt: ${e.message}`,
+          message:
+            this.$i18n
+              .t('updateItemFailed', { item: this.$i18n.tc('category', 1) })
+              .toString() + `: ${e.message}`,
         }
         context.commit('general/SET_ALERT', alert, { root: true })
       })
@@ -116,7 +125,10 @@ export const actions: ActionTree<RootState, RootState> = {
       .catch((e) => {
         const alert: Alert = {
           type: AlertType.Error,
-          message: `Categorie verwijderen mislukt: ${e.message}`,
+          message:
+            this.$i18n
+              .t('deleteItemFailed', { item: this.$i18n.tc('category', 1) })
+              .toString() + `: ${e.message}`,
         }
         context.commit('general/SET_ALERT', alert, { root: true })
       })

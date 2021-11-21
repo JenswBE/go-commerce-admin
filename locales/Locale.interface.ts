@@ -3,6 +3,7 @@ export interface Locale {
   action: string
   add: string
   addItem: string
+  addItemFailed: string
   amount: string
   body: string
   cancel: string
@@ -11,12 +12,14 @@ export interface Locale {
   content: string
   count: string
   dashboard: string
+  deleteItemFailed: string
   description: string
   edit: string
   editItem: string
   end: string
   event: string
   exampleItem: string
+  fetchItemFailed: string
   itemIsMandatory: string
   login: string
   logo: string
@@ -39,6 +42,7 @@ export interface Locale {
   start: string
   status: string
   stockCount: string
+  updateItemFailed: string
   uploadImage: {
     deleteFailed: string
     notAnImage: string

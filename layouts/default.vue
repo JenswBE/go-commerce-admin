@@ -52,7 +52,7 @@
     </v-app-bar>
 
     <v-snackbar v-model="showAlert" :color="alert.type" top>
-      {{ alert.message }}
+      {{ alert.message | capitalize }}
     </v-snackbar>
 
     <v-main>
