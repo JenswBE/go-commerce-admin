@@ -48,6 +48,7 @@ export default {
     '@nuxtjs/axios',
     // https://auth.nuxtjs.org/
     '@nuxtjs/auth-next',
+    'vue2-editor/nuxt',
   ],
 
   auth: {

@@ -172,7 +172,7 @@ export interface ContentList {
 
 export enum ContentType {
     Simple = 'SIMPLE',
-    Markdown = 'MARKDOWN'
+    Html = 'HTML'
 }
 
 /**

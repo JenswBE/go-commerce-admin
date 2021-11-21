@@ -7,14 +7,15 @@
           :items="contentList"
           sort-by="name"
           class="elevation-1"
-          :search="search"
           hide-default-footer
         >
           <template v-slot:top>
-            <v-dialog v-model="formOpen" max-width="500px">
+            <v-dialog v-model="formOpen" width="80vw">
               <v-card>
                 <v-card-title>
-                  <span class="headline">{{ formTitle }}</span>
+                  <span class="headline">
+                    {{ $t('editItem', { item: $tc('content') }) | capitalize }}
+                  </span>
                 </v-card-title>
 
                 <v-card-text>
@@ -22,11 +23,19 @@
                     <v-row>
                       <v-col cols="12">
                         <v-textarea
-                          v-model="activeBody"
+                          v-if="contentType === contentTypes.Simple"
+                          v-model="activeContent.body"
                           append-icon="mdi-close"
-                          @click:append="activeBody = ''"
+                          @click:append="activeContent.body = ''"
                           @keydown.enter.ctrl.prevent="updateContent"
                         ></v-textarea>
+                        <client-only>
+                          <VueEditor
+                            v-if="contentType === contentTypes.Html"
+                            v-model="activeContent.body"
+                            :editor-toolbar="customQuillToolbar"
+                          />
+                        </client-only>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -44,6 +53,9 @@
               </v-card>
             </v-dialog>
           </template>
+          <template v-slot:[`item.body`]="{ item }">
+            <p>{{ formatBody(item.body) }}</p>
+          </template>
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn icon @click="editContent(item)">
               <v-icon small> mdi-pencil </v-icon>
@@ -59,34 +71,29 @@
 import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
 import { mapGetters, mapState } from 'vuex'
-import { Content } from '../api/api'
+import { Content, ContentType } from '../api/api'
 import { Header } from '../interfaces/DataTable.interface'
-import DateInputWithDialog from '~/components/DateInputWithDialog.vue'
 import { cloneDeep } from 'lodash'
 
 export default Vue.extend({
-  components: { DateInputWithDialog },
-
   head(): MetaInfo {
     return { title: this.$capitalize(this.$tc('content', 2)) }
   },
 
   data: () => ({
-    search: '',
     formOpen: false,
-    activeName: '',
-    activeBody: '',
+    activeContent: {} as Content,
+    contentTypes: ContentType,
+    customQuillToolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['clean'],
+    ],
   }),
 
   computed: {
     ...mapState('content', ['content']),
     ...mapGetters('content', ['contentList']),
-
-    formTitle(): string {
-      const key = this.activeName === '' ? 'addItem' : 'editItem'
-      const title = this.$t(key, { item: this.$tc('content') }).toString()
-      return this.$capitalize(title)
-    },
 
     headers(): Header[] {
       return [
@@ -107,6 +114,12 @@ export default Vue.extend({
         },
       ]
     },
+
+    contentType(): ContentType {
+      return this.activeContent !== undefined
+        ? this.activeContent.content_type
+        : ContentType.Simple
+    },
   },
 
   watch: {
@@ -120,24 +133,32 @@ export default Vue.extend({
   },
 
   methods: {
+    formatBody(input: string): string {
+      // Strip HTML
+      // Based on https://stackoverflow.com/a/31516115
+      let tmp = document.createElement('div')
+      tmp.innerHTML = input
+      const bodyText = tmp.textContent || tmp.innerText
+
+      // Trim if too long
+      if (bodyText.length > 100) {
+        return bodyText.substr(0, 97) + '...'
+      }
+      return bodyText
+    },
+
     editContent(content: Content) {
-      this.activeName = content.name
-      this.activeBody = content.body
+      this.activeContent = cloneDeep(content)
       this.formOpen = true
     },
 
     updateContent() {
-      let currentContent = cloneDeep(this.content[this.activeName] as Content)
-      currentContent.body = this.activeBody
-      this.$store.dispatch('content/update', currentContent)
+      this.$store.dispatch('content/update', this.activeContent)
       this.closeForm()
     },
 
     closeForm() {
       this.formOpen = false
-      this.$nextTick(() => {
-        this.activeName = ''
-      })
     },
   },
 })
