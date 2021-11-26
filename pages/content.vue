@@ -54,7 +54,7 @@
             </v-dialog>
           </template>
           <template v-slot:[`item.body`]="{ item }">
-            <p>{{ formatBody(item.body) }}</p>
+            {{ formatBody(item.body) }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn icon @click="editContent(item)">
