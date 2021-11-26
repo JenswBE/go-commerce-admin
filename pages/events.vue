@@ -5,7 +5,7 @@
         <v-data-table
           :headers="headers"
           :items="eventsList"
-          sort-by="name"
+          sort-by="start"
           class="elevation-1"
           :search="search"
           hide-default-footer
@@ -55,31 +55,43 @@
                         </v-col>
                         <v-col cols="12">
                           <v-switch
-                            v-model="activeEvent.wholeDay"
+                            v-model="activeEvent.whole_day"
                             :label="$tc('wholeDays') | capitalize"
                           />
                         </v-col>
-                        <v-col :cols="activeEvent.wholeDay ? 12 : 6">
+                        <v-col :cols="activeEvent.whole_day ? 12 : 6">
                           <date-input-with-dialog
-                            v-model="activeEvent.activeStartDate"
+                            v-model="activeStartDate"
+                            :max="activeEndDate"
                             :label="$tc('start') | capitalize"
                           />
                         </v-col>
-                        <v-col :cols="6" v-show="!activeEvent.wholeDay">
+                        <v-col :cols="6" v-show="!activeEvent.whole_day">
                           <time-input-with-dialog
-                            v-model="activeEvent.activeStartTime"
+                            :max="
+                              activeStartDate === activeEndDate
+                                ? activeEndTime
+                                : ''
+                            "
+                            v-model="activeStartTime"
                             :label="$tc('start') | capitalize"
                           />
                         </v-col>
-                        <v-col :cols="activeEvent.wholeDay ? 12 : 6">
+                        <v-col :cols="activeEvent.whole_day ? 12 : 6">
                           <date-input-with-dialog
-                            v-model="activeEvent.activeEndDate"
+                            :min="activeStartDate"
+                            v-model="activeEndDate"
                             :label="$tc('end') | capitalize"
                           />
                         </v-col>
-                        <v-col :cols="6" v-show="!activeEvent.wholeDay">
+                        <v-col :cols="6" v-show="!activeEvent.whole_day">
                           <time-input-with-dialog
-                            v-model="activeEvent.activeEndTime"
+                            :min="
+                              activeStartDate === activeEndDate
+                                ? activeStartTime
+                                : ''
+                            "
+                            v-model="activeEndTime"
                             :label="$tc('end') | capitalize"
                           />
                         </v-col>
@@ -103,48 +115,13 @@
                 @confirm="confirmDeleteEvent"
                 @cancel="closeConfirmDelete"
               />
-              <DialogConfirm
-                v-model="confirmDeleteImageOpen"
-                @confirm="confirmDeleteImage"
-                @cancel="closeConfirmDeleteImage"
-              />
             </v-toolbar>
           </template>
-          <template v-slot:[`item.logo`]="{ item }">
-            <img
-              :src="item.image_urls === undefined ? '' : item.image_urls['100']"
-              class="ma-1"
-              style="cursor: pointer"
-              @click="selectImage(item)"
-            />
-            <v-btn
-              icon
-              @click="selectImage(item)"
-              v-show="item.image_urls === undefined"
-            >
-              <v-icon small> mdi-plus </v-icon>
-            </v-btn>
-            <v-btn
-              icon
-              @click="selectImage(item)"
-              v-show="item.image_urls !== undefined"
-            >
-              <v-icon small> mdi-refresh </v-icon>
-            </v-btn>
-            <v-btn
-              icon
-              @click="deleteImage(item.id)"
-              v-show="item.image_urls !== undefined"
-            >
-              <v-icon small> mdi-close </v-icon>
-            </v-btn>
+          <template v-slot:[`item.start`]="{ item }">
+            {{ formatDateTime(item.start, item.whole_day) }}
           </template>
-          <template v-slot:[`item.website_url`]="{ item }">
-            <p>
-              <a :href="item.website_url" target="_blank">{{
-                item.website_url
-              }}</a>
-            </p>
+          <template v-slot:[`item.end`]="{ item }">
+            {{ formatDateTime(item.end, item.whole_day) }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn icon @click="editEvent(item)">
@@ -188,12 +165,12 @@ export default Vue.extend({
     search: '',
     formOpen: false,
     confirmDeleteOpen: false,
-    confirmDeleteImageOpen: false,
     activeID: '',
     activeEvent: {
       name: '',
       event_type: '',
       start: '',
+      whole_day: true,
     } as Event,
     activeStartDate: '',
     activeStartTime: '',
@@ -203,6 +180,7 @@ export default Vue.extend({
       name: '',
       event_type: '',
       start: '',
+      whole_day: true,
     } as Event,
   }),
 
@@ -249,8 +227,10 @@ export default Vue.extend({
     confirmDeleteOpen(val) {
       val || this.closeConfirmDelete()
     },
-    confirmDeleteImageOpen(val) {
-      val || this.closeConfirmDeleteImage()
+    activeStartDate(val) {
+      if (this.activeEndDate === '') {
+        this.activeEndDate = val
+      }
     },
   },
 
@@ -259,6 +239,20 @@ export default Vue.extend({
   },
 
   methods: {
+    formatDateTime(dateTimeString: string, wholeDay: boolean): string {
+      let options: Intl.DateTimeFormatOptions = {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      }
+      if (!wholeDay) {
+        options.hour = '2-digit'
+        options.minute = '2-digit'
+      }
+      return DateTime.fromISO(dateTimeString).toLocaleString(options)
+    },
+
     parseAndSplitDateTime(input: string): string[] {
       const parsed = DateTime.fromISO(input)
       if (parsed == undefined) {
@@ -273,6 +267,20 @@ export default Vue.extend({
       ]
     },
 
+    mergeAndFormatDateTime(date: string, time: string): string {
+      const dateString = date !== '' ? date : '0001-01-01'
+      const [yearString, monthString, dayString] = dateString.split('-')
+      const timeString = time !== '' ? time : '00:00'
+      const [hourString, minuteString] = timeString.split(':')
+      return DateTime.local(
+        Number.parseInt(yearString),
+        Number.parseInt(monthString),
+        Number.parseInt(dayString),
+        Number.parseInt(hourString),
+        Number.parseInt(minuteString)
+      ).toISO()
+    },
+
     editEvent(event: Event) {
       this.activeID = event.id as string
       this.activeEvent = cloneDeep(event)
@@ -285,6 +293,16 @@ export default Vue.extend({
     },
 
     saveEvent() {
+      // Validate inputs
+
+      this.activeEvent.start = this.mergeAndFormatDateTime(
+        this.activeStartDate,
+        this.activeStartTime
+      )
+      this.activeEvent.end = this.mergeAndFormatDateTime(
+        this.activeEndDate,
+        this.activeEndTime
+      )
       if (this.activeID === '') {
         this.$store.dispatch('events/add', this.activeEvent)
       } else {
@@ -330,23 +348,6 @@ export default Vue.extend({
 
     closeConfirmDelete() {
       this.confirmDeleteOpen = false
-      this.$nextTick(() => {
-        this.activeID = ''
-      })
-    },
-
-    deleteImage(event_id: string) {
-      this.activeID = event_id
-      this.confirmDeleteImageOpen = true
-    },
-
-    confirmDeleteImage() {
-      this.$store.dispatch('events/deleteImage', this.activeID)
-      this.closeConfirmDeleteImage()
-    },
-
-    closeConfirmDeleteImage() {
-      this.confirmDeleteImageOpen = false
       this.$nextTick(() => {
         this.activeID = ''
       })

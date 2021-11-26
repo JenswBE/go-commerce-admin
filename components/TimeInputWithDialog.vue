@@ -21,6 +21,8 @@
       v-model="currentValue"
       full-width
       format="24hr"
+      :min="min"
+      :max="max"
       :allowed-minutes="(m) => m % 5 === 0"
     >
       <v-spacer></v-spacer>
@@ -38,6 +40,12 @@ export default Vue.extend({
 
   props: {
     value: {
+      type: String,
+    } as PropOptions<string>,
+    min: {
+      type: String,
+    } as PropOptions<string>,
+    max: {
       type: String,
     } as PropOptions<string>,
     label: {

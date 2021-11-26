@@ -16,7 +16,7 @@
         v-on="on"
       ></v-text-field>
     </template>
-    <v-date-picker v-model="currentValue" color="primary">
+    <v-date-picker v-model="currentValue" color="primary" :min="min" :max="max">
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="modelOpen = false"> Cancel </v-btn>
       <v-btn text color="primary" @click="saveValue"> OK </v-btn>
@@ -33,6 +33,12 @@ export default Vue.extend({
 
   props: {
     value: {
+      type: String,
+    } as PropOptions<string>,
+    min: {
+      type: String,
+    } as PropOptions<string>,
+    max: {
       type: String,
     } as PropOptions<string>,
     label: {
