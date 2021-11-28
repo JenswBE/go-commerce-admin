@@ -10,6 +10,7 @@ const nl: Locale = {
   cancel: 'annuleren',
   category: 'categorie | categorieën',
   close: 'sluiten',
+  config: 'configuratie',
   content: 'inhoud',
   count: 'aantal',
   dashboard: 'overzicht',

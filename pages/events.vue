@@ -53,7 +53,10 @@
                             @keydown.enter.prevent="saveEvent"
                           ></v-text-field>
                         </v-col>
-                        <v-col cols="12">
+                        <v-col
+                          cols="12"
+                          v-if="!config.features.events.whole_days_only"
+                        >
                           <v-switch
                             v-model="activeEvent.whole_day"
                             :label="$tc('wholeDays') | capitalize"
@@ -185,6 +188,7 @@ export default Vue.extend({
   }),
 
   computed: {
+    ...mapState('config', ['config']),
     ...mapState('events', ['events']),
     ...mapGetters('events', ['eventsList']),
 
@@ -242,8 +246,8 @@ export default Vue.extend({
     formatDateTime(dateTimeString: string, wholeDay: boolean): string {
       let options: Intl.DateTimeFormatOptions = {
         weekday: 'short',
-        day: 'numeric',
-        month: 'short',
+        day: '2-digit',
+        month: '2-digit',
         year: 'numeric',
       }
       if (!wholeDay) {

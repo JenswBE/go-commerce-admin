@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="drawer" clipped fixed app v-if="loggedIn">
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in items.filter((i) => i.enabled)"
           :key="i"
           :to="localePath(item.to)"
           router
@@ -61,59 +61,74 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapState } from 'vuex'
+import { LocaleObject } from '@nuxtjs/i18n'
+import { PageItem } from '../interfaces/PageItem.interface'
 
-export default {
+export default Vue.extend({
   data() {
     return {
       drawer: false,
       title: 'GoCommerce',
-      items: [
-        {
-          title: { key: 'dashboard', plural: false },
-          icon: 'mdi-view-dashboard',
-          to: '/',
-        },
-        {
-          title: { key: 'product', plural: true },
-          icon: 'mdi-package-variant-closed',
-          to: '/products',
-        },
-        {
-          title: { key: 'category', plural: true },
-          icon: 'mdi-tag',
-          to: '/categories',
-        },
-        {
-          title: { key: 'manufacturer', plural: true },
-          icon: 'mdi-factory',
-          to: '/manufacturers',
-        },
-        {
-          title: { key: 'event', plural: true },
-          icon: 'mdi-calendar',
-          to: '/events',
-        },
-        {
-          title: { key: 'content', plural: false },
-          icon: 'mdi-format-font',
-          to: '/content',
-        },
-      ],
     }
   },
 
   computed: {
     ...mapState('auth', ['loggedIn']),
+    ...mapState('config', ['config']),
     ...mapState('general', ['alert']),
 
-    availableLocales() {
-      return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale)
+    availableLocales(): LocaleObject[] {
+      return (this.$i18n.locales as LocaleObject[]).filter(
+        (i) => i.code !== this.$i18n.locale
+      )
+    },
+
+    items(): PageItem[] {
+      return [
+        {
+          title: { key: 'dashboard', plural: false },
+          icon: 'mdi-view-dashboard',
+          to: '/',
+          enabled: true,
+        },
+        {
+          title: { key: 'product', plural: true },
+          icon: 'mdi-package-variant-closed',
+          to: '/products',
+          enabled: this.config.features?.products?.enabled,
+        },
+        {
+          title: { key: 'category', plural: true },
+          icon: 'mdi-tag',
+          to: '/categories',
+          enabled: this.config.features?.categories?.enabled,
+        },
+        {
+          title: { key: 'manufacturer', plural: true },
+          icon: 'mdi-factory',
+          to: '/manufacturers',
+          enabled: this.config.features?.manufacturers?.enabled,
+        },
+        {
+          title: { key: 'event', plural: true },
+          icon: 'mdi-calendar',
+          to: '/events',
+          enabled: this.config.features?.events?.enabled,
+        },
+        {
+          title: { key: 'content', plural: false },
+          icon: 'mdi-format-font',
+          to: '/content',
+          enabled: this.config.features?.content?.enabled,
+        },
+      ]
     },
 
     showAlert: {
-      get() {
+      get(): Boolean {
         return Boolean(this.alert.message)
       },
       set() {
@@ -121,5 +136,5 @@ export default {
       },
     },
   },
-}
+})
 </script>

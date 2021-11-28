@@ -52,7 +52,7 @@ export type UpsertImageReq = {
 export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store manufacturers/list', 'Dispatched')
-    this.$api.manufacturers
+    return this.$api.manufacturers
       .listManufacturers(ImageConfigs)
       .then(({ data }) => {
         const manufacturers = data.manufacturers.reduce((result, item) => {
@@ -75,7 +75,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async add(context, manufacturer: Manufacturer) {
     console.debug('Store manufacturers/add', 'Dispatched', manufacturer)
-    this.$api.manufacturers
+    return this.$api.manufacturers
       .addManufacturer(manufacturer)
       .then(({ data }) => {
         context.commit('ADD_MANUFACTURER', data)
@@ -94,7 +94,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async update(context, manufacturer: Manufacturer) {
     console.debug('Store manufacturers/update', 'Dispatched', manufacturer)
-    this.$api.manufacturers
+    return this.$api.manufacturers
       .updateManufacturer(manufacturer.id as string, manufacturer)
       .then(({ data }) => {
         context.commit('UPDATE_MANUFACTURER', data)
@@ -113,7 +113,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async delete(context, manufacturer_id: string) {
     console.debug('Store manufacturers/delete', 'Dispatched', manufacturer_id)
-    this.$api.manufacturers
+    return this.$api.manufacturers
       .deleteManufacturer(manufacturer_id)
       .then(() => {
         context.commit('DELETE_MANUFACTURER', manufacturer_id)
@@ -143,7 +143,7 @@ export const actions: ActionTree<RootState, RootState> = {
       return
     }
 
-    this.$api.manufacturers
+    return this.$api.manufacturers
       .upsertManufacturerImage(req.manufacturer_id, req.image, ImageConfigs)
       .then(({ data }) => {
         context.commit('SET_MANUFACTURER_IMAGE_URLS', {
@@ -165,7 +165,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async deleteImage(context, manufacturer_id: string) {
     console.debug('Store manufacturers/deleteImage', 'Dispatched')
-    this.$api.manufacturers
+    return this.$api.manufacturers
       .deleteManufacturerImage(manufacturer_id)
       .then(() => {
         context.commit('SET_MANUFACTURER_IMAGE_URLS', {

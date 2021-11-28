@@ -8,7 +8,7 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
-        :value="value"
+        :value="formattedValue"
         :label="label"
         prepend-icon="mdi-calendar"
         readonly
@@ -62,6 +62,13 @@ export default Vue.extend({
       set(newValue: string) {
         this.internalValue = newValue
       },
+    },
+
+    formattedValue(): string {
+      if (!this.value) {
+        return ''
+      }
+      return DateTime.fromISO(this.value).toLocaleString(DateTime.DATE_SHORT)
     },
   },
 

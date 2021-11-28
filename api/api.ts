@@ -129,6 +129,127 @@ export interface CategoryList {
 /**
  * 
  * @export
+ * @interface Config
+ */
+export interface Config {
+    /**
+     * 
+     * @type {ConfigFeatures}
+     * @memberof Config
+     */
+    'features': ConfigFeatures;
+}
+/**
+ * 
+ * @export
+ * @interface ConfigFeatures
+ */
+export interface ConfigFeatures {
+    /**
+     * 
+     * @type {ConfigFeaturesCategories}
+     * @memberof ConfigFeatures
+     */
+    'categories': ConfigFeaturesCategories;
+    /**
+     * 
+     * @type {ConfigFeaturesManufacturers}
+     * @memberof ConfigFeatures
+     */
+    'manufacturers': ConfigFeaturesManufacturers;
+    /**
+     * 
+     * @type {ConfigFeaturesProducts}
+     * @memberof ConfigFeatures
+     */
+    'products': ConfigFeaturesProducts;
+    /**
+     * 
+     * @type {ConfigFeaturesContent}
+     * @memberof ConfigFeatures
+     */
+    'content': ConfigFeaturesContent;
+    /**
+     * 
+     * @type {ConfigFeaturesEvents}
+     * @memberof ConfigFeatures
+     */
+    'events': ConfigFeaturesEvents;
+}
+/**
+ * 
+ * @export
+ * @interface ConfigFeaturesCategories
+ */
+export interface ConfigFeaturesCategories {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConfigFeaturesCategories
+     */
+    'enabled': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ConfigFeaturesContent
+ */
+export interface ConfigFeaturesContent {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConfigFeaturesContent
+     */
+    'enabled': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ConfigFeaturesEvents
+ */
+export interface ConfigFeaturesEvents {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConfigFeaturesEvents
+     */
+    'enabled': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConfigFeaturesEvents
+     */
+    'whole_days_only': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ConfigFeaturesManufacturers
+ */
+export interface ConfigFeaturesManufacturers {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConfigFeaturesManufacturers
+     */
+    'enabled': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ConfigFeaturesProducts
+ */
+export interface ConfigFeaturesProducts {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConfigFeaturesProducts
+     */
+    'enabled': boolean;
+}
+/**
+ * 
+ * @export
  * @interface Content
  */
 export interface Content {
@@ -212,11 +333,11 @@ export interface Event {
      */
     'start': string;
     /**
-     * Optional end of the event. In case \"whole_day\" is true, only the date part is considered.
+     * End of the event, could be same as start. In case \"whole_day\" is true, only the date part is considered.
      * @type {string}
      * @memberof Event
      */
-    'end'?: string;
+    'end': string;
     /**
      * 
      * @type {boolean}
@@ -255,7 +376,7 @@ export interface EventAllOf {
      */
     'start'?: string;
     /**
-     * Optional end of the event. In case \"whole_day\" is true, only the date part is considered.
+     * End of the event, could be same as start. In case \"whole_day\" is true, only the date part is considered.
      * @type {string}
      * @memberof EventAllOf
      */
@@ -1305,6 +1426,100 @@ export class CategoriesApi extends BaseAPI {
      */
     public upsertCategoryImage(id: string, file: any, img?: Array<string>, options?: AxiosRequestConfig) {
         return CategoriesApiFp(this.configuration).upsertCategoryImage(id, file, img, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * ConfigApi - axios parameter creator
+ * @export
+ */
+export const ConfigApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Get configuration
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getConfig: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/config/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ConfigApi - functional programming interface
+ * @export
+ */
+export const ConfigApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ConfigApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Get configuration
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getConfig(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Config>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getConfig(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ConfigApi - factory interface
+ * @export
+ */
+export const ConfigApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ConfigApiFp(configuration)
+    return {
+        /**
+         * Get configuration
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getConfig(options?: any): AxiosPromise<Config> {
+            return localVarFp.getConfig(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ConfigApi - object-oriented interface
+ * @export
+ * @class ConfigApi
+ * @extends {BaseAPI}
+ */
+export class ConfigApi extends BaseAPI {
+    /**
+     * Get configuration
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ConfigApi
+     */
+    public getConfig(options?: AxiosRequestConfig) {
+        return ConfigApiFp(this.configuration).getConfig(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

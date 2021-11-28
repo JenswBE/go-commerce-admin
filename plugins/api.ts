@@ -1,5 +1,8 @@
 import { Plugin } from '@nuxt/types'
 import {
+    // Config
+    ConfigApi, ConfigApiFactory,
+
     // Product
     CategoriesApi, CategoriesApiFactory,
     ManufacturersApi, ManufacturersApiFactory,
@@ -36,6 +39,9 @@ declare module 'vuex/types/index' {
 }
 
 interface Api {
+    // Config
+    config: ConfigApi
+
     // Product
     categories: CategoriesApi
     manufacturers: ManufacturersApi
@@ -48,6 +54,9 @@ interface Api {
 
 const api: Plugin = (context, inject) => {
     const api: Api = {
+        // Config
+        config: ConfigApiFactory(undefined, context.$axios.defaults.baseURL, context.$axios) as ConfigApi,
+
         // Product
         categories: CategoriesApiFactory(undefined, context.$axios.defaults.baseURL, context.$axios) as CategoriesApi,
         manufacturers: ManufacturersApiFactory(undefined, context.$axios.defaults.baseURL, context.$axios) as ManufacturersApi,

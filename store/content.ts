@@ -4,8 +4,6 @@ import Vue from 'vue'
 import { Alert, AlertType } from './general'
 import { Content } from '../api/api'
 
-const ImageConfigs = ['100']
-
 export type ContentMap = { [id: string]: Content }
 
 export const state = () => ({
@@ -21,24 +19,19 @@ export const getters: GetterTree<RootState, RootState> = {
 }
 
 export const mutations: MutationTree<RootState> = {
-  SET_CONTENT(state, content) {
+  SET_CONTENT(state, content: ContentMap) {
     state.content = content
   },
 
-  UPDATE_CONTENT(state, content) {
+  UPDATE_CONTENT(state, content: Content) {
     Vue.set(state.content, content.name, cloneDeep(content))
   },
-}
-
-export type UpsertImageReq = {
-  content_id: string
-  image: File
 }
 
 export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store content/list', 'Dispatched')
-    this.$api.content
+    return this.$api.content
       .listContent()
       .then(({ data }) => {
         const content = data.content.reduce((result, item) => {
@@ -61,7 +54,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async update(context, content: Content) {
     console.debug('Store content/update', 'Dispatched', content)
-    this.$api.content
+    return this.$api.content
       .updateContent(content.name, content)
       .then(({ data }) => {
         context.commit('UPDATE_CONTENT', data)

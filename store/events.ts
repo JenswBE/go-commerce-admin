@@ -4,8 +4,6 @@ import Vue from 'vue'
 import { Alert, AlertType } from './general'
 import { Event } from '../api/api'
 
-const ImageConfigs = ['100']
-
 export type EventsMap = { [id: string]: Event }
 
 export const state = () => ({
@@ -21,32 +19,27 @@ export const getters: GetterTree<RootState, RootState> = {
 }
 
 export const mutations: MutationTree<RootState> = {
-  SET_EVENTS(state, events) {
+  SET_EVENTS(state, events: EventsMap) {
     state.events = events
   },
 
-  ADD_EVENT(state, event) {
-    Vue.set(state.events, event.id, cloneDeep(event))
+  ADD_EVENT(state, event: Event) {
+    Vue.set(state.events, event.id as string, cloneDeep(event))
   },
 
-  UPDATE_EVENT(state, event) {
-    Vue.set(state.events, event.id, cloneDeep(event))
+  UPDATE_EVENT(state, event: Event) {
+    Vue.set(state.events, event.id as string, cloneDeep(event))
   },
 
-  DELETE_EVENT(state, event_id) {
+  DELETE_EVENT(state, event_id: string) {
     Vue.delete(state.events, event_id)
   },
-}
-
-export type UpsertImageReq = {
-  event_id: string
-  image: File
 }
 
 export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store events/list', 'Dispatched')
-    this.$api.events
+    return this.$api.events
       .listEvents()
       .then(({ data }) => {
         const events = data.events.reduce((result, item) => {
@@ -69,7 +62,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async add(context, event: Event) {
     console.debug('Store events/add', 'Dispatched', event)
-    this.$api.events
+    return this.$api.events
       .addEvent(event)
       .then(({ data }) => {
         context.commit('ADD_EVENT', data)
@@ -88,7 +81,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async update(context, event: Event) {
     console.debug('Store events/update', 'Dispatched', event)
-    this.$api.events
+    return this.$api.events
       .updateEvent(event.id as string, event)
       .then(({ data }) => {
         context.commit('UPDATE_EVENT', data)
@@ -107,7 +100,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async delete(context, event_id: string) {
     console.debug('Store events/delete', 'Dispatched', event_id)
-    this.$api.events
+    return this.$api.events
       .deleteEvent(event_id)
       .then(() => {
         context.commit('DELETE_EVENT', event_id)

@@ -9,6 +9,7 @@ export interface Locale {
   cancel: string
   category: string
   close: string
+  config: string
   content: string
   count: string
   dashboard: string

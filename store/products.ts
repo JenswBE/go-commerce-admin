@@ -57,7 +57,7 @@ export type DeleteImageReq = {
 export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store products/list', 'Dispatched')
-    this.$api.products
+    return this.$api.products
       .listProducts(ImageConfigs)
       .then(({ data }) => {
         const products = data.products.reduce((result, item) => {
@@ -83,7 +83,7 @@ export const actions: ActionTree<RootState, RootState> = {
     if (product.manufacturer_id === '') {
       delete product.manufacturer_id
     }
-    this.$api.products
+    return this.$api.products
       .addProduct(product)
       .then(({ data }) => {
         context.commit('ADD_PRODUCT', data)
@@ -105,7 +105,7 @@ export const actions: ActionTree<RootState, RootState> = {
     if (product.manufacturer_id === '') {
       delete product.manufacturer_id
     }
-    this.$api.products
+    return this.$api.products
       .updateProduct(product.id as string, product)
       .then(({ data }) => {
         context.commit('UPDATE_PRODUCT', data)
@@ -124,7 +124,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async delete(context, product_id: string) {
     console.debug('Store products/delete', 'Dispatched', product_id)
-    this.$api.products
+    return this.$api.products
       .deleteProduct(product_id)
       .then(({ data }) => {
         context.commit('DELETE_PRODUCT', product_id)
@@ -180,7 +180,7 @@ export const actions: ActionTree<RootState, RootState> = {
     console.debug('Store products/deleteImage', 'Dispatched')
 
     // Call API
-    this.$api.products
+    return this.$api.products
       .deleteProductImage(req.product_id, req.image_id)
       .then(() => {
         // Refetch product

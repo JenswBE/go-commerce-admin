@@ -10,6 +10,7 @@ const en: Locale = {
   cancel: 'cancel',
   category: 'category | categories',
   close: 'close',
+  config: 'config',
   content: 'content',
   count: 'count',
   dashboard: 'dashboard',
