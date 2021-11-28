@@ -41,6 +41,7 @@ const nl: Locale = {
   save: 'opslaan',
   search: 'zoeken',
   shortDescription: 'korte @:description',
+  showPastEvents: 'Toon oude evenementen',
   start: 'start',
   status: 'status',
   stockCount: 'in voorraad',

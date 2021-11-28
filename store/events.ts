@@ -3,6 +3,7 @@ import cloneDeep from 'lodash.clonedeep'
 import Vue from 'vue'
 import { Alert, AlertType } from './general'
 import { Event } from '../api/api'
+import { DateTime } from 'luxon'
 
 export type EventsMap = { [id: string]: Event }
 
@@ -13,8 +14,15 @@ export const state = () => ({
 export type RootState = ReturnType<typeof state>
 
 export const getters: GetterTree<RootState, RootState> = {
+  // Returns all events
   eventsList(state) {
     return Object.values(state.events)
+  },
+  // Returns only current/future events
+  eventsListCurrent(state) {
+    return Object.values(state.events).filter(
+      (e) => DateTime.fromISO(e.end) > DateTime.now()
+    )
   },
 }
 
@@ -40,7 +48,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async list(context) {
     console.debug('Store events/list', 'Dispatched')
     return this.$api.events
-      .listEvents()
+      .listEvents(true)
       .then(({ data }) => {
         const events = data.events.reduce((result, item) => {
           result[item.id as string] = item

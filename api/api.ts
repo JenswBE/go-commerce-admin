@@ -1862,10 +1862,11 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * List events
+         * @param {boolean} [includePastEvents] Include events which are already done (end time in the past).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listEvents: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listEvents: async (includePastEvents?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/events/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1877,6 +1878,10 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (includePastEvents !== undefined) {
+                localVarQueryParameter['include_past_events'] = includePastEvents;
+            }
 
 
     
@@ -1970,11 +1975,12 @@ export const EventsApiFp = function(configuration?: Configuration) {
         },
         /**
          * List events
+         * @param {boolean} [includePastEvents] Include events which are already done (end time in the past).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listEvents(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listEvents(options);
+        async listEvents(includePastEvents?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EventList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listEvents(includePastEvents, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2027,11 +2033,12 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * List events
+         * @param {boolean} [includePastEvents] Include events which are already done (end time in the past).
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listEvents(options?: any): AxiosPromise<EventList> {
-            return localVarFp.listEvents(options).then((request) => request(axios, basePath));
+        listEvents(includePastEvents?: boolean, options?: any): AxiosPromise<EventList> {
+            return localVarFp.listEvents(includePastEvents, options).then((request) => request(axios, basePath));
         },
         /**
          * Update event
@@ -2088,12 +2095,13 @@ export class EventsApi extends BaseAPI {
 
     /**
      * List events
+     * @param {boolean} [includePastEvents] Include events which are already done (end time in the past).
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EventsApi
      */
-    public listEvents(options?: AxiosRequestConfig) {
-        return EventsApiFp(this.configuration).listEvents(options).then((request) => request(this.axios, this.basePath));
+    public listEvents(includePastEvents?: boolean, options?: AxiosRequestConfig) {
+        return EventsApiFp(this.configuration).listEvents(includePastEvents, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -40,6 +40,7 @@ export interface Locale {
   save: string
   search: string
   shortDescription: string
+  showPastEvents: string
   start: string
   status: string
   stockCount: string

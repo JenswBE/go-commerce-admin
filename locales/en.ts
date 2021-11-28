@@ -41,6 +41,7 @@ const en: Locale = {
   save: 'save',
   search: 'search',
   shortDescription: 'short @:description',
+  showPastEvents: 'Show past events',
   start: 'start',
   status: 'status',
   stockCount: 'stock count',

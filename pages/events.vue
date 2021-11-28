@@ -4,7 +4,7 @@
       <v-col>
         <v-data-table
           :headers="headers"
-          :items="eventsList"
+          :items="showPastEvents ? eventsList : eventsListCurrent"
           sort-by="start"
           class="elevation-1"
           :search="search"
@@ -19,6 +19,12 @@
                 single-line
                 hide-details
               ></v-text-field>
+              <v-switch
+                class="ml-5"
+                hide-details
+                :label="$t('showPastEvents')"
+                v-model="showPastEvents"
+              />
               <v-spacer></v-spacer>
               <v-dialog v-model="formOpen" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
@@ -185,12 +191,13 @@ export default Vue.extend({
       start: '',
       whole_day: true,
     } as Event,
+    showPastEvents: false,
   }),
 
   computed: {
     ...mapState('config', ['config']),
     ...mapState('events', ['events']),
-    ...mapGetters('events', ['eventsList']),
+    ...mapGetters('events', ['eventsList', 'eventsListCurrent']),
 
     formTitle(): string {
       const key = this.activeID === '' ? 'addItem' : 'editItem'
