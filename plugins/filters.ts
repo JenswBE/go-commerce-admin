@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $capitalize(price: string): string
+    $capitalize(value: string): string
     $formatPrice(price: string): string
   }
 }
