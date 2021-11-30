@@ -1,10 +1,10 @@
-import { Oauth2Scheme } from '~auth/runtime'
+import { OpenIDConnectScheme } from '~auth/runtime'
 
 // Based on:
 // - Custom logout redirect param: https://github.com/cs8898/nuxt-auth-auth2-keycloak-sample
 // - PublicRuntimeConfig support: https://github.com/nuxt-community/auth-module/issues/713#issuecomment-800974833
 
-export default class KeycloakScheme extends Oauth2Scheme {
+export default class KeycloakScheme extends OpenIDConnectScheme {
   constructor($auth, options) {
     const configOptions = {
       ...options,

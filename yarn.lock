@@ -1930,16 +1930,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/vuetify@npm:^1.12.1":
-  version: 1.12.1
-  resolution: "@nuxtjs/vuetify@npm:1.12.1"
+"@nuxtjs/vuetify@npm:^1.12.2":
+  version: 1.12.2
+  resolution: "@nuxtjs/vuetify@npm:1.12.2"
   dependencies:
     deepmerge: ^4.2.2
     sass: ~1.32.13
-    sass-loader: ^10.2.0
-    vuetify: ^2.5.3
-    vuetify-loader: ^1.7.2
-  checksum: e7f3df4aeb34b8fcfb3f99cacf5fd3de7e5e429f8b8b9ac5eda6a64a863ef0c9803f37b24b0fef262bab671f5e911df25848a976109e67142157a13cf501875d
+    sass-loader: ^12.3.0
+    vuetify: ^2.6
+    vuetify-loader: ^1.7.3
+  checksum: 2adb658dbbe113b6896ec4d3874a15b8b89fa6c077418812f7ffd9ff7173f1a64eeaab203d87a01d125e8737fdece453c96f544fbf352b793a26f5f3f7e54dff
   languageName: node
   linkType: hard
 
@@ -4121,10 +4121,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.19.1":
-  version: 3.19.1
-  resolution: "core-js@npm:3.19.1"
-  checksum: 2f669061788dc6fea823f0433d871deeaaaacc7d68ef2748859509522a34df5c83e648c3c6a1993fed0ab188081b3cf32b957b2a1f46156a2b20bd775961ade4
+"core-js@npm:^3.19.2":
+  version: 3.19.2
+  resolution: "core-js@npm:3.19.2"
+  checksum: a605f7b0448a7aa13731fd9a13525460681e15ce60ec0e1ff45e88b18b71e74f6c625959200f0f8376ec0a1eb94b0f06e3d6807a01c5a46f3871d08a2c4f1d58
   languageName: node
   linkType: hard
 
@@ -5763,17 +5763,17 @@ fsevents@~2.3.2:
     "@nuxtjs/auth-next": ^5.0.0-1637745161.ea53f98
     "@nuxtjs/axios": ^5.13.6
     "@nuxtjs/i18n": ^7.2.0
-    "@nuxtjs/vuetify": ^1.12.1
+    "@nuxtjs/vuetify": ^1.12.2
     "@types/lodash.clonedeep": ^4.5.6
     "@types/luxon": ^2.0.7
-    core-js: ^3.19.1
+    core-js: ^3.19.2
     eslint-config-prettier: ^8.3.0
     lodash.clonedeep: ^4.5.0
     luxon: ^2.1.1
     nuxt: ^2.15.8
     prettier: ^2.5.0
     vue2-editor: ^2.10.3
-    vuetify: ^2.6.0
+    vuetify: ^2.6.1
   languageName: unknown
   linkType: soft
 
@@ -10006,20 +10006,17 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:^10.2.0":
-  version: 10.2.0
-  resolution: "sass-loader@npm:10.2.0"
+"sass-loader@npm:^12.3.0":
+  version: 12.3.0
+  resolution: "sass-loader@npm:12.3.0"
   dependencies:
     klona: ^2.0.4
-    loader-utils: ^2.0.0
     neo-async: ^2.6.2
-    schema-utils: ^3.0.0
-    semver: ^7.3.2
   peerDependencies:
     fibers: ">= 3.1.0"
     node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0
     sass: ^1.3.0
-    webpack: ^4.36.0 || ^5.0.0
+    webpack: ^5.0.0
   peerDependenciesMeta:
     fibers:
       optional: true
@@ -10027,7 +10024,7 @@ fsevents@~2.3.2:
       optional: true
     sass:
       optional: true
-  checksum: d53212e5d199cdd221a67046ab4276c352d56b50ca64347115b36e8ebbb2c68ec396a14d6cf5a08853c830a6b0ec1fd2b016cdc53cbe90a0332a908f50ec2043
+  checksum: b755e6d5ceddb70d54334b53f70546b4afc9af5f9704cc0e2666894d0568bdaeccb2b07056bd35465c22c51c55e1d790023b32b9aa0977080403036ef6c47b29
   languageName: node
   linkType: hard
 
@@ -11591,7 +11588,7 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"vuetify-loader@npm:^1.7.2":
+"vuetify-loader@npm:^1.7.3":
   version: 1.7.3
   resolution: "vuetify-loader@npm:1.7.3"
   dependencies:
@@ -11606,21 +11603,12 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"vuetify@npm:^2.5.3":
-  version: 2.5.8
-  resolution: "vuetify@npm:2.5.8"
+"vuetify@npm:^2.6, vuetify@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "vuetify@npm:2.6.1"
   peerDependencies:
     vue: ^2.6.4
-  checksum: 4bb0f8c2de18228b794d8c4a0c6b0eb6d6cfc58a5f8c0a4a45cecdd8abd9b53708e1de33d11ff12dc379358b6ecad6bf7bbd96506d1f1a8a0704ead0ce05495b
-  languageName: node
-  linkType: hard
-
-"vuetify@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "vuetify@npm:2.6.0"
-  peerDependencies:
-    vue: ^2.6.4
-  checksum: ce28415e6b16561829292b844abbe53c4c4fd2bbd591fc6d59944b981769aae7c098da9299a9cf807d3a107e009f1d3e30f91525dd9ac02f2bde7a8fa8c227df
+  checksum: 76a66a52bdd5ce67baf81fee79c97cd128f4d3519ef531b9a76b85dfdf04ffd42559ca4da1bc75e0c5666a8ae88225cc4b4a7b36e868b38e902a1529fca8f6d8
   languageName: node
   linkType: hard
 
