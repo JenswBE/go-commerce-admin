@@ -20,9 +20,13 @@ export const getters: GetterTree<RootState, RootState> = {
   },
   // Returns only current/future events
   eventsListCurrent(state) {
-    return Object.values(state.events).filter(
-      (e) => DateTime.fromISO(e.end) > DateTime.now()
-    )
+    return Object.values(state.events).filter((e) => {
+      let end = DateTime.fromISO(e.end)
+      if (e.whole_day) {
+        end = end.plus({ days: 1 })
+      }
+      return end > DateTime.now()
+    })
   },
 }
 

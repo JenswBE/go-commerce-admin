@@ -59,6 +59,12 @@ export default Vue.extend({
     internalValue: '',
   }),
 
+  watch: {
+    value() {
+      this.internalValue = ''
+    },
+  },
+
   computed: {
     currentValue: {
       get(): string {
