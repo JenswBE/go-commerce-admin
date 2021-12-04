@@ -1,6 +1,6 @@
 [![GitHub](https://img.shields.io/github/license/JenswBE/go-commerce)](https://github.com/JenswBE/go-commerce-admin)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jenswbe/go-commerce)](https://hub.docker.com/r/jenswbe/go-commerce-admin)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=JenswBE_go-commerce-admin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=JenswBE_go-commerce)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=JenswBE_go-commerce-admin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=JenswBE_go-commerce-admin)
 
 # GoCommerce - Admin
 
