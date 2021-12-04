@@ -22,7 +22,7 @@ Admin site for [go-commerce](https://github.com/JenswBE/go-commerce)
 - `BACKEND_URL_EXTERNAL`: URL for the backend for the browser. This is the domain name the backend is publicly reachable on.
 - `PRODUCT_URL_TEMPLATE`: URL template pointing to the public page of a product. Product is available as variable `p`. E.g. `/products/${p.id}`.
 
-## Build
+## Local development
 
 ```bash
 # install dependencies
@@ -30,9 +30,6 @@ $ yarn install
 
 # serve with hot reload at localhost:3000
 $ yarn dev
-
-# generate static project
-$ yarn generate
 ```
 
 ## Thanks to
