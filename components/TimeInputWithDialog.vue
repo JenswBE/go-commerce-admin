@@ -33,25 +33,25 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue, { PropType } from 'vue'
 
 export default Vue.extend({
   name: 'TimeInputWithDialog',
 
   props: {
     value: {
-      type: String,
-    } as PropOptions<string>,
+      type: Object as PropType<string>,
+    },
     min: {
-      type: String,
-    } as PropOptions<string>,
+      type: Object as PropType<string>,
+    },
     max: {
-      type: String,
-    } as PropOptions<string>,
+      type: Object as PropType<string>,
+    },
     label: {
-      type: String,
+      type: Object as PropType<string>,
       required: true,
-    } as PropOptions<string>,
+    },
   },
 
   data: () => ({

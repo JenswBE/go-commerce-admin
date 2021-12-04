@@ -202,13 +202,9 @@
             }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <a
-              target="_blank"
-              :href="productLink(item)"
-              v-if="productLink(item)"
-            >
+            <ExtLink :to="productLink(item)" v-if="productLink(item)">
               <v-icon small class="mx-1">mdi-link-variant</v-icon>
-            </a>
+            </ExtLink>
             <v-icon small class="mx-1" @click="editProduct(item)">
               mdi-pencil
             </v-icon>
@@ -236,8 +232,11 @@ import { mapGetters, mapState } from 'vuex'
 import { Header } from '../interfaces/DataTable.interface'
 import { Image, ImageList, Product } from '../api/api'
 import { AddImageReq, DeleteImageReq } from '../store/products'
+import ExtLink from '~/components/ExtLink.vue'
 
 export default Vue.extend({
+  components: { ExtLink },
+
   head(): MetaInfo {
     return { title: this.$capitalize(this.$tc('product', 2)) }
   },

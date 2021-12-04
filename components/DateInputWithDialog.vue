@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue, { PropType } from 'vue'
 import { DateTime } from 'luxon'
 
 export default Vue.extend({
@@ -33,18 +33,18 @@ export default Vue.extend({
 
   props: {
     value: {
-      type: String,
-    } as PropOptions<string>,
+      type: Object as PropType<string>,
+    },
     min: {
-      type: String,
-    } as PropOptions<string>,
+      type: Object as PropType<string>,
+    },
     max: {
-      type: String,
-    } as PropOptions<string>,
+      type: Object as PropType<string>,
+    },
     label: {
-      type: String,
+      type: Object as PropType<string>,
       required: true,
-    } as PropOptions<string>,
+    },
   },
 
   data: () => ({

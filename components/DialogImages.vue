@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue, { PropType } from 'vue'
 import { Image } from '../api/api'
 
 export default Vue.extend({
@@ -75,14 +75,14 @@ export default Vue.extend({
 
   props: {
     value: {
-      type: Boolean,
+      type: Object as PropType<boolean>,
       required: true,
-    } as PropOptions<Boolean>,
+    },
 
     images: {
-      type: Array,
+      type: Object as PropType<Array<Image>>,
       required: true,
-    } as PropOptions<Array<Image>>,
+    },
   },
 
   computed: {

@@ -111,6 +111,8 @@
                 </v-col>
                 <v-col>
                   <img
+                    :alt="item.name"
+                    v-if="item.image_urls"
                     :src="
                       item.image_urls === undefined
                         ? ''

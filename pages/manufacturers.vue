@@ -95,6 +95,8 @@
           </template>
           <template v-slot:[`item.logo`]="{ item }">
             <img
+              :alt="item.name"
+              v-if="item.image_urls"
               :src="item.image_urls === undefined ? '' : item.image_urls['100']"
               class="ma-1"
               style="cursor: pointer"

@@ -84,6 +84,7 @@ export default Vue.extend({
     formOpen: false,
     activeContent: {} as Content,
     contentTypes: ContentType,
+    // When updating the toolbar, make sure to update the sanitazation in the backend as well.
     customQuillToolbar: [
       ['bold', 'italic', 'underline'],
       [{ list: 'ordered' }, { list: 'bullet' }],

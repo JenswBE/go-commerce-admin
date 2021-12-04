@@ -23,16 +23,16 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue, { PropType } from 'vue'
 
 export default Vue.extend({
   name: 'DialogConfirm',
 
   props: {
     value: {
-      type: Boolean,
+      type: Object as PropType<boolean>,
       required: true,
-    } as PropOptions<boolean>,
+    },
   },
 })
 </script>
