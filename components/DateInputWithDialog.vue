@@ -33,16 +33,16 @@ export default Vue.extend({
 
   props: {
     value: {
-      type: Object as PropType<string>,
+      type: String as PropType<string>,
     },
     min: {
-      type: Object as PropType<string>,
+      type: String as PropType<string>,
     },
     max: {
-      type: Object as PropType<string>,
+      type: String as PropType<string>,
     },
     label: {
-      type: Object as PropType<string>,
+      type: String as PropType<string>,
       required: true,
     },
   },

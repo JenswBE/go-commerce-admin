@@ -30,7 +30,7 @@ export default Vue.extend({
 
   props: {
     value: {
-      type: Object as PropType<boolean>,
+      type: Boolean as PropType<boolean>,
       required: true,
     },
   },

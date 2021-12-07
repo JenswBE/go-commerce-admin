@@ -17,11 +17,11 @@ export default Vue.extend({
 
   props: {
     to: {
-      type: Object as PropType<string>,
+      type: String as PropType<string>,
       required: true,
     },
     newTab: {
-      type: Object as PropType<boolean>,
+      type: Boolean as PropType<boolean>,
       default: true,
     },
   },

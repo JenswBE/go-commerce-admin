@@ -57,6 +57,7 @@ export default {
         scheme: '~/plugins/keycloak.js',
       },
     },
+    plugins: ['~/plugins/setLocale.ts'],
   },
 
   router: {

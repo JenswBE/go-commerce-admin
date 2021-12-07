@@ -75,12 +75,12 @@ export default Vue.extend({
 
   props: {
     value: {
-      type: Object as PropType<boolean>,
+      type: Boolean as PropType<boolean>,
       required: true,
     },
 
     images: {
-      type: Object as PropType<Array<Image>>,
+      type: Array as PropType<Array<Image>>,
       required: true,
     },
   },
