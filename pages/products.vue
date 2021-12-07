@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-data-table
-          :headers="headers"
+          :headers="filteredHeaders"
           :items="productsList"
           sort-by="name"
           class="elevation-1"
@@ -68,7 +68,10 @@
                             ]"
                           ></v-text-field>
                         </v-col>
-                        <v-col cols="12">
+                        <v-col
+                          cols="12"
+                          v-if="config.features.manufacturers.enabled"
+                        >
                           <v-select
                             v-model="activeProduct.manufacturer_id"
                             :items="manufacturersList"
@@ -79,7 +82,10 @@
                             @click:append="activeProduct.manufacturer_id = ''"
                           ></v-select>
                         </v-col>
-                        <v-col cols="12">
+                        <v-col
+                          cols="12"
+                          v-if="config.features.categories.enabled"
+                        >
                           <v-select
                             v-model="activeProduct.category_ids"
                             :items="categoriesList"
@@ -274,6 +280,7 @@ export default Vue.extend({
   }),
 
   computed: {
+    ...mapState('config', ['config']),
     ...mapState('manufacturers', ['manufacturers']),
     ...mapState('products', ['products']),
     ...mapGetters('categories', ['categoriesList']),
@@ -319,6 +326,14 @@ export default Vue.extend({
       const key = this.activeID === '' ? 'addItem' : 'editItem'
       const title = this.$t(key, { item: this.$tc('product') }).toString()
       return this.$capitalize(title)
+    },
+
+    filteredHeaders(): Header[] {
+      let headers = this.headers
+      if (!this.config.features.manufacturers.enabled) {
+        headers = headers.filter((h) => h.value !== 'manufacturer_id')
+      }
+      return headers
     },
 
     headers(): Header[] {
