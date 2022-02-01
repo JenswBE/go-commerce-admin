@@ -15,7 +15,7 @@
     "core-js": "^3.19.3",
     "jwt-decode": "^3.1.2",
     "lodash.clonedeep": "^4.5.0",
-    "luxon": "^2.1.1",
+    "luxon": "^2.3.0",
     "nuxt": "^2.15.8",
     "vue2-editor": "^2.10.3",
     "vuetify": "^2.6.1"
