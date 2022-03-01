@@ -1869,9 +1869,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxtjs/auth-next@npm:^5.0.0-1643705077.3d7afbe":
-  version: 5.0.0-1643705077.3d7afbe
-  resolution: "@nuxtjs/auth-next@npm:5.0.0-1643705077.3d7afbe"
+"@nuxtjs/auth-next@npm:^5.0.0-1643791578.532b3d6":
+  version: 5.0.0-1643791578.532b3d6
+  resolution: "@nuxtjs/auth-next@npm:5.0.0-1643791578.532b3d6"
   dependencies:
     "@nuxtjs/axios": ^5.13.6
     axios: ^0.25.0
@@ -1884,7 +1884,7 @@ __metadata:
     requrl: ^3.0.2
   peerDependencies:
     vue: "*"
-  checksum: 7cbb4ce46473ba1a48adc87cd2e812e51f286e00db465f5d76301a0eae43fc6b49c96c220c6f4d5ca7d93951ad1edf7026759094f2b9b60d7eb7dfa9866f28fa
+  checksum: fadf0dad040159bc527d35b518da2e9cb5d20857cace5058e7631597f7384032402418e0c82a3d27804d28272ab2006d2745baf1191f045763ad130c4b9d2ce4
   languageName: node
   linkType: hard
 
@@ -4130,10 +4130,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.21.0":
-  version: 3.21.0
-  resolution: "core-js@npm:3.21.0"
-  checksum: 87df49aa2c5d0a521c52102b6669842dd30b334742e86dd4e0173c51230bc48d610060ab6de0f149766d188325b8c1b84598f901cf455674fe6c03ccc5c8026f
+"core-js@npm:^3.21.1":
+  version: 3.21.1
+  resolution: "core-js@npm:3.21.1"
+  checksum: d68eddd831340ad5b24ac29c72fda022a43b17f194c4278b6b875a843283d316502cb4abd07f28631d6ebc4387f66aa06e2b1b3c8fd7e08096a751b5c63f6889
   languageName: node
   linkType: hard
 
@@ -5041,14 +5041,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.3.0":
-  version: 8.3.0
-  resolution: "eslint-config-prettier@npm:8.3.0"
+"eslint-config-prettier@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "eslint-config-prettier@npm:8.4.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: df4cea3032671995bb5ab07e016169072f7fa59f44a53251664d9ca60951b66cdc872683b5c6a3729c91497c11490ca44a79654b395dd6756beb0c3903a37196
+  checksum: ee8dc343f1fed15dc0658e190a966cc23644477f2331a7f56ae2bb79dd74892e3cde8ea5c142e7a3329a8291a1de041e13ca96e54d0c85ff4a2aba13390c5f10
   languageName: node
   linkType: hard
 
@@ -5779,17 +5779,17 @@ fsevents@~2.3.2:
   dependencies:
     "@nuxt/types": ^2.15.8
     "@nuxt/typescript-build": ^2.1.0
-    "@nuxtjs/auth-next": ^5.0.0-1643705077.3d7afbe
+    "@nuxtjs/auth-next": ^5.0.0-1643791578.532b3d6
     "@nuxtjs/axios": ^5.13.6
     "@nuxtjs/i18n": ^7.2.0
     "@nuxtjs/vuetify": ^1.12.3
     "@types/lodash.clonedeep": ^4.5.6
     "@types/luxon": ^2.0.9
-    core-js: ^3.21.0
-    eslint-config-prettier: ^8.3.0
+    core-js: ^3.21.1
+    eslint-config-prettier: ^8.4.0
     jwt-decode: ^3.1.2
     lodash.clonedeep: ^4.5.0
-    luxon: ^2.3.0
+    luxon: ^2.3.1
     nuxt: ^2.15.8
     prettier: ^2.5.1
     vue2-editor: ^2.10.3
@@ -7226,10 +7226,10 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"luxon@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "luxon@npm:2.3.0"
-  checksum: 3d00e1b812a31082cf0d97e844d7354c93891fbd14795756f396ee5656387e21d2c862edb841516114eb391f8314a6cf3848799acc6d59cf9560c88c909b91f0
+"luxon@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "luxon@npm:2.3.1"
+  checksum: ce5eec873a0172a0956618531e28010e8d8319a8b3a836b893d0f92239413a1fc5f77841ca24988e27bd61e8b2748e160e9dfcb13e92d7f031c1e31ad1c8ae91
   languageName: node
   linkType: hard
 
