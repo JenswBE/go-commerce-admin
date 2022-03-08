@@ -2178,10 +2178,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:^2.0.9":
-  version: 2.0.9
-  resolution: "@types/luxon@npm:2.0.9"
-  checksum: 6c99741e1735aca5b784981ecec3a6ad9497b8e46cc3dd0ba625901bb5b34af4c7b1bf33e32b3e8468312ce2850b31f553f712283a8301a0ee1aacb633276738
+"@types/luxon@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@types/luxon@npm:2.3.0"
+  checksum: 163cadf3f2b6e0e6e73c5803916229a0ce1c08197caf77b7315c71df7c1ed24d213db4bcb7e04d58b9e081099eab5eedc7f3666131bf284f65b40187f3302892
   languageName: node
   linkType: hard
 
@@ -5041,14 +5041,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.4.0":
-  version: 8.4.0
-  resolution: "eslint-config-prettier@npm:8.4.0"
+"eslint-config-prettier@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "eslint-config-prettier@npm:8.5.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: ee8dc343f1fed15dc0658e190a966cc23644477f2331a7f56ae2bb79dd74892e3cde8ea5c142e7a3329a8291a1de041e13ca96e54d0c85ff4a2aba13390c5f10
+  checksum: 0d0f5c32e7a0ad91249467ce71ca92394ccd343178277d318baf32063b79ea90216f4c81d1065d60f96366fdc60f151d4d68ae7811a58bd37228b84c2083f893
   languageName: node
   linkType: hard
 
@@ -5784,16 +5784,16 @@ fsevents@~2.3.2:
     "@nuxtjs/i18n": ^7.2.0
     "@nuxtjs/vuetify": ^1.12.3
     "@types/lodash.clonedeep": ^4.5.6
-    "@types/luxon": ^2.0.9
+    "@types/luxon": ^2.3.0
     core-js: ^3.21.1
-    eslint-config-prettier: ^8.4.0
+    eslint-config-prettier: ^8.5.0
     jwt-decode: ^3.1.2
     lodash.clonedeep: ^4.5.0
     luxon: ^2.3.1
     nuxt: ^2.15.8
     prettier: ^2.5.1
     vue2-editor: ^2.10.3
-    vuetify: ^2.6.3
+    vuetify: ^2.6.4
   languageName: unknown
   linkType: soft
 
@@ -11649,12 +11649,12 @@ typescript@~4.2:
   languageName: node
   linkType: hard
 
-"vuetify@npm:^2.6.3":
-  version: 2.6.3
-  resolution: "vuetify@npm:2.6.3"
+"vuetify@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "vuetify@npm:2.6.4"
   peerDependencies:
     vue: ^2.6.4
-  checksum: f50a4c9d22c578a6a3d0c7def9ac3741a146a65aaf997062bf963e7ad8b1b2479c122f3f594694bb00293baec6e081d2f73f97bebbc9ce10a01e36096478b088
+  checksum: 8ae236ff92df0d1584942da3893d0a9cead1141c72bc12bd113786351935f3fdcc8f30de6e05cc9b9754e07669464808e6b6979775d691a68f3574ba6e577bfa
   languageName: node
   linkType: hard
 
