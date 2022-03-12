@@ -1,7 +1,9 @@
 # Based on https://github.com/nuxt/nuxt.js/blob/dev/examples/docker-build/Dockerfile
 
+ARG NODE_IMAGE=node:lts-alpine
+
 # Setup builder
-FROM node:lts-alpine as builder
+FROM ${NODE_IMAGE} as builder
 WORKDIR /src
 COPY . .
 
@@ -15,7 +17,7 @@ RUN NODE_ENV=production yarn workspaces focus --all --production
 RUN yarn cache clean --all
 
 # Build final image
-FROM node:lts-alpine
+FROM ${NODE_IMAGE}
 WORKDIR /src
 COPY --from=builder /src  .
 EXPOSE 8080
