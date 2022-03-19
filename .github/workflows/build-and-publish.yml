@@ -1,9 +1,8 @@
 name: Build and publish
 on:
   push:
-    branches: [main]
-    tags:
-      - '*'
+    branches: ['*']
+    tags: ['*']
 
 env:
   DOCKER_HUB_USER: jenswbebot

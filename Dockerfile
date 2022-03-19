@@ -9,7 +9,7 @@ COPY . .
 
 # Build application
 RUN yarn install --immutable
-RUN yarn build
+RUN yarn build --devtools
 
 # Only install Production dependencies
 RUN rm -rf node_modules
