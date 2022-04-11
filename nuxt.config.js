@@ -57,7 +57,7 @@ export default {
         scheme: '~/plugins/keycloak.js',
       },
     },
-    plugins: ['~/plugins/setLocale.ts'],
+    plugins: ['~/plugins/authI18nRedirect.ts', '~/plugins/setLocale.ts'],
   },
 
   router: {
@@ -89,7 +89,7 @@ export default {
           endpoints: {
             configuration:
               process.env.AUTH_URL_OIDC_CONFIG ||
-              'http://127.0.0.1:9001/auth/realms/go-commerce/.well-known/openid-configuration',
+              'http://127.0.0.1:9001/realms/go-commerce/.well-known/openid-configuration',
           },
           responseType: 'code',
           accessType: 'offline',

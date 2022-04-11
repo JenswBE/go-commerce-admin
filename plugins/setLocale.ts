@@ -2,7 +2,7 @@ import { Plugin } from '@nuxt/types'
 import { LocaleObject } from '@nuxtjs/i18n'
 import jwt_decode from 'jwt-decode'
 
-const setLocale: Plugin = (context, inject) => {
+const setLocale: Plugin = (context, _) => {
   // Get token
   const token: string = (context.$auth.strategy as any).token.get()
   if (!token) {
