@@ -17,6 +17,7 @@
     "lodash.clonedeep": "^4.5.0",
     "luxon": "^2.3.1",
     "nuxt": "^2.15.8",
+    "qs": "^6.10.3",
     "vue2-editor": "^2.10.3",
     "vuetify": "^2.6.4"
   },

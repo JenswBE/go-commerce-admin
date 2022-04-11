@@ -53,8 +53,12 @@ export default {
 
   auth: {
     strategies: {
-      token: {
-        scheme: '~/plugins/keycloak.js',
+      local: {
+        scheme: '~/plugins/authRefresh.js',
+      },
+
+      oidc: {
+        scheme: '~/plugins/authKeycloak.js',
       },
     },
     plugins: ['~/plugins/authI18nRedirect.ts', '~/plugins/setLocale.ts'],
@@ -84,8 +88,41 @@ export default {
 
     auth: {
       strategies: {
-        local: false,
-        token: {
+        local: {
+          scheme: 'refresh',
+          token: {
+            property: 'access_token',
+            maxAge: 1800,
+            global: true,
+          },
+          refreshToken: {
+            property: 'refresh_token',
+            data: 'refresh_token',
+            maxAge: 60 * 60 * 24 * 30,
+          },
+          clientId: process.env.AUTH_CLIENT_ID || 'go-commerce-admin',
+          grantType: 'password',
+          user: {
+            property: 'user',
+          },
+          endpoints: {
+            login: {
+              url: 'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
+              method: 'post',
+            },
+            refresh: {
+              url: 'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
+              method: 'post',
+            },
+            user: false,
+            logout: {
+              url: 'http://localhost:9001/realms/go-commerce/protocol/openid-connect/logout',
+              method: 'post',
+            },
+          },
+        },
+
+        oidc: {
           endpoints: {
             configuration:
               process.env.AUTH_URL_OIDC_CONFIG ||
