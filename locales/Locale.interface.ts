@@ -23,6 +23,7 @@ export interface Locale {
   fetchItemFailed: string
   itemIsMandatory: string
   login: string
+  loginFailed: string
   logo: string
   longDescription: string
   manufacturer: string

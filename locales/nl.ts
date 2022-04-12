@@ -24,6 +24,7 @@ const nl: Locale = {
   fetchItemFailed: '{item} ophalen mislukt',
   itemIsMandatory: '{item} is verplicht',
   login: 'login',
+  loginFailed: 'login mislukt',
   logo: 'logo',
   longDescription: 'lange @:description',
   manufacturer: 'merk | merken',

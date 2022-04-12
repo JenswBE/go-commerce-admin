@@ -24,6 +24,7 @@ const en: Locale = {
   fetchItemFailed: 'fetch {item} failed',
   itemIsMandatory: '{item} is mandatory',
   login: 'login',
+  loginFailed: 'login failed',
   logo: 'logo',
   longDescription: 'long @:description',
   manufacturer: 'manufacturer | manufacturers',

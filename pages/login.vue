@@ -11,14 +11,22 @@
                     :label="$tc('username') | capitalize"
                     prepend-icon="mdi-account"
                     v-model="login.username"
+                    @keydown.enter="loginWithLocal"
                   ></v-text-field>
                   <v-text-field
                     :label="$tc('password') | capitalize"
                     prepend-icon="mdi-lock"
                     type="password"
                     v-model="login.password"
+                    @keydown.enter="loginWithLocal"
                   ></v-text-field>
-                  <v-btn @click="loginWithLocal" color="primary"> Login </v-btn>
+                  <v-btn
+                    @click="loginWithLocal"
+                    color="primary"
+                    :disabled="!login.username || !login.password"
+                  >
+                    Login
+                  </v-btn>
                 </v-form>
               </v-col>
             </v-row>
@@ -42,6 +50,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
+import { Alert, AlertType } from '../store/general'
 
 export default Vue.extend({
   head(): MetaInfo {
@@ -57,12 +66,19 @@ export default Vue.extend({
 
   methods: {
     async loginWithLocal() {
-      try {
-        await this.$auth.loginWith('local', { data: this.login })
-        this.$router.push('/')
-      } catch (e) {
-        console.error('Failed to login', e)
-      }
+      this.$auth
+        .loginWith('local', { data: this.login })
+        .then(() => this.$router.push('/'))
+        .catch((e) => {
+          console.error('Failed to login', e.response.data)
+          const alert: Alert = {
+            type: AlertType.Error,
+            message:
+              this.$i18n.t('loginFailed').toString() +
+              `: ${e.response.data.error_description}`,
+          }
+          this.$store.commit('general/SET_ALERT', alert)
+        })
     },
 
     async loginWithSSO() {

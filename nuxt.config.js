@@ -61,7 +61,11 @@ export default {
         scheme: '~/plugins/authKeycloak.js',
       },
     },
-    plugins: ['~/plugins/authI18nRedirect.ts', '~/plugins/setLocale.ts'],
+    plugins: [
+      '~/plugins/authI18nRedirect.ts',
+      '~/plugins/authRefreshAsForm.ts',
+      '~/plugins/setLocale.ts',
+    ],
   },
 
   router: {
@@ -107,17 +111,23 @@ export default {
           },
           endpoints: {
             login: {
-              url: 'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
+              url:
+                process.env.AUTH_PASSWORD_URL_LOGIN ||
+                'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
               method: 'post',
             },
             refresh: {
-              url: 'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
+              url:
+                process.env.AUTH_PASSWORD_URL_REFRESH ||
+                'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
               method: 'post',
             },
             user: false,
             logout: {
-              url: 'http://localhost:9001/realms/go-commerce/protocol/openid-connect/logout',
-              method: 'post',
+              url:
+                process.env.AUTH_PASSWORD_LOGOUT ||
+                'http://localhost:9001/realms/go-commerce/protocol/openid-connect/logout',
+              method: 'get',
             },
           },
         },
