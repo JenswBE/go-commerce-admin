@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   server: {
     port: 3000, // default: 3000
-    host: '0.0.0.0', // default: localhost
+    host: '127.0.0.1', // default: localhost
     timing: false,
   },
 
@@ -74,7 +74,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8090/api',
+    baseURL: 'http://127.0.0.1:8090/api',
   },
 
   publicRuntimeConfig: {
@@ -113,20 +113,20 @@ export default {
             login: {
               url:
                 process.env.AUTH_PASSWORD_URL_LOGIN ||
-                'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
+                'http://127.0.0.1:9001/realms/go-commerce/protocol/openid-connect/token',
               method: 'post',
             },
             refresh: {
               url:
                 process.env.AUTH_PASSWORD_URL_REFRESH ||
-                'http://localhost:9001/realms/go-commerce/protocol/openid-connect/token',
+                'http://127.0.0.1:9001/realms/go-commerce/protocol/openid-connect/token',
               method: 'post',
             },
             user: false,
             logout: {
               url:
                 process.env.AUTH_PASSWORD_LOGOUT ||
-                'http://localhost:9001/realms/go-commerce/protocol/openid-connect/logout',
+                'http://127.0.0.1:9001/realms/go-commerce/protocol/openid-connect/logout',
               method: 'get',
             },
           },
@@ -136,7 +136,7 @@ export default {
           endpoints: {
             configuration:
               process.env.AUTH_URL_OIDC_CONFIG ||
-              'http://localhost:9001/realms/go-commerce/.well-known/openid-configuration',
+              'http://127.0.0.1:9001/realms/go-commerce/.well-known/openid-configuration',
           },
           responseType: 'code',
           accessType: 'offline',
@@ -147,7 +147,7 @@ export default {
           state: process.env.AUTH_STATE || 'UNIQUE_AND_NON_GUESSABLE',
           logoutRedirectUri:
             process.env.AUTH_URL_LOGOUT_REDIRECT ||
-            'http://localhost:3000/login',
+            'http://127.0.0.1:3000/login',
         },
       },
     },

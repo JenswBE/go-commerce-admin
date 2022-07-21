@@ -31,7 +31,7 @@ Admin site for [go-commerce](https://github.com/JenswBE/go-commerce)
 # install dependencies
 $ yarn install
 
-# serve with hot reload at localhost:3000
+# serve with hot reload at 127.0.0.1:3000
 $ yarn dev
 ```
 
