@@ -136,7 +136,7 @@ export default {
           endpoints: {
             configuration:
               process.env.AUTH_URL_OIDC_CONFIG ||
-              'http://127.0.0.1:9001/realms/go-commerce/.well-known/openid-configuration',
+              'http://localhost:9001/realms/go-commerce/.well-known/openid-configuration',
           },
           responseType: 'code',
           accessType: 'offline',
